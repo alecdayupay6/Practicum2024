@@ -1,0 +1,32 @@
+*{
+    font-family:'Franklin Gothic Medium';
+}
+
+.header{
+    height:7vh;
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    background:#5CA4FF;
+}
+
+.hdr-1{
+    display:flex;
+    align-items: center;
+    padding:30px;
+    color:#DF608F;
+}
+
+div>a{
+    background: #FBF0FF;
+    margin:1vh;
+    padding:1vh;
+    border-radius:6px;
+}
+
+.content{
+    display:flex; 
+    height:93vh;   
+    align-items:stretch;
+    justify-content:center;
+}
