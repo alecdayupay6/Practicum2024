@@ -19,8 +19,9 @@
                 <a href="{% url 'simulate' %}">Patient Simulation</a>
                 <a href="{% url 'faqs' %}">FAQs</a>
             </div>
-            <div class="hdr-1">    
-                <a href="{% url 'profile' %}">Profile</a>
+            <div class="hdr-1">
+                <a href="{% url 'profile' %}">{{request.user}}</a>
+                <a href="{% url 'logout' %}">Logout</a>
             </div>
         </div>
 

@@ -3,4 +3,18 @@
 
 {% block content %}
     <h1>Login</h1>
+    <div>
+        <form method="POST" action="">
+            {% csrf_token %}
+            <input class="username" placeholder="Username">
+            <input class="password" placeholder="Password">
+            <input type="submit" name="Login User">
+        </form>
+    </div>
+
+
+    {% for message in messages%}
+        <p>{{message}}</p>
+    {% endfor %}
+    <a href="{% url 'register' %}">Register</a>
 {% endblock %}
