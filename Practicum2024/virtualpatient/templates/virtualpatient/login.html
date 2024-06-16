@@ -6,8 +6,8 @@
     <div>
         <form method="POST" action="">
             {% csrf_token %}
-            <input class="username" placeholder="Username">
-            <input class="password" placeholder="Password">
+            <input name="username" placeholder="Username">
+            <input name="password" placeholder="Password">
             <input type="submit" name="Login User">
         </form>
     </div>

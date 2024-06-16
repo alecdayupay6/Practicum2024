@@ -1,5 +1,4 @@
 {% extends 'virtualpatient/base.html' %}
-{% load static %}
 
 {% block content %}
     <h1>Register</h1>
@@ -16,7 +15,13 @@
             {{form.password1}}
             
             {{form.password2.label}}
-            {{form.password2}}
+            {{form.password2}}  
+            <label>Group        
+                <select name="group">
+                    <option value="teacher">teacher</option>
+                    <option value="student">student</option>
+                </select>
+            </label>  
             <input type="submit" name="Create User">
         </form>
     </div>
