@@ -5,6 +5,17 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from .forms import CreateUserForm
 from .decorators import unauthenticated_user, allowed_users
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from openai import OpenAI
+import json
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Configure OpenAI with the API key
+connection = OpenAI()
 
 
 # @unauthenticated_user
@@ -58,11 +69,43 @@ def select(request):
     context = {'is_teacher': request.user.groups.filter(name='teacher').exists()}
     return render(request, 'virtualpatient/select.html', context)
 
-# @login_required(login_url='login')
+@csrf_exempt
+#  @login_required(login_url='login')
 def simulate(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        message = data.get('message')
+
+        initial_prompts = [
+            {
+                "role": "system",
+                "content": "You are a 26-year-old man from the Philippine slums. Use Filipino slang to communicate your medical history."
+            },
+            {
+                "role": "user",
+                "content": "Sige po, doc. Ready na po ako mag-usap."
+            },
+            {
+                "role": "assistant",
+                "content": "Hi, doc. Kamusta po? Ako nga pala si Jun, 26 years old. May mga nararamdaman kasi akong kakaiba lately kaya pumunta ako dito."
+            },
+            {
+                "role": "user",
+                "content": message
+            }
+        ]
+
+        # Send the message to OpenAI's API and receive the response
+        completion = connection.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=initial_prompts
+        )
+
+        response = completion.choices[0].message.content
+        return JsonResponse({"content": response})
+    
     context = {'is_teacher': request.user.groups.filter(name='teacher').exists()}
     return render(request, 'virtualpatient/simulate.html', context)
-
 # @login_required(login_url='login')
 def profile(request):
     context = {'is_teacher': request.user.groups.filter(name='teacher').exists()}
@@ -72,3 +115,6 @@ def profile(request):
 def faqs(request):
     context = {'is_teacher': request.user.groups.filter(name='teacher').exists()}
     return render(request, 'virtualpatient/faqs.html', context)
+
+
+
