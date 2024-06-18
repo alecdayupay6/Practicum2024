@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from .forms import CreateUserForm, CreatePatientForm
+from .models import Patient
 from .decorators import unauthenticated_user, allowed_users
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -73,7 +74,8 @@ def generate(request):
 
 # @login_required(login_url='login')
 def select(request):
-    context = {'is_teacher': request.user.groups.filter(name='teacher').exists()}
+    patients = Patient.objects.all()
+    context = {'patients': patients, 'is_teacher': request.user.groups.filter(name='teacher').exists()}
     return render(request, 'virtualpatient/select.html', context)
 
 @csrf_exempt

@@ -3,4 +3,15 @@
 
 {% block content %}
     <h1>Patient Selection</h1>
+    {% for patient in patients %}
+        <div>
+            <p>{{patient.last_name}}, {{patient.first_name}}</p>
+            <p>Age: {{patient.age}}</p>
+            <p>Gender: {{patient.sex}}</p>
+            <p>Created by: {{patient.created_by}}</p>
+            <br>
+            <a href="{% url 'simulate' %}">Simulate Patient</a>
+            <br><br>
+        </div>
+    {% endfor %}
 {% endblock %}
