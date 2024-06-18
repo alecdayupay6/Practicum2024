@@ -2,12 +2,61 @@
 {% load static %}
 
 {% block content %}
-    <h1>Patient Generation</h1>
-    <div>
+<link rel="stylesheet" href="{% static 'generate.css' %}">
+    <div class="cnt-1">
         <form method="POST" action="">
             {% csrf_token %}
-            {{ form.as_p }}
-            <input type="Submit" name="Create Patient">
+            <img alt="clip" src="/static/images/clip.png" class="clip">
+            <table>
+                <tr>
+                    <td>{{ form.first_name.label }}:</td>
+                    <td class="field">{{ form.first_name }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.last_name.label }}:</td>
+                    <td class="field">{{ form.last_name }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.age.label }}:</td>
+                    <td class="field">{{ form.age }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.sex.label }}:</td>
+                    <td class="field">{{ form.sex }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.height.label }}:</td>
+                    <td class="field">{{ form.height }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.weight.label }}:</td>
+                    <td class="field">{{ form.weight }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.description.label }}:</td>
+                    <td class="field">{{ form.description }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.symptoms.label }}:</td>
+                    <td class="field">{{ form.symptoms }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.notes.label }}:</td>
+                    <td class="field">{{ form.notes }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.illness_to_be_diagnosed.label }}:</td>
+                    <td class="field">{{ form.illness_to_be_diagnosed }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.created_by.label }}:</td>
+                    <td class="field">{{ form.created_by }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input id="btn" type="submit" name="Create Patient"></td>
+                </tr>
+            </table>
         </form>
     </div>
 
