@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
-from .forms import CreateUserForm
+from .forms import CreateUserForm, CreatePatientForm
 from .decorators import unauthenticated_user, allowed_users
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -61,7 +61,14 @@ def home(request):
 
 # @login_required(login_url='login')
 def generate(request):
-    context = {'is_teacher': request.user.groups.filter(name='teacher').exists()}
+    form = CreatePatientForm()
+    if request.method == 'POST':
+        form = CreatePatientForm(request.POST)
+        if form.is_valid():
+            patient = form.save()
+            messages.success(request, 'Patient ' + patient.__str__() + ' has been successfully generated.')
+            return redirect('generate')
+    context = {'form': form, 'is_teacher': request.user.groups.filter(name='teacher').exists()}
     return render(request, 'virtualpatient/generate.html', context)
 
 # @login_required(login_url='login')

@@ -3,4 +3,15 @@
 
 {% block content %}
     <h1>Patient Generation</h1>
+    <div>
+        <form method="POST" action="">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="Submit" name="Create Patient">
+        </form>
+    </div>
+
+    {% for message in messages %}
+        <p>{{message}}</p>
+    {% endfor %}
 {% endblock %}
