@@ -17,7 +17,7 @@
                         <p>Teacher: {{patient.created_by}}</p>
                     </div>
                 </div>
-                <a class="btn" href="{% url 'simulate'%}">SIMULATE PATIENT</a>
+                <a href="{% url 'simulate' pk=patient.pk %}">SIMULATE PATIENT</a>
             </div>
         {% endfor %}
     </div>
