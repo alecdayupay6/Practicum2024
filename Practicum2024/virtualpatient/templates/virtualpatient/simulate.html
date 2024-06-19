@@ -2,33 +2,24 @@
 {% load static %}
 
 {% block content %}
-<h1>Patient Simulation</h1>
-
-<head>
-    <title>Virtual Patient</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="{% static 'simulate.css' %}">
-    <script src="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/lib/languages/python.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/a11y-dark.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-</head>
-
+<link rel="stylesheet" type="text/css" href="{% static 'simulate.css' %}">
 <body>
-    <div class="container mt-5">
-        <h1>Virtual Patient</h1>
-        <div class="chat-box mt-3">
-            <!-- Chat messages will be added here dynamically -->
+    <div class="cnt-1">
+        <div>
+            <img alt='bot-icon' src="{% static 'images/gpt.jpg' %}" class="bot-icon">
         </div>
-        <div class="form-group mt-3">
-            <textarea class="form-control" rows="3" placeholder="Type your message here" id="message-input"></textarea>
+        <div class="cnt-2">
+            <div class="chat-box">
+                <!-- Chat messages will be added here dynamically -->
+            </div>
+            <div class="entry-box">
+                <textarea class="form-control" id="message-input" placeholder="Type your message here"></textarea>
+                <button type="button" id="btn">Send</button>
+            </div>
         </div>
-        <button type="button" class="btn btn-primary" id="send-btn">Enter</button>
+        <div>
+            <img alt='user-icon' src="{% static 'images/user.png' %}" class="user-icon">
+        </div>
     </div>
     <script>
         // Function to highlight code using highlight.js library
@@ -40,21 +31,17 @@
 
         const chatBox = document.querySelector(".chat-box");
         const messageInput = document.querySelector("#message-input");
-        const sendBtn = document.querySelector("#send-btn");
+        const sendBtn = document.querySelector("#btn");
 
         function addMessage(message, isUserMessage) {
             const messageDiv = document.createElement("div");
-            messageDiv.classList.add("mt-3", "p-3", "rounded");
-
             if (isUserMessage) {
                 messageDiv.classList.add("user-message");
+                messageDiv.innerHTML = `<p class="user-text">${message}</p>`;
             } else {
                 messageDiv.classList.add("bot-message");
+                messageDiv.innerHTML = `<p class="bot-text">${message}</p>`;
             }
-
-            messageDiv.innerHTML = `
-                <img src="{% static 'images/user.png' %}" class="user-icon"><p>${message}</p>
-            `;
 
             chatBox.appendChild(messageDiv);
             chatBox.scrollTop = chatBox.scrollHeight;
@@ -77,7 +64,6 @@
                 .then(data => {
                     messageInput.value = "";
                     const messageDiv = document.createElement("div");
-                    messageDiv.classList.add("mt-3", "p-3", "rounded");
                     messageDiv.classList.add("bot-message");
 
                     const content = data.content;
@@ -88,9 +74,9 @@
                         // If the content has a code block, wrap it in a <pre><code> element
                         const codeContent = content.replace(/```([\s\S]+?)```/g, '</p><pre><code>$1</code></pre><p>');
 
-                        messageDiv.innerHTML = `<img src="{% static 'images/gpt.jpg' %}" class="bot-icon"><p>${codeContent}</p>`;
+                        messageDiv.innerHTML = `<p class="bot-text">${codeContent}</p>`;
                     } else {
-                        messageDiv.innerHTML = `<img src="{% static 'images/gpt.jpg' %}" class="bot-icon"><p>${content}</p>`;
+                        messageDiv.innerHTML = `<p class="bot-text">${content}</p>`;
                     }
                     chatBox.appendChild(messageDiv);
                     chatBox.scrollTop = chatBox.scrollHeight;
@@ -108,6 +94,11 @@
             }
         });
     </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/lib/languages/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 </body>
 
 </html>

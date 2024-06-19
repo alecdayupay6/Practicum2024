@@ -48,6 +48,7 @@ input, select, textarea{
 
 textarea{
     height:100px;
+    resize: none;
 }
 
 #btn{
@@ -58,5 +59,4 @@ textarea{
     width:200px;
     background:#036;
     color:#fafafa;
-
 }
