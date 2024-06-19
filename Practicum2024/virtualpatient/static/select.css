@@ -1,0 +1,44 @@
+.cnt-1{
+    margin:50px;
+    row-gap: 50px;
+    column-gap:25px;
+    display:grid;
+    grid-template-columns: repeat(auto-fill, 300px);
+    justify-content: space-around;
+}
+
+.patient{
+    height:220px;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.details{
+    width:300px;
+    border:2px solid #e69;
+    border-radius:10px;
+    background: #fafafa;
+    padding:10px;
+    display:flex;
+    flex-direction:row;
+    align-items: center;
+}
+
+img{
+    margin: 10px;
+    height: 100px;
+    width:100px;
+    border-radius: 100px;
+}
+
+.btn{
+    width: 170px;
+    padding: 10px;
+    text-align: center;
+    border-radius:70px;
+    background: #fafafa;
+    color: #e69;
+
+}
