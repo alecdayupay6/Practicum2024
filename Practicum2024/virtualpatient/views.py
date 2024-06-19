@@ -57,7 +57,16 @@ def logout_(request):
 
 # @login_required(login_url='login')
 def home(request):
-    context = {'is_teacher': request.user.groups.filter(name='teacher').exists()}
+    current_patient_id = request.session.get('current_patient_id')
+    current_patient = None
+
+    if current_patient_id:
+        current_patient = Patient.objects.filter(id=current_patient_id).first()
+
+    context = {
+        'current_patient': current_patient,
+        'is_teacher': request.user.groups.filter(name='teacher').exists()
+    }
     return render(request, 'virtualpatient/home.html', context)
 
 # @login_required(login_url='login')
@@ -80,23 +89,27 @@ def select(request):
 
 @csrf_exempt
 #  @login_required(login_url='login')
-def simulate(request):
+def simulate(request, pk):
+
+    patient = Patient.objects.get(pk=pk)
+
     if request.method == 'POST':
         data = json.loads(request.body)
         message = data.get('message')
-
+        
+        # Customize initial prompts based on the selected patient's details
         initial_prompts = [
             {
                 "role": "system",
-                "content": "You are a 26-year-old man from the Philippine slums. Use Filipino slang to communicate your medical history."
+                "content": f"You are a {patient.get_age()}-year-old {patient.get_sex()}. Your name is {patient.get_first_name()} {patient.get_last_name()}. Here are your details: {patient.get_description()}"
             },
             {
                 "role": "user",
-                "content": "Sige po, doc. Ready na po ako mag-usap."
+                "content": "Please describe your symptoms."
             },
             {
                 "role": "assistant",
-                "content": "Hi, doc. Kamusta po? Ako nga pala si Jun, 26 years old. May mga nararamdaman kasi akong kakaiba lately kaya pumunta ako dito."
+                "content": f"Hi, my name is {patient.get_first_name()} {patient.get_last_name()}. I am {patient.get_age()} years old and I've been feeling {patient.get_symptoms()}."
             },
             {
                 "role": "user",
@@ -104,7 +117,7 @@ def simulate(request):
             }
         ]
 
-        # Send the message to OpenAI's API and receive the response
+        # send the message to OpenAI's API and receive the response
         completion = connection.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=initial_prompts
@@ -112,9 +125,13 @@ def simulate(request):
 
         response = completion.choices[0].message.content
         return JsonResponse({"content": response})
-    
-    context = {'is_teacher': request.user.groups.filter(name='teacher').exists()}
+
+    context = {
+        'patientId': pk,
+        'is_teacher': request.user.groups.filter(name='teacher').exists()
+    }
     return render(request, 'virtualpatient/simulate.html', context)
+    
 # @login_required(login_url='login')
 def profile(request):
     context = {'is_teacher': request.user.groups.filter(name='teacher').exists()}
@@ -124,6 +141,3 @@ def profile(request):
 def faqs(request):
     context = {'is_teacher': request.user.groups.filter(name='teacher').exists()}
     return render(request, 'virtualpatient/faqs.html', context)
-
-
-
