@@ -1,0 +1,39 @@
+*{
+    font-family: 'Franklin Gothic Medium';    
+    margin: 0px;
+    padding: 0px;
+}
+
+html{    
+    background: #6cf;
+}
+
+.content{
+    height:80dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.cnt-1{
+    padding:20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    background: #fafafa;
+    color:#036;
+}
+
+form{    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+input{
+    margin:10px;
+}

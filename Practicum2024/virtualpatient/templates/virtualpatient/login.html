@@ -1,20 +1,24 @@
-{% extends 'virtualpatient/base.html' %}
-{% load static %}
-
-{% block content %}
-    <h1>Login</h1>
-    <div>
-        <form method="POST" action="">
-            {% csrf_token %}
-            <input name="username" placeholder="Username">
-            <input name="password" placeholder="Password">
-            <input type="submit" name="Login User">
-        </form>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Virtual Patient</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'login.css' %}">
+    </head>
+    <div class="content">
+        <div class="cnt-1">
+            <h1>Login</h1>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <input name="username" placeholder="Username">
+                <input name="password" placeholder="Password">
+                <input type="submit" name="Login User">
+            </form>
+            <a href="{% url 'register' %}">Register</a>
+        </div>
     </div>
-
-
     {% for message in messages%}
         <p>{{message}}</p>
     {% endfor %}
-    <a href="{% url 'register' %}">Register</a>
-{% endblock %}
