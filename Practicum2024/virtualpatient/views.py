@@ -101,7 +101,7 @@ def simulate(request, pk):
         initial_prompts = [
             {
                 "role": "system",
-                "content": f"You are a {patient.get_age()}-year-old {patient.get_sex()}. Your name is {patient.get_first_name()} {patient.get_last_name()}. Here are your details: {patient.get_description()}"
+                "content": f"You are a patient named {patient.first_name} {patient.last_name}, {patient.age} years old.  You are visiting for a consultation. Your details are: {patient.description}.  Use a tone described in the patient description and style appropriate for a patient describing  their symptoms and medical history."
             },
             {
                 "role": "user",
