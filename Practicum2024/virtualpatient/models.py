@@ -19,3 +19,33 @@ class Patient(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+    def get_first_name(self):
+        return self.first_name
+
+    def get_last_name(self):
+        return self.last_name
+
+    def get_age(self):
+        return self.age
+
+    def get_sex(self):
+        return self.sex
+
+    def get_height(self):
+        return self.height
+
+    def get_weight(self):
+        return self.weight
+
+    def get_description(self):
+        return self.description
+
+    def get_symptoms(self):
+        return self.symptoms
+
+    def get_notes(self):
+        return self.notes
+
+    def get_illness_to_be_diagnosed(self):
+        return self.illness_to_be_diagnosed
