@@ -90,46 +90,17 @@ def select(request):
 @csrf_exempt
 #  @login_required(login_url='login')
 def simulate(request, pk):
-
     patient = Patient.objects.get(pk=pk)
-
+    initial = f"You are a patient named {patient.first_name} {patient.last_name}, {patient.age} years old. You are visiting for a consultation. Your details are: {patient.description}. Your symptoms are: {patient.symptoms}. Use a tone described in the patient description and style appropriate for a patient describing their symptoms and medical history.".replace('\r', ' ').replace('\n', ' ').replace('\t',' ')
+    initial_prompts = [{"role": "system", "content": initial}]
+    context = {'pk':pk, 'is_teacher': request.user.groups.filter(name='teacher').exists(), 'initial': initial}
     if request.method == 'POST':
-        data = json.loads(request.body)
-        message = data.get('message')
-        
-        # Customize initial prompts based on the selected patient's details
-        initial_prompts = [
-            {
-                "role": "system",
-                "content": f"You are a patient named {patient.first_name} {patient.last_name}, {patient.age} years old.  You are visiting for a consultation. Your details are: {patient.description}.  Use a tone described in the patient description and style appropriate for a patient describing  their symptoms and medical history."
-            },
-            {
-                "role": "user",
-                "content": "Please describe your symptoms."
-            },
-            {
-                "role": "assistant",
-                "content": f"Hi, my name is {patient.get_first_name()} {patient.get_last_name()}. I am {patient.get_age()} years old and I've been feeling {patient.get_symptoms()}."
-            },
-            {
-                "role": "user",
-                "content": message
-            }
-        ]
-
-        # send the message to OpenAI's API and receive the response
-        completion = connection.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=initial_prompts
-        )
-
+        initial_prompts.append({"role": "user","content": json.loads(request.body).get('message')})
+        completion = connection.chat.completions.create(model="gpt-3.5-turbo", messages=initial_prompts)
         response = completion.choices[0].message.content
         return JsonResponse({"content": response})
-
-    context = {
-        'patientId': pk,
-        'is_teacher': request.user.groups.filter(name='teacher').exists()
-    }
+    if 'conversation' in request.COOKIES:
+        context['conversation'] = (json.loads(request.COOKIES['conversation']))    
     return render(request, 'virtualpatient/simulate.html', context)
     
 # @login_required(login_url='login')

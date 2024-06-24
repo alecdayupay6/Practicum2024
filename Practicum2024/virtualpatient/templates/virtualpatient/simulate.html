@@ -10,82 +10,76 @@
         </div>
         <div class="cnt-2">
             <div class="chat-box">
-                <!-- Chat messages will be added here dynamically -->
+                {% for text in conversation %}
+                    {% if text.role == "user" %}
+                        <div class="user-message"><p class="user-text">{{ text.content }}</p></div>
+                    {% elif text.role == "assistant" %}
+                        <div class="bot-message"><p class="bot-text">{{ text.content }}</p></div>
+                    {% endif %}
+                {% endfor %}
             </div>
             <div class="entry-box">
+                <button type="button" id="save">Save</button>
                 <textarea class="form-control" id="message-input" placeholder="Type your message here"></textarea>
                 <button type="button" id="btn">Send</button>
             </div>
         </div>
         <div>
             <img alt='user-icon' src="{% static 'images/user.png' %}" class="user-icon">
-        </div>
+        </div>        
     </div>
     <script>
-        // Function to highlight code using highlight.js library
-        function highlightAll() {
-            document.querySelectorAll("pre code").forEach(block => {
-                hljs.highlightBlock(block);
-            });
-        }
-
         const chatBox = document.querySelector(".chat-box");
         const messageInput = document.querySelector("#message-input");
         const sendBtn = document.querySelector("#btn");
+        const saveBtn = document.querySelector("#save");
 
-        function addMessage(message, isUserMessage) {
-            const messageDiv = document.createElement("div");
-            if (isUserMessage) {
-                messageDiv.classList.add("user-message");
-                messageDiv.innerHTML = `<p class="user-text">${message}</p>`;
-            } else {
-                messageDiv.classList.add("bot-message");
-                messageDiv.innerHTML = `<p class="bot-text">${message}</p>`;
-            }
-
-            chatBox.appendChild(messageDiv);
-            chatBox.scrollTop = chatBox.scrollHeight;
+        function addMessage(message) {
+            
         }
 
         function sendMessage() {
             const message = messageInput.value.trim();
-
             if (message !== "") {
-                addMessage(message, true);
-
-                fetch("/simulate/{{ patientId }}/", {
+                const messageDiv = document.createElement("div");
+                messageDiv.classList.add("user-message");
+                messageDiv.innerHTML = `<p class="user-text">${message}</p>`;
+                chatBox.appendChild(messageDiv);
+                chatBox.scrollTop = chatBox.scrollHeight;                
+                messageInput.value = "";
+                fetch("/simulate/{{ pk }}/", {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
+                    headers: {"Content-Type": "application/json"},
                     body: JSON.stringify({ message })
                 })
                 .then(response => response.json())
                 .then(data => {
-                    messageInput.value = "";
                     const messageDiv = document.createElement("div");
                     messageDiv.classList.add("bot-message");
-
-                    const content = data.content;
-
-                    // Check if the content has a code block
-                    const hasCodeBlock = content.includes("```");
-                    if (hasCodeBlock) {
-                        // If the content has a code block, wrap it in a <pre><code> element
-                        const codeContent = content.replace(/```([\s\S]+?)```/g, '</p><pre><code>$1</code></pre><p>');
-
-                        messageDiv.innerHTML = `<p class="bot-text">${codeContent}</p>`;
-                    } else {
-                        messageDiv.innerHTML = `<p class="bot-text">${content}</p>`;
-                    }
+                    messageDiv.innerHTML = `<p class="bot-text">${data.content}</p>`;
                     chatBox.appendChild(messageDiv);
                     chatBox.scrollTop = chatBox.scrollHeight;
-                    highlightAll();  // Highlight code after adding the message
                 })
                 .catch(error => console.error(error));
             }
         }
 
+        function saveMessage() {
+            var texts = document.querySelectorAll(".chat-box>*>*");
+            saved = [{"role": "system", "content": "{{ initial }}"}];
+            for(i=0;i<texts.length;i++){
+                if(texts[i].className=="user-text"){
+                    console.log(`User: ${texts[i].textContent}`);
+                    saved.push({"role": "user", "content" : texts[i].textContent});
+                }else{
+                    console.log(`Bot: ${texts[i].textContent}`);
+                    saved.push({"role": "assistant", "content" : texts[i].textContent});
+                }
+            };
+            document.cookie = `conversation=${JSON.stringify(saved)}`;
+        }
+        
+        saveBtn.addEventListener("click", saveMessage);
         sendBtn.addEventListener("click", sendMessage);
         messageInput.addEventListener("keydown", event => {
             if (event.keyCode === 13 && !event.shiftKey) {
@@ -93,13 +87,11 @@
                 sendMessage();
             }
         });
+
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/lib/languages/python.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 </body>
-
-</html>
 {% endblock %}
