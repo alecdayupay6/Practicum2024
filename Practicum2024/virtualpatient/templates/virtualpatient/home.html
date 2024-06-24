@@ -2,5 +2,16 @@
 {% load static %}
 
 {% block content %}
-    <h1>Home</h1>
+<link rel="stylesheet" href="{% static 'home.css' %}">
+    <div class="h1">Virtual Patient</div>
+    <div class="subtitle">ALLS-VAMR Project in collaboration with ASMPH</div>
+    <div class="description"> What is Virtual Patient?</div>
+
+    <p>
+    Virtual Patient is an AI-supported <br> simulation to help
+    train <br> medical students in Medical History <br>taking. 
+    </p>
+
+    <img alt="home" src="/static/images/stand-in home.png" class="home">
+    <img alt="home2" src="/static/images/stand-in home2.png" class="home2">
 {% endblock %}
