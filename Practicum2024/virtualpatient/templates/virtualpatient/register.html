@@ -1,8 +1,10 @@
 {% extends 'virtualpatient/base.html' %}
 
 {% block content %}
+
+    <div class="brdr"></div>
+    <div class="content">
     <h1>Register</h1>
-    <div>
         <form method="POST" action="">
             {% csrf_token %}
             {{form.username.label}}
@@ -24,11 +26,12 @@
             </label>  
             <input type="submit" name="Create User">
         </form>
+        <a href="{% url 'login' %}">Login</a>
     </div>
     
     {{form.errors}}
 
-    <a href="{% url 'login' %}">Login</a>
+    
 
     <script>
         var form_fields = document.getElementsByTagName('input')
