@@ -1,14 +1,20 @@
 {% extends 'virtualpatient/base.html' %}
+{% load static %}
+
 
 {% block content %}
-    <h1>Register</h1>
-    <div>
+<link rel="stylesheet" href="{% static 'register.css' %}">
+<div class="brdr"></div>
+
+
         <form method="POST" action="">
             {% csrf_token %}
+            <br>
+            <br>
             {{form.username.label}}
             {{form.username}}
 
-            {{form.email.label}}
+            {{form.email.label}}        
             {{form.email}}
 
             {{form.password1.label}}
@@ -17,18 +23,25 @@
             {{form.password2.label}}
             {{form.password2}}  
             <label>Group        
-                <select name="group">
-                    <option value="teacher">teacher</option>
-                    <option value="student">student</option>
-                </select>
+            <select name="group">
+            <option value="teacher">teacher</option>
+            <option value="student">student</option>
+            </select>
             </label>  
+
             <input type="submit" name="Create User">
+
+            <div class="link">
+            <br><a href="{% url 'login' %}">Login</a>
+            </div>        
         </form>
-    </div>
+    <div class="h1">CREATE AN ACCOUNT</div>
+
+
     
     {{form.errors}}
 
-    <a href="{% url 'login' %}">Login</a>
+    
 
     <script>
         var form_fields = document.getElementsByTagName('input')

@@ -2,5 +2,21 @@
 {% load static %}
 
 {% block content %}
-    <h1>Profile</h1>
+
+    <link rel="stylesheet" href="{% static 'profile.css' %}">
+    
+    <div class="main">
+        <p>Name</p>
+    </div>
+    
+    
+    <div class="h1">PROFILE SETTINGS</div>
+    
+    <div class="link">
+        <a href="{% url 'logout' %}">Logout</a>
+    </div>
+
+    
+
+    
 {% endblock %}

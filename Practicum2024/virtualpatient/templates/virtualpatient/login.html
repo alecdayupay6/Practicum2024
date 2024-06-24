@@ -2,19 +2,20 @@
 {% load static %}
 
 {% block content %}
-    <h1>Login</h1>
-    <div>
-        <form method="POST" action="">
-            {% csrf_token %}
-            <input name="username" placeholder="Username">
-            <input name="password" placeholder="Password">
-            <input type="submit" name="Login User">
-        </form>
+<link rel="stylesheet" href="{% static 'login.css' %}">
+    <div class="brdr"></div>
+    <div class="LoginContent">
+        <div class="h1">LOGIN</div>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <input name="username" placeholder="Username">
+                <input name="password" placeholder="Password">
+                <input type="submit" name="Login User">
+            </form>
+
+        {% for message in messages%}
+            <p>{{message}}</p>
+        {% endfor %}
+        <a href="{% url 'register' %}">Create account</a>
     </div>
-
-
-    {% for message in messages%}
-        <p>{{message}}</p>
-    {% endfor %}
-    <a href="{% url 'register' %}">Register</a>
 {% endblock %}

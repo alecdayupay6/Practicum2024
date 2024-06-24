@@ -23,11 +23,18 @@ html{
     color: #e69;
 }
 
+a:link { text-decoration: none; }
+a:visited { text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:active { text-decoration: underline; }
+
 a{
     background: #fafafa;
     margin: 1vh;
     padding: 1vh;
     border-radius: 6px;
+    text-decoration: none;
+    color: #e69;
 }
 
 .content{
