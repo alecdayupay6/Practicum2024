@@ -50,12 +50,12 @@ input{
     font-size: 15px;
 }
 
-log:link { text-decoration: none; }
-log:visited { text-decoration: none; }
-log:hover { text-decoration: underline; }
-log:active { text-decoration: underline; }
+a:link { text-decoration: none; }
+a:visited { text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:active { text-decoration: underline; }
 
-log{
+a{
     color:#e69;
     text-align: left;
 }
