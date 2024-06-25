@@ -5,12 +5,18 @@ class Patient(models.Model):
     first_name = models.CharField(max_length=50, null=True)
     last_name = models.CharField(max_length=50, null=True)
     age = models.IntegerField(null=True, blank=True)
-    sex = models.CharField(max_length=1, choices=[
-        ('M', 'Male'),
-        ('F', 'Female'),
+    sex = models.CharField(blank=True, max_length=6, choices=[
+        ('Male', 'Male'),
+        ('Female', 'Female'),
     ], null=True)
     height = models.FloatField(help_text="Height in cm", null=True)
     weight = models.FloatField(help_text="Weight in kg", null=True)
+    provocation = models.CharField(max_length=50, blank=True, null=True)
+    quality = models.CharField(max_length=50, blank=True, null=True)
+    region = models.CharField(max_length=50, blank=True, null=True)
+    severity = models.CharField(max_length=50, blank=True, null=True)
+    timing = models.CharField(max_length=50, blank=True, null=True)
+    chief_complaint = models.CharField(max_length=50, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     symptoms = models.TextField(blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
@@ -37,6 +43,21 @@ class Patient(models.Model):
 
     def get_weight(self):
         return self.weight
+
+    def get_provocation(self):
+        return self.provocation
+
+    def get_quality(self):
+        return self.quality
+
+    def get_region(self):
+        return self.region
+
+    def get_severity(self):
+        return self.severity
+
+    def get_timing(self):
+        return self.timing
 
     def get_description(self):
         return self.description
