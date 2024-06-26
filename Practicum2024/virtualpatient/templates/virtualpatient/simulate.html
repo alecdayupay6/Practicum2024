@@ -2,11 +2,11 @@
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" type="text/css" href="{% static 'simulate.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'simulate1.css' %}">
 <body>
-    <div class="cnt-1">
+    <div class="cnt-1">        
         <div>
-            <img alt='bot-icon' src="{% static 'images/gpt.jpg' %}" class="bot-icon">
+            <img alt='bot-icon' src="{% static 'images/simulation.png' %}" class="bot-icon">
         </div>
         <div class="cnt-2">
             <div class="chat-box">
@@ -22,6 +22,7 @@
                 <button type="button" id="save">Save</button>
                 <textarea class="form-control" id="message-input" placeholder="Type your message here"></textarea>
                 <button type="button" id="btn">Send</button>
+                <button type="button" id="switch">Switch</button>
             </div>
         </div>
         <div>
@@ -33,6 +34,7 @@
         const messageInput = document.querySelector("#message-input");
         const sendBtn = document.querySelector("#btn");
         const saveBtn = document.querySelector("#save");
+        const switchBtn = document.querySelector("#switch");
 
         function addMessage(message) {
             
@@ -78,8 +80,19 @@
             };
             document.cookie = `conversation=${JSON.stringify(saved)}`;
         }
+
+        function switchView(){
+            var css = document.getElementsByTagName('link')[1];
+            console.log(css);
+            if (css.getAttribute('href') == "{% static 'simulate1.css' %}"){
+                css.setAttribute('href', "{% static 'simulate2.css' %}");
+            } else {
+                css.setAttribute('href', "{% static 'simulate1.css' %}");
+            }
+        }
         
         saveBtn.addEventListener("click", saveMessage);
+        switchBtn.addEventListener("click", switchView);
         sendBtn.addEventListener("click", sendMessage);
         messageInput.addEventListener("keydown", event => {
             if (event.keyCode === 13 && !event.shiftKey) {
