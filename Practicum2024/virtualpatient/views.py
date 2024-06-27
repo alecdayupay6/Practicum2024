@@ -98,10 +98,11 @@ def simulate(request, pk):
     initial += f" When asked about the region of your pain, you must answer 'The pain occurs around {patient.region}'."
     initial += f" When asked about the severity of your pain, you must answer 'I would rank the pain a {patient.severity}'."
     initial += f" When asked about the timing or duration of your pain, you must answer 'I've experienced this pain since {patient.timing}'."
+    initial += f" Strictly speak in 1 sentence at a time."
     initial_prompts = [{"role": "system", "content": initial}]
     context = {'pk':pk, 'is_teacher': request.user.groups.filter(name='teacher').exists(), 'initial': initial}
     if request.method == 'POST':
-        initial_prompts.append({"role": "user","content": json.loads(request.body).get('message')})
+        initial_prompts.append({"role": json.loads(request.body).get('role'),"content": json.loads(request.body).get('message')})
         completion = connection.chat.completions.create(model="gpt-3.5-turbo", messages=initial_prompts)
         response = completion.choices[0].message.content
         return JsonResponse({"content": response})

@@ -41,10 +41,6 @@
         var severity = false;
         var timing = false;
 
-        function addMessage(message) {
-            
-        }
-
         function sendMessage() {
             const message = messageInput.value.trim();
             if (message !== "") {
@@ -57,7 +53,7 @@
                 fetch("/simulate/{{ pk }}/", {
                     method: "POST",
                     headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({ message })
+                    body: JSON.stringify({ role: "user", message: message })
                 })
                 .then(response => response.json())
                 .then(data => {
@@ -93,6 +89,20 @@
                     console.log(`Provocation: ${provocation}\nQuality: ${quality}\nRegion: ${region}\nSeverity: ${severity}\nTiming: ${timing}`);
                     if (provocation && quality && region && severity && timing){
                         console.log("diagnose me")
+                        fetch("/simulate/{{ pk }}/", {
+                            method: "POST",
+                            headers: {"Content-Type": "application/json"},
+                            body: JSON.stringify({ role: 'system', message: "Ask for your diagnosis in a short sentence." })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            const messageDiv = document.createElement("div");
+                            messageDiv.classList.add("bot-message");
+                            messageDiv.innerHTML = `<p class="bot-text">${data.content}</p>`;
+                            chatBox.appendChild(messageDiv);
+                            chatBox.scrollTop = chatBox.scrollHeight;                        
+                        })
+                        .catch(error => console.error(error));
                     }
                 })
                 .catch(error => console.error(error));
