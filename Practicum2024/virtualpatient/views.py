@@ -92,6 +92,12 @@ def select(request):
 def simulate(request, pk):
     patient = Patient.objects.get(pk=pk)
     initial = f"You are a patient named {patient.first_name} {patient.last_name}, {patient.age} years old. You are visiting for a consultation. Your details are: {patient.description}. Your symptoms are: {patient.symptoms}. Use a tone described in the patient description and style appropriate for a patient describing their symptoms and medical history.".replace('\r', ' ').replace('\n', ' ').replace('\t',' ')
+    initial += f" Your chief and most important complaint is {patient.chief_complaint}."
+    initial += f" When asked about the provocation of your pain, you must answer 'The pain worsens when {patient.provocation}'."
+    initial += f" When asked about the quality of your pain, you must answer 'The pain feels like {patient.quality}'."
+    initial += f" When asked about the region of your pain, you must answer 'The pain occurs around {patient.region}'."
+    initial += f" When asked about the severity of your pain, you must answer 'I would rank the pain a {patient.severity}'."
+    initial += f" When asked about the timing or duration of your pain, you must answer 'I've experienced this pain since {patient.timing}'."
     initial_prompts = [{"role": "system", "content": initial}]
     context = {'pk':pk, 'is_teacher': request.user.groups.filter(name='teacher').exists(), 'initial': initial}
     if request.method == 'POST':

@@ -35,6 +35,11 @@
         const sendBtn = document.querySelector("#btn");
         const saveBtn = document.querySelector("#save");
         const switchBtn = document.querySelector("#switch");
+        var provocation = false;
+        var quality = false;
+        var region = false;
+        var severity = false;
+        var timing = false;
 
         function addMessage(message) {
             
@@ -61,6 +66,34 @@
                     messageDiv.innerHTML = `<p class="bot-text">${data.content}</p>`;
                     chatBox.appendChild(messageDiv);
                     chatBox.scrollTop = chatBox.scrollHeight;
+                    try{
+                        if (data.content.includes("worsens when")){
+                            console.log("provocation");
+                            provocation = true;
+                        }
+                        if (data.content.includes("feels like")){
+                            console.log("quality");
+                            quality = true;
+                        }
+                        if (data.content.includes("occurs around")){
+                            console.log("region");
+                            region = true;
+                        }
+                        if (data.content.includes("rank")){
+                            console.log("severity");
+                            severity = true;
+                        }
+                        if (data.content.includes("experienc")){
+                            console.log("timing");
+                            timing = true;
+                        }
+                    }catch{
+                        console.log("error in try catch");
+                    }
+                    console.log(`Provocation: ${provocation}\nQuality: ${quality}\nRegion: ${region}\nSeverity: ${severity}\nTiming: ${timing}`);
+                    if (provocation && quality && region && severity && timing){
+                        console.log("diagnose me")
+                    }
                 })
                 .catch(error => console.error(error));
             }
