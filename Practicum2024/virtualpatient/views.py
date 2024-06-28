@@ -103,7 +103,7 @@ def simulate(request, pk):
     context = {'pk':pk, 'is_teacher': request.user.groups.filter(name='teacher').exists(), 'initial': initial}
     if request.method == 'POST':
         initial_prompts.append({"role": json.loads(request.body).get('role'),"content": json.loads(request.body).get('message')})
-        completion = connection.chat.completions.createmodel="ft:gpt-3.5-turbo-0125:personal:virtualpatient:9exepl3p", messages=initial_prompts)
+        completion = connection.chat.completions.create(model="ft:gpt-3.5-turbo-0125:personal:virtualpatient:9exepl3p", messages=initial_prompts)
         response = completion.choices[0].message.content
         return JsonResponse({"content": response})
     if 'conversation' in request.COOKIES:
