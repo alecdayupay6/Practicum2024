@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-# Configure OpenAI with the API key
+# Configure OpenAI using the API key
 connection = OpenAI()
 
 
@@ -93,12 +93,13 @@ def simulate(request, pk):
     patient = Patient.objects.get(pk=pk)
     initial = f"You are a patient named {patient.first_name} {patient.last_name}, {patient.age} years old. You are visiting for a consultation. Your details are: {patient.description}. Your symptoms are: {patient.symptoms}. Use a tone described in the patient description and style appropriate for a patient describing their symptoms and medical history.".replace('\r', ' ').replace('\n', ' ').replace('\t',' ')
     initial += f" Your chief and most important complaint is {patient.chief_complaint}."
-    initial += f" When asked about the provocation of your pain, you must answer 'The pain worsens when {patient.provocation}'."
-    initial += f" When asked about the quality of your pain, you must answer 'The pain feels like {patient.quality}'."
-    initial += f" When asked about the region of your pain, you must answer 'The pain occurs around {patient.region}'."
-    initial += f" When asked about the severity of your pain, you must answer 'I would rank the pain a {patient.severity}'."
-    initial += f" When asked about the timing or duration of your pain, you must answer 'I've experienced this pain since {patient.timing}'."
-    initial += f" Strictly speak in 1 sentence at a time."
+    initial += f" When asked about the provocation of your pain, you must strictly answer using 'worsen when {patient.provocation}'."
+    initial += f" When asked about the quality of your pain, you must strictly answer using 'like {patient.quality}'."
+    initial += f" When asked about the region of your pain, you must strictly answer using 'around {patient.region}'."
+    initial += f" When asked about the severity of your pain, you must strictly answer using 'rank {patient.severity}'."
+    initial += f" When asked about the timing or duration of your pain, you must strictly answer using 'since {patient.timing}'."
+    initial += f" Only when you are diagnosed with specifically {patient.illness_to_be_diagnosed}, you must strictly answer 'Thank you for my diagnosis.'."
+    initial += f" You must not know of your diagnosis. Strictly speak in 1 sentence at a time."
     initial_prompts = [{"role": "system", "content": initial}]
     context = {'pk':pk, 'is_teacher': request.user.groups.filter(name='teacher').exists(), 'initial': initial}
     if request.method == 'POST':

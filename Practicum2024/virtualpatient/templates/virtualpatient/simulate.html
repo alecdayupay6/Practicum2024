@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" type="text/css" href="{% static 'simulate1.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'simulate.css' %}">
 <body>
     <div class="cnt-1">        
         <div>
@@ -22,24 +22,20 @@
                 <button type="button" id="save">Save</button>
                 <textarea class="form-control" id="message-input" placeholder="Type your message here"></textarea>
                 <button type="button" id="btn">Send</button>
-                <button type="button" id="switch">Switch</button>
             </div>
-        </div>
-        <div>
-            <img alt='user-icon' src="{% static 'images/user.png' %}" class="user-icon">
-        </div>        
+        </div>     
     </div>
     <script>
         const chatBox = document.querySelector(".chat-box");
         const messageInput = document.querySelector("#message-input");
         const sendBtn = document.querySelector("#btn");
         const saveBtn = document.querySelector("#save");
-        const switchBtn = document.querySelector("#switch");
         var provocation = false;
         var quality = false;
         var region = false;
         var severity = false;
         var timing = false;
+        var diagnosis = false;
 
         function sendMessage() {
             const message = messageInput.value.trim();
@@ -62,32 +58,32 @@
                     messageDiv.innerHTML = `<p class="bot-text">${data.content}</p>`;
                     chatBox.appendChild(messageDiv);
                     chatBox.scrollTop = chatBox.scrollHeight;
-                    try{
-                        if (data.content.includes("worsens when")){
-                            console.log("provocation");
-                            provocation = true;
-                        }
-                        if (data.content.includes("feels like")){
-                            console.log("quality");
-                            quality = true;
-                        }
-                        if (data.content.includes("occurs around")){
-                            console.log("region");
-                            region = true;
-                        }
-                        if (data.content.includes("rank")){
-                            console.log("severity");
-                            severity = true;
-                        }
-                        if (data.content.includes("experienc")){
-                            console.log("timing");
-                            timing = true;
-                        }
-                    }catch{
-                        console.log("error in try catch");
+                    if (data.content.toLowerCase().includes("worsen")){
+                        console.log("provocation");
+                        provocation = true;
+                    }
+                    if (data.content.toLowerCase().includes("like")){
+                        console.log("quality");
+                        quality = true;
+                    }
+                    if (data.content.toLowerCase().includes("around")){
+                        console.log("region");
+                        region = true;
+                    }
+                    if (data.content.toLowerCase().includes("rank")){
+                        console.log("severity");
+                        severity = true;
+                    }
+                    if (data.content.toLowerCase().includes("since")){
+                        console.log("timing");
+                        timing = true;
+                    }
+                    if(data.content.includes("Thank you for my diagnosis")){
+                        console.log("diagnosis")
+                        diagnosis = true;
                     }
                     console.log(`Provocation: ${provocation}\nQuality: ${quality}\nRegion: ${region}\nSeverity: ${severity}\nTiming: ${timing}`);
-                    if (provocation && quality && region && severity && timing){
+                    if (provocation && quality && region && severity && timing && !(diagnosis)){
                         console.log("diagnose me")
                         fetch("/simulate/{{ pk }}/", {
                             method: "POST",
@@ -123,19 +119,8 @@
             };
             document.cookie = `conversation=${JSON.stringify(saved)}`;
         }
-
-        function switchView(){
-            var css = document.getElementsByTagName('link')[1];
-            console.log(css);
-            if (css.getAttribute('href') == "{% static 'simulate1.css' %}"){
-                css.setAttribute('href', "{% static 'simulate2.css' %}");
-            } else {
-                css.setAttribute('href', "{% static 'simulate1.css' %}");
-            }
-        }
         
         saveBtn.addEventListener("click", saveMessage);
-        switchBtn.addEventListener("click", switchView);
         sendBtn.addEventListener("click", sendMessage);
         messageInput.addEventListener("keydown", event => {
             if (event.keyCode === 13 && !event.shiftKey) {
