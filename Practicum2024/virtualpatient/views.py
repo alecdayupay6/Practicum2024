@@ -101,7 +101,7 @@ def simulate(request, pk):
     initial += f" Only when you are diagnosed with specifically {patient.illness_to_be_diagnosed}, you must strictly answer 'Thank you for my diagnosis.'."
     initial += f" You must not know of your diagnosis. Strictly speak in 1 sentence at a time."
     initial_prompts = [{"role": "system", "content": initial}]
-    context = {'pk':pk, 'is_teacher': request.user.groups.filter(name='teacher').exists(), 'initial': initial}
+    context = {'pk':pk, 'image': f"{patient.image}", 'is_teacher': request.user.groups.filter(name='teacher').exists(), 'initial': initial}
     if request.method == 'POST':
         initial_prompts.append({"role": json.loads(request.body).get('role'),"content": json.loads(request.body).get('message')})
         completion = connection.chat.completions.create(model="ft:gpt-3.5-turbo-0125:personal:virtualpatient:9exepl3p", messages=initial_prompts)

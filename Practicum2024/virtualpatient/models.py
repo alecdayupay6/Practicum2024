@@ -22,6 +22,7 @@ class Patient(models.Model):
     notes = models.TextField(blank=True, null=True)
     illness_to_be_diagnosed = models.CharField(max_length=255, blank=True, null=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    image = models.CharField(default='images/gpt.jpg/', max_length=50, blank=True, null=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -70,3 +71,6 @@ class Patient(models.Model):
 
     def get_illness_to_be_diagnosed(self):
         return self.illness_to_be_diagnosed
+    
+    def get_image(self):
+        return self.image

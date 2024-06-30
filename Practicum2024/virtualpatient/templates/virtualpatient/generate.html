@@ -10,10 +10,12 @@
 
             <table>
                 {% for field in form %}
+                {% if field.name != 'image' %}
                 <tr>
                     <td>{{ field.label }}:</td>
                     <td class="field">{{ field }}</td>
                 </tr>
+                {% endif %}
                 {% endfor %}
                 <tr>
                     <td></td>
