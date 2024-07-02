@@ -91,7 +91,7 @@ def select(request):
 #  @login_required(login_url='login')
 def simulate(request, pk):
     patient = Patient.objects.get(pk=pk)
-    initial = f"You are a patient named {patient.first_name} {patient.last_name}, {patient.age} years old. You are visiting for a consultation. Your details are: {patient.description}. Your symptoms are: {patient.symptoms}. Use a tone described in the patient description and style appropriate for a patient describing their symptoms and medical history.".replace('\r', ' ').replace('\n', ' ').replace('\t',' ')
+    initial = f"You are a patient named {patient.first_name} {patient.last_name}, {patient.age} years old. You are visiting for a consultation. Your details are: {patient.description}. You should {patient.language}, use these languages when communicating. Your symptoms are: {patient.symptoms}. Use a tone described in the patient description and style appropriate for a patient describing their symptoms and medical history.".replace('\r', ' ').replace('\n', ' ').replace('\t',' ')
     initial += f" Your chief and most important complaint is {patient.chief_complaint}."
     initial += f" When asked about the provocation of your pain, you must strictly answer using 'worsen when {patient.provocation}'."
     initial += f" When asked about the quality of your pain, you must strictly answer using 'like {patient.quality}'."
@@ -106,11 +106,43 @@ def simulate(request, pk):
         initial_prompts.append({"role": json.loads(request.body).get('role'),"content": json.loads(request.body).get('message')})
         completion = connection.chat.completions.create(model="ft:gpt-3.5-turbo-0125:personal:virtualpatient:9exepl3p", messages=initial_prompts)
         response = completion.choices[0].message.content
-        return JsonResponse({"content": response})
+
+        check_pqrst = [
+            {
+                "role": "system",
+                "content": f"Your task is to be able to identify if the message will be among the PQRST pain assessment. Respond using only the words provocation, quality, region. severity, or timing."
+            },
+            {
+                "role": "user", 
+                "content": "The pain worsens when stressed and when physically active for too long"
+            },
+            {
+                "role": "assistant",
+                "content": "Provocation"
+            },
+            {
+                "role": "user",
+                "content": response
+            }
+        ]
+
+        # Send the message to OpenAI's API and receive the response
+        completion = connection.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=check_pqrst
+        )
+
+        check_response = completion.choices[0].message.content
+
+        print(check_response)
+
+        return JsonResponse({"content": response, "supervisor": check_response})
+    
     if 'conversation' in request.COOKIES:
         context['conversation'] = (json.loads(request.COOKIES['conversation']))    
     return render(request, 'virtualpatient/simulate.html', context)
     
+
 # @login_required(login_url='login')
 def profile(request):
     context = {'is_teacher': request.user.groups.filter(name='teacher').exists()}
