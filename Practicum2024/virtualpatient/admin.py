@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Patient
+from .models import Patient, Diagnosed
 
 class PatientAdmin(admin.ModelAdmin):
     # Fields to be displayed in the list view
@@ -17,3 +17,7 @@ class PatientAdmin(admin.ModelAdmin):
 # Register the Patient model with the custom PatientAdmin configuration
 admin.site.register(Patient, PatientAdmin)
 
+class DiagnosedAdmin(admin.ModelAdmin):
+    list_display = ('user', 'patient', 'conversation')
+
+admin.site.register(Diagnosed, DiagnosedAdmin)

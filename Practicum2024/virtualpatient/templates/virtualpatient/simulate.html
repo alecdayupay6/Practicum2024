@@ -115,7 +115,7 @@
 
         function saveMessage() {
             var texts = document.querySelectorAll(".chat-box>*>*");
-            saved = [{"role": "system", "content": "{{ initial }}"}];
+            saved = [];
             for(i=0;i<texts.length;i++){
                 if(texts[i].className=="user-text"){
                     console.log(`User: ${texts[i].textContent}`);

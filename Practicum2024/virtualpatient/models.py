@@ -74,3 +74,8 @@ class Patient(models.Model):
     
     def get_image(self):
         return self.image
+
+class Diagnosed(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    conversation = models.TextField(blank=True, null=True)
