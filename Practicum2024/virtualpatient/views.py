@@ -110,15 +110,31 @@ def simulate(request, pk):
         check_pqrst = [
             {
                 "role": "system",
-                "content": f"Your task is to be able to identify if the message will be among the PQRST pain assessment. Respond using only the words provocation, quality, region. severity, or timing."
+                "content": f"Your task is to be able to identify if the message will be among the PQRST pain assessment. Respond using only the words provocation, quality, region. severity, and/or timing."
             },
             {
                 "role": "user", 
-                "content": "The pain worsens when stressed and when physically active for too long"
+                "content": f"The pain worsens when {patient.provocation}"
             },
             {
                 "role": "assistant",
                 "content": "Provocation"
+            },
+            {
+                "role": "user", 
+                "content": "Ang sakit sa aking mga balikat at tuhod nagsimula since six months."
+            },
+            {
+                "role": "assistant",
+                "content": "Region and Timing"
+            },
+            {
+                "role": "user", 
+                "content": "Mechanical engineer working for a manufacturing company."
+            },
+            {
+                "role": "assistant",
+                "content": "This message does not contain any elements of the pain assessment."
             },
             {
                 "role": "user",
@@ -131,11 +147,7 @@ def simulate(request, pk):
             model="gpt-3.5-turbo",
             messages=check_pqrst
         )
-
         check_response = completion.choices[0].message.content
-
-        print(check_response)
-
         return JsonResponse({"content": response, "supervisor": check_response})
     
     if 'conversation' in request.COOKIES:
