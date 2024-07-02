@@ -17,6 +17,7 @@ class Patient(models.Model):
     severity = models.CharField(max_length=50, blank=True, null=True)
     timing = models.CharField(max_length=50, blank=True, null=True)
     chief_complaint = models.CharField(max_length=50, blank=True, null=True)
+    language = models.CharField(max_length=50, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     symptoms = models.TextField(blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
@@ -59,6 +60,9 @@ class Patient(models.Model):
 
     def get_timing(self):
         return self.timing
+    
+    def get_language(self):
+        return self.language
 
     def get_description(self):
         return self.description
