@@ -91,6 +91,21 @@
                         sendBtn.style.display = "none";
                         chatBox.style.height = "90dvh";
                         window.onbeforeunload = null;
+                        var texts = document.querySelectorAll(".chat-box>*>*");
+                        conversation = [];
+                        for(i=0;i<texts.length;i++){
+                            if(texts[i].className=="user-text"){
+                                conversation.push({"role": "user", "content" : texts[i].textContent});
+                            }else{
+                                conversation.push({"role": "assistant", "content" : texts[i].textContent});
+                            }
+                        };
+                        fetch("/simulate/{{ pk }}/", {
+                            method: "POST",
+                            headers: {"Content-Type": "application/json"},
+                            body: JSON.stringify({ diagnosis: diagnosis, conversation: JSON.stringify(conversation) })
+                        })
+                        .catch(error => console.error(error))
                     } else if (provocation && quality && region && severity && timing){
                         console.log("diagnose me")
                         fetch("/simulate/{{ pk }}/", {
@@ -113,21 +128,6 @@
             }
         }
 
-        function saveMessage() {
-            var texts = document.querySelectorAll(".chat-box>*>*");
-            saved = [];
-            for(i=0;i<texts.length;i++){
-                if(texts[i].className=="user-text"){
-                    console.log(`User: ${texts[i].textContent}`);
-                    saved.push({"role": "user", "content" : texts[i].textContent});
-                }else{
-                    console.log(`Bot: ${texts[i].textContent}`);
-                    saved.push({"role": "assistant", "content" : texts[i].textContent});
-                }
-            };
-            document.cookie = `conversation=${JSON.stringify(saved)}`;
-        }
-
         window.onbeforeunload = function(event){
             event.returnValue = "Since you haven't diagnosed the patient, your progress will be lost. Are you sure you want to leave the page?";
         };
@@ -139,6 +139,14 @@
             }
         });
 
+        if ('{{diagnosed}}'=="True"){
+            console.log("Already diagnosed");
+            diagnosis = true;          
+            messageInput.style.display = "none";
+            sendBtn.style.display = "none";
+            chatBox.style.height = "90dvh";
+            window.onbeforeunload = null;
+        }
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>

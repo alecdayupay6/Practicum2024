@@ -102,57 +102,42 @@ def simulate(request, pk):
     initial += f" Only when you are diagnosed with specifically {patient.illness_to_be_diagnosed}, you must strictly answer 'Thank you for my diagnosis.'."
     initial += f" You must not know of your diagnosis. Strictly speak in 1 sentence at a time."
     initial_prompts = [{"role": "system", "content": initial}]
-    context = {'pk':pk, 'image': f"{patient.image}", 'is_teacher': request.user.groups.filter(name='teacher').exists(), 'initial': initial}
+    check_pqrst = [
+        {"role": "system", "content": f"Your task is to be able to identify if the message will be among the PQRST pain assessment. Respond using only the words provocation, quality, region. severity, and/or timing."},
+        {"role": "user", "content": f"The pain worsens when {patient.provocation}"},
+        {"role": "assistant", "content": "Provocation"},
+        {"role": "user", "content": "Ang sakit sa aking mga balikat at tuhod nagsimula since six months."},
+        {"role": "assistant","content": "Region and Timing"},
+        {"role": "user", "content": "Mechanical engineer working for a manufacturing company."},
+        {"role": "assistant", "content": "This message does not contain any elements of the pain assessment."},        
+    ]
+    context = {'pk':pk, 'image': f"{patient.image}", 'diagnosed':False, 'is_teacher': request.user.groups.filter(name='teacher').exists(), 'initial': initial}
     if request.method == 'POST':
-        initial_prompts.append({"role": json.loads(request.body).get('role'),"content": json.loads(request.body).get('message')})
-        completion = connection.chat.completions.create(model="ft:gpt-3.5-turbo-0125:personal:virtualpatient:9exepl3p", messages=initial_prompts)
-        response = completion.choices[0].message.content
-
-        check_pqrst = [
-            {
-                "role": "system",
-                "content": f"Your task is to be able to identify if the message will be among the PQRST pain assessment. Respond using only the words provocation, quality, region. severity, and/or timing."
-            },
-            {
-                "role": "user", 
-                "content": f"The pain worsens when {patient.provocation}"
-            },
-            {
-                "role": "assistant",
-                "content": "Provocation"
-            },
-            {
-                "role": "user", 
-                "content": "Ang sakit sa aking mga balikat at tuhod nagsimula since six months."
-            },
-            {
-                "role": "assistant",
-                "content": "Region and Timing"
-            },
-            {
-                "role": "user", 
-                "content": "Mechanical engineer working for a manufacturing company."
-            },
-            {
-                "role": "assistant",
-                "content": "This message does not contain any elements of the pain assessment."
-            },
-            {
-                "role": "user",
-                "content": response
-            }
-        ]
-
-        # Send the message to OpenAI's API and receive the response
-        completion = connection.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=check_pqrst
-        )
-        check_response = completion.choices[0].message.content
-        return JsonResponse({"content": response, "supervisor": check_response})
+        message = json.loads(request.body).get('message')
+        if message != None:
+            # Virtual Patient
+            initial_prompts.append({"role": json.loads(request.body).get('role'),"content": message})
+            completion = connection.chat.completions.create(model="ft:gpt-3.5-turbo-0125:personal:virtualpatient:9exepl3p", messages=initial_prompts)
+            response = completion.choices[0].message.content
+            
+            # Supervisor
+            check_pqrst.append({"role": "user","content": response})
+            completion = connection.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=check_pqrst
+            )
+            check_response = completion.choices[0].message.content
+            return JsonResponse({"content": response, "supervisor": check_response})
+        
+        if json.loads(request.body).get('diagnosis') != None:
+            Diagnosed.objects.create(user=request.user, patient=patient, conversation=json.loads(request.body).get('conversation'))
+            return JsonResponse({})
     
-    if 'conversation' in request.COOKIES:
-        context['conversation'] = (json.loads(request.COOKIES['conversation']))    
+    diagnosed = Diagnosed.objects.filter(user=request.user, patient=patient)
+    if diagnosed:
+        context['conversation'] = json.loads(diagnosed[0].conversation)
+        context['diagnosed'] = True
+
     return render(request, 'virtualpatient/simulate.html', context)
     
 
