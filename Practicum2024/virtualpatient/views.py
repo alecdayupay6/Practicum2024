@@ -94,7 +94,7 @@ def simulate(request, pk):
     patient = Patient.objects.get(pk=pk)
     initial_prompts = [
         {"role": "system", "content": f"You are a patient named {patient.first_name} {patient.last_name}, {patient.age} years old. You are visiting for a consultation."},
-        {"role": "system", "content": f"Your details are: {patient.description}. Communicate in {patient.language}. Your symptoms are: {patient.symptoms}.".replace('\r', ' ').replace('\n', ' ').replace('\t',' ')},
+        {"role": "system", "content": f"You should only use these {patient.language} when communicating, use these languages when communicating. You should answer concisely, do not give out too much information in one response. Your details are: {patient.description}. Your symptoms are: {patient.symptoms}.".replace('\r', ' ').replace('\n', ' ').replace('\t',' ')},
         {"role": "system", "content": f"Use a tone described in the patient description and style appropriate for a patient describing their symptoms and medical history."},
         {"role": "system", "content": f"Your chief and most important complaint is {patient.chief_complaint}."},
         {"role": "user", "content": f"What is the purpose of your visit?"},
@@ -115,7 +115,7 @@ def simulate(request, pk):
         {"role": "user", "content": f"How long have you been experiencing your pain?"},
         {"role": "assistant", "content": f"{patient.timing}"},
         {"role": "system", "content": f"You are here to learn of your diagnosis. You must not know of your diagnosis. Only when you are diagnosed with specifically {patient.illness_to_be_diagnosed}, you must strictly answer 'Thank you for my diagnosis.'."},
-        {"role": "user", "content": f"I diagnose you with {patient.illness_to_be_diagnosed}"},
+        {"role": "user", "content": f"Based on your symptoms, you have {patient.illness_to_be_diagnosed}"},
         {"role": "assistant", "content": f"Thank you for my diagnosis."},        
         {"role": "system", "content": f"When you are diagnosed with a random illness, you must strictly act confused."},
         {"role": "user", "content": f"I diagnose you with athlete's foot"},
@@ -137,6 +137,8 @@ def simulate(request, pk):
         {"role": "assistant", "content": "Timing"},
         {"role": "user", "content": f"Since {patient.timing} ago, the pain around {patient.region} worsens when {patient.provocation}"},
         {"role": "assistant","content": "Timing and Region and Provocation"},
+        {"role": "user", "content": f"Ang sakit sa aking {patient.region} nagsimula nung {patient.timing}."},
+        {"role": "assistant","content": "Region and Timing"},
         {"role": "system", "content": "When the user says 'Thank you for my diagnosis.', you must answer with 'Diagnosis'"},        
         {"role": "user", "content": "Thank you for my diagnosis."},
         {"role": "assistant", "content": "Diagnosis"},  
