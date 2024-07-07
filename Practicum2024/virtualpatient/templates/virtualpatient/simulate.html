@@ -19,7 +19,6 @@
                 {% endfor %}
             </div>
             <div class="entry-box">
-                <button type="button" id="save">Save</button>
                 <textarea class="form-control" id="message-input" placeholder="Type your message here"></textarea>
                 <button type="button" id="btn">Send</button>
             </div>
@@ -29,7 +28,6 @@
         const chatBox = document.querySelector(".chat-box");
         const messageInput = document.querySelector("#message-input");
         const sendBtn = document.querySelector("#btn");
-        const saveBtn = document.querySelector("#save");
         var provocation = false;
         var quality = false;
         var region = false;
@@ -58,32 +56,57 @@
                     messageDiv.innerHTML = `<p class="bot-text">${data.content}</p>`;
                     chatBox.appendChild(messageDiv);
                     chatBox.scrollTop = chatBox.scrollHeight;
-                    if (data.content.toLowerCase().includes("worsen")){
-                        console.log("provocation");
-                        provocation = true;
-                    }
-                    if (data.content.toLowerCase().includes("like")){
-                        console.log("quality");
-                        quality = true;
-                    }
-                    if (data.content.toLowerCase().includes("around")){
-                        console.log("region");
-                        region = true;
-                    }
-                    if (data.content.toLowerCase().includes("rank")){
-                        console.log("severity");
-                        severity = true;
-                    }
-                    if (data.content.toLowerCase().includes("since")){
-                        console.log("timing");
-                        timing = true;
-                    }
-                    if(data.content.includes("Thank you for my diagnosis")){
-                        console.log("diagnosis")
-                        diagnosis = true;
+
+                    try{
+                        if (data.supervisor.toLowerCase().includes("provocation")){
+                            console.log("provocation");
+                            provocation = true;
+                        }
+                        if (data.supervisor.toLowerCase().includes("quality")){
+                            console.log("quality");
+                            quality = true;
+                        }
+                        if (data.supervisor.toLowerCase().includes("region")){
+                            console.log("region");
+                            region = true;
+                        }
+                        if (data.supervisor.toLowerCase().includes("severity")){
+                            console.log("severity");
+                            severity = true;
+                        }
+                        if (data.supervisor.toLowerCase().includes("timing")){
+                            console.log("timing");
+                            timing = true;
+                        }
+                        if(data.supervisor.toLowerCase().includes("diagnosis")){
+                            console.log("diagnosis");
+                            diagnosis = true;
+                        }
+                    } catch(err) {
+                        console.log("Supervisor Error");
                     }
                     console.log(`Provocation: ${provocation}\nQuality: ${quality}\nRegion: ${region}\nSeverity: ${severity}\nTiming: ${timing}`);
-                    if (provocation && quality && region && severity && timing && !(diagnosis)){
+                    if (diagnosis){
+                        messageInput.style.display = "none";
+                        sendBtn.style.display = "none";
+                        chatBox.style.height = "90dvh";
+                        window.onbeforeunload = null;
+                        var texts = document.querySelectorAll(".chat-box>*>*");
+                        conversation = [];
+                        for(i=0;i<texts.length;i++){
+                            if(texts[i].className=="user-text"){
+                                conversation.push({"role": "user", "content" : texts[i].textContent});
+                            }else{
+                                conversation.push({"role": "assistant", "content" : texts[i].textContent});
+                            }
+                        };
+                        fetch("/simulate/{{ pk }}/", {
+                            method: "POST",
+                            headers: {"Content-Type": "application/json"},
+                            body: JSON.stringify({ diagnosis: diagnosis, conversation: JSON.stringify(conversation) })
+                        })
+                        .catch(error => console.error(error))
+                    } else if (provocation && quality && region && severity && timing){
                         console.log("diagnose me")
                         fetch("/simulate/{{ pk }}/", {
                             method: "POST",
@@ -105,22 +128,9 @@
             }
         }
 
-        function saveMessage() {
-            var texts = document.querySelectorAll(".chat-box>*>*");
-            saved = [{"role": "system", "content": "{{ initial }}"}];
-            for(i=0;i<texts.length;i++){
-                if(texts[i].className=="user-text"){
-                    console.log(`User: ${texts[i].textContent}`);
-                    saved.push({"role": "user", "content" : texts[i].textContent});
-                }else{
-                    console.log(`Bot: ${texts[i].textContent}`);
-                    saved.push({"role": "assistant", "content" : texts[i].textContent});
-                }
-            };
-            document.cookie = `conversation=${JSON.stringify(saved)}`;
-        }
-        
-        saveBtn.addEventListener("click", saveMessage);
+        window.onbeforeunload = function(event){
+            event.returnValue = "Since you haven't diagnosed the patient, your progress will be lost. Are you sure you want to leave the page?";
+        };
         sendBtn.addEventListener("click", sendMessage);
         messageInput.addEventListener("keydown", event => {
             if (event.keyCode === 13 && !event.shiftKey) {
@@ -129,6 +139,14 @@
             }
         });
 
+        if ('{{diagnosed}}'=="True"){
+            console.log("Already diagnosed");
+            diagnosis = true;          
+            messageInput.style.display = "none";
+            sendBtn.style.display = "none";
+            chatBox.style.height = "90dvh";
+            window.onbeforeunload = null;
+        }
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>

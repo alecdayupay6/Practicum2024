@@ -17,7 +17,11 @@
                         <p>Teacher: {{patient.created_by}}</p>
                     </div>
                 </div>
-                <a href="{% url 'simulate' pk=patient.pk %}">SIMULATE PATIENT</a>
+                {% if patient in diagnosed %}
+                    <a href="{% url 'simulate' pk=patient.pk %}">VIEW CONVERSATION</a>
+                {% else %}                    
+                    <a href="{% url 'simulate' pk=patient.pk %}">SIMULATE PATIENT</a>
+                {% endif %}
             </div>
         {% endfor %}
     </div>

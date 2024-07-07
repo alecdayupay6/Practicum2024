@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from .forms import CreateUserForm, CreatePatientForm
-from .models import Patient
+from .models import Patient, Diagnosed
 from .decorators import unauthenticated_user, allowed_users
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -84,33 +84,100 @@ def generate(request):
 # @login_required(login_url='login')
 def select(request):
     patients = Patient.objects.all()
-    context = {'patients': patients, 'is_teacher': request.user.groups.filter(name='teacher').exists()}
+    diagnosed = Patient.objects.filter(id__in=Diagnosed.objects.filter(user=request.user).values('patient'))
+    context = {'patients': patients, 'diagnosed': diagnosed, 'is_teacher': request.user.groups.filter(name='teacher').exists()}
     return render(request, 'virtualpatient/select.html', context)
 
 @csrf_exempt
 #  @login_required(login_url='login')
 def simulate(request, pk):
     patient = Patient.objects.get(pk=pk)
-    initial = f"You are a patient named {patient.first_name} {patient.last_name}, {patient.age} years old. You are visiting for a consultation. Your details are: {patient.description}. Your symptoms are: {patient.symptoms}. Use a tone described in the patient description and style appropriate for a patient describing their symptoms and medical history.".replace('\r', ' ').replace('\n', ' ').replace('\t',' ')
-    initial += f" Your chief and most important complaint is {patient.chief_complaint}."
-    initial += f" When asked about the provocation of your pain, you must strictly answer using 'worsen when {patient.provocation}'."
-    initial += f" When asked about the quality of your pain, you must strictly answer using 'like {patient.quality}'."
-    initial += f" When asked about the region of your pain, you must strictly answer using 'around {patient.region}'."
-    initial += f" When asked about the severity of your pain, you must strictly answer using 'rank {patient.severity}'."
-    initial += f" When asked about the timing or duration of your pain, you must strictly answer using 'since {patient.timing}'."
-    initial += f" Only when you are diagnosed with specifically {patient.illness_to_be_diagnosed}, you must strictly answer 'Thank you for my diagnosis.'."
-    initial += f" You must not know of your diagnosis. Strictly speak in 1 sentence at a time."
-    initial_prompts = [{"role": "system", "content": initial}]
-    context = {'pk':pk, 'image': f"{patient.image}", 'is_teacher': request.user.groups.filter(name='teacher').exists(), 'initial': initial}
+    initial_prompts = [
+        {"role": "system", "content": f"You are a patient named {patient.first_name} {patient.last_name}, {patient.age} years old. You are visiting for a consultation."},
+        {"role": "system", "content": f"You should only use these {patient.language} when communicating, use these languages when communicating. You should answer concisely, do not give out too much information in one response. Your details are: {patient.description}. Your symptoms are: {patient.symptoms}.".replace('\r', ' ').replace('\n', ' ').replace('\t',' ')},
+        {"role": "system", "content": f"Use a tone described in the patient description and style appropriate for a patient describing their symptoms and medical history."},
+        {"role": "system", "content": f"Your chief and most important complaint is {patient.chief_complaint}."},
+        {"role": "user", "content": f"What is the purpose of your visit?"},
+        {"role": "assistant", "content": f"{patient.chief_complaint}"},
+        {"role": "system", "content": f"When asked about the provocation of your pain, you must strictly answer with '{patient.provocation}'."},
+        {"role": "user", "content": f"What makes your pain worse?"},
+        {"role": "assistant", "content": f"{patient.provocation}"},
+        {"role": "system", "content": f"When asked about the quality of your pain, you must strictly answer with '{patient.quality}'."},
+        {"role": "user", "content": f"Can you describe your pain?"},
+        {"role": "assistant", "content": f"{patient.quality}"},
+        {"role": "system", "content": f"When asked about the region of your pain, you must strictly answer with '{patient.region}'."},
+        {"role": "user", "content": f"Where is your pain?"},
+        {"role": "assistant", "content": f"{patient.region}"},
+        {"role": "system", "content": f"When asked about the severity of your pain, you must strictly answer with '{patient.severity}'."},
+        {"role": "user", "content": f"Can you rank your pain?"},
+        {"role": "assistant", "content": f"{patient.severity}"},
+        {"role": "system", "content": f"When asked about the timing or duration of your pain, you must strictly answer with '{patient.timing}'."},
+        {"role": "user", "content": f"How long have you been experiencing your pain?"},
+        {"role": "assistant", "content": f"{patient.timing}"},
+        {"role": "system", "content": f"You are here to learn of your diagnosis. You must not know of your diagnosis. Only when you are diagnosed with specifically {patient.illness_to_be_diagnosed}, you must strictly answer 'Thank you for my diagnosis.'."},
+        {"role": "user", "content": f"Based on your symptoms, you have {patient.illness_to_be_diagnosed}"},
+        {"role": "assistant", "content": f"Thank you for my diagnosis."},        
+        {"role": "system", "content": f"When you are diagnosed with a random illness, you must strictly act confused."},
+        {"role": "user", "content": f"I diagnose you with athlete's foot"},
+        {"role": "assistant", "content": f"I don't think that's right."},
+        {"role": "system", "content": f"Ask for your diagnosis in a short sentence."},
+        {"role": "assistant", "content": f"What could be the cause of my {patient.chief_complaint}?"}
+    ]
+    check_pqrst = [
+        {"role": "system", "content": f"Your task is to be able to identify if the user mentions {patient.provocation}, {patient.quality}, {patient.region}, {patient.severity}, and/or {patient.timing}. Respond using only the words provocation, quality, region. severity, and/or timing. If the user mentions more than one of these attributes at a time, you must answer all that are applicable."},
+        {"role": "user", "content": f"The pain worsens when {patient.provocation}"},
+        {"role": "assistant", "content": "Provocation"},
+        {"role": "user", "content": f"The pain feels like {patient.quality}"},
+        {"role": "assistant", "content": "Quality"},
+        {"role": "user", "content": f"The pain occurs around {patient.region}"},
+        {"role": "assistant", "content": "Region"},
+        {"role": "user", "content": f"The pain ranks a {patient.severity}"},
+        {"role": "assistant", "content": "Severity"},
+        {"role": "user", "content": f"The pain started since {patient.timing}"},
+        {"role": "assistant", "content": "Timing"},
+        {"role": "user", "content": f"Since {patient.timing} ago, the pain around {patient.region} worsens when {patient.provocation}"},
+        {"role": "assistant","content": "Timing and Region and Provocation"},
+        {"role": "user", "content": f"Ang sakit sa aking {patient.region} nagsimula nung {patient.timing}."},
+        {"role": "assistant","content": "Region and Timing"},
+        {"role": "system", "content": "When the user says 'Thank you for my diagnosis.', you must answer with 'Diagnosis'"},        
+        {"role": "user", "content": "Thank you for my diagnosis."},
+        {"role": "assistant", "content": "Diagnosis"},  
+        {"role": "system", "content": f"If the user doesn't mention {patient.provocation}, {patient.quality}, {patient.region}, {patient.severity}, and/or {patient.timing}, you must respond with 'None'"},        
+        {"role": "user", "content": f"Hello. My name is {patient.first_name} {patient.last_name}"},
+        {"role": "assistant", "content": "None"},
+    ]
+    context = {'pk':pk, 'image': f"{patient.image}", 'diagnosed':False, 'is_teacher': request.user.groups.filter(name='teacher').exists()}
     if request.method == 'POST':
-        initial_prompts.append({"role": json.loads(request.body).get('role'),"content": json.loads(request.body).get('message')})
-        completion = connection.chat.completions.create(model="ft:gpt-3.5-turbo-0125:personal:virtualpatient:9exepl3p", messages=initial_prompts)
-        response = completion.choices[0].message.content
-        return JsonResponse({"content": response})
-    if 'conversation' in request.COOKIES:
-        context['conversation'] = (json.loads(request.COOKIES['conversation']))    
+        message = json.loads(request.body).get('message')
+        if message != None:
+            # Virtual Patient
+            initial_prompts.append({"role": json.loads(request.body).get('role'),"content": message})
+            completion = connection.chat.completions.create(model="ft:gpt-3.5-turbo-0125:personal:virtualpatient:9exepl3p", messages=initial_prompts)
+            response = completion.choices[0].message.content
+            print("Patient: " + response)
+            
+            # Supervisor
+            check_pqrst.append({"role": "user","content": response})
+            completion = connection.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=check_pqrst
+            )
+            check_response = completion.choices[0].message.content
+            print("Supervisor: " + check_response)
+            return JsonResponse({"content": response, "supervisor": check_response})
+        
+        if json.loads(request.body).get('diagnosis') != None:
+            Diagnosed.objects.create(user=request.user, patient=patient, conversation=json.loads(request.body).get('conversation'))
+            return JsonResponse({})
+    
+    diagnosed = Diagnosed.objects.filter(user=request.user, patient=patient)
+    if diagnosed:
+        context['conversation'] = json.loads(diagnosed[0].conversation)
+        context['diagnosed'] = True
+
     return render(request, 'virtualpatient/simulate.html', context)
     
+
 # @login_required(login_url='login')
 def profile(request):
     context = {'is_teacher': request.user.groups.filter(name='teacher').exists()}
