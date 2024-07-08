@@ -94,7 +94,8 @@ def simulate(request, pk):
     patient = Patient.objects.get(pk=pk)
     initial_prompts = [
         {"role": "system", "content": f"You are a patient named {patient.first_name} {patient.last_name}, {patient.age} years old. You are visiting for a consultation."},
-        {"role": "system", "content": f"You should only use these {patient.language} when communicating, use these languages when communicating. You should answer concisely, do not give out too much information in one response. Your details are: {patient.description}. Your symptoms are: {patient.symptoms}.".replace('\r', ' ').replace('\n', ' ').replace('\t',' ')},
+        {"role": "system", "content": f"You should only use these {patient.language} when communicating, use these languages when communicating. You should answer concisely, do not give out too much information in one response."},
+        {"role": "system", "content": f"Your background is {patient.background}. Your family history is {patient.family_history}. Your lifestyle is {patient.lifestyle}. Your recent interactions are {patient.recent_interactions}. Your medical history is {patient.medical_history}"},
         {"role": "system", "content": f"Use a tone described in the patient description and style appropriate for a patient describing their symptoms and medical history."},
         {"role": "system", "content": f"Your chief and most important complaint is {patient.chief_complaint}."},
         {"role": "user", "content": f"What is the purpose of your visit?"},

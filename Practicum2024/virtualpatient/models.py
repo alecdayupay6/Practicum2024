@@ -18,7 +18,11 @@ class Patient(models.Model):
     timing = models.CharField(max_length=50, blank=True, null=True)
     chief_complaint = models.CharField(max_length=50, blank=True, null=True)
     language = models.CharField(max_length=50, blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
+    background = models.CharField(max_length=200, blank=True, null=True)
+    family_history = models.CharField(max_length=200, blank=True, null=True)
+    lifestyle = models.CharField(max_length=200, blank=True, null=True)
+    recent_interactions = models.CharField(max_length=200, blank=True, null=True)
+    medical_history = models.CharField(max_length=200, blank=True, null=True)
     symptoms = models.TextField(blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
     illness_to_be_diagnosed = models.CharField(max_length=255, blank=True, null=True)
@@ -63,9 +67,6 @@ class Patient(models.Model):
     
     def get_language(self):
         return self.language
-
-    def get_description(self):
-        return self.description
 
     def get_symptoms(self):
         return self.symptoms
