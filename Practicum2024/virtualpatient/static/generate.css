@@ -1,62 +1,62 @@
 .cnt-1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 40px;
+}
+
+form{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: solid;
+    border-width: 60px;
+    border-radius: 20px;
+    border-color: #036;
+    width: 600px;
+    background: #fafafa;
+    color: #036;
+}
+
+img{
+    position: absolute;
+    top: -58px;
+    width: 500px;
+}
+
+table{
+    margin: 0px 20px;
+    margin-top: 100px;
+}
+
+.field{
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-form{
-    position:relative;
-    width:600px;
-    border:solid;
-    border-width:60px;
-    border-radius:20px;
-    border-color:#036;
-    background: #fafafa;
-    color:#036;
-    display:flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-img{
-    position: absolute;
-    top:-58px;
-    width:500px;
-}
-
-table{
-    margin:0px 20px;
-    margin-top:100px;
-}
-
-.field{
-    display:flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 input, select, textarea{
-    width:90%;
-    padding:12px;
-    margin:8px 0;
+    padding: 12px;
     border: 1px solid #fafafa;
+    border-radius: 20px;
     background-color: #eee;
-    border-radius:20px;
+    margin: 8px 0;
+    width: 90%;
     box-sizing: border-box;
 }
 
 textarea{
-    height:100px;
+    height: 100px;
     resize: none;
 }
 
 #btn{
+    margin: 10px;
     border: 1px solid #fafafa;
-    margin:10px;
+    border-radius: 30px;
     padding: 10px;
-    border-radius:30px;
-    width:200px;
-    background:#036;
-    color:#fafafa;
+    width: 200px;
+    background: #036;
+    color: #fafafa;
 }

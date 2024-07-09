@@ -4,60 +4,60 @@ body {
 }
 
 .cnt-1{
-    max-width:100%;
-    display:flex;
-    align-items: center;  
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    background-size: 100% 100%;
     background-image: url('images/background.png');
     background-attachment: fixed;
-    background-size: 100% 100%;
 }
 
 .cnt-2{
-    margin: 10px;
-    display:flex;
-    flex-direction:column;
-    flex-grow:1;
+    display: flex;
+    flex-direction: column;
     align-items: stretch;
+    flex-grow: 1;
+    margin: 10px;
 }
 
 .bot-icon {
-    width: 40dvw; 
-    max-height: 92dvh;   
+    width: 40dvw;
+    max-height: 92dvh;
     object-fit: cover;
 }
 
 .chat-box {
-    height: 80dvh;
-    overflow: auto;
     align-items: stretch;
-    background: rgba(0, 0, 0, 10%);
     border-radius: 20px;
+    height: 80dvh;
+    background: rgba(0, 0, 0, 10%);
+    overflow: auto;
 }
 
 .user-message{ 
-    display:flex;
+    display: flex;
     justify-content: flex-end;
 }
 
 .user-text {
-    max-width:60%;
     margin: 10px 20px 10px 20px;
+    border-radius: 20px;
+    background-color: #09f;
     padding: 20px;
-    border-radius:20px;
-    background-color:#09f;
-    color: #fafafa;
+    max-width: 60%;
     font-size: 20px;
+    color: #fafafa;
     word-wrap: break-word;
 }
 
 .bot-text { 
-    max-width:60%;    
     margin: 10px 20px 10px 20px;
-    padding: 20px;    
-    border-radius:20px;
+    border-radius: 20px;
+    padding: 20px;
+    max-width: 60%;
     background-color: #e69;
-    color: #111;
     font-size: 20px;
+    color: #111;
     word-wrap: break-word;
 }
 
@@ -68,35 +68,35 @@ body {
 }
 
 .form-control {
-    width:80%;
-    padding:12px;
     margin: 8px 5px;
     border: 5px solid #036;
-    background-color: #eee;
     border-radius:20px;
+    padding: 12px;
+    width: 80%;
     box-sizing: border-box;
-    resize: none;
+    background-color: #eee;
     font-size: 20px;
+    resize: none;
 }
 
 #btn{
-    width:75px;
-    margin:10px;
-    padding: 10px;
+    margin: 10px;
     border: 3px solid #036;
-    border-radius:30px;
-    background:#fafafa;
-    color:#036;
-    font-size:20px;
+    border-radius: 30px;
+    padding: 10px;
+    width: 75px;
+    background: #fafafa;
+    font-size: 20px;
+    color: #036;
 }
 
 #save{
-    width:75px;
-    margin:10px;
-    padding: 10px;
+    margin: 10px;
     border: 3px solid #e69;
-    border-radius:30px;
-    background:#fafafa;
-    color:#e69;
-    font-size:20px;
+    border-radius: 30px;
+    padding: 10px;
+    width: 75px;
+    background: #fafafa;
+    font-size: 20px;
+    color: #e69;
 }
