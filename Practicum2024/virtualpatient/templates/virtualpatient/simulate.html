@@ -18,7 +18,7 @@
                     {% endif %}
                 {% endfor %}
                 <!-- popup-->
-                <div id="language-popup" class="popup-window" style="display: none;">
+                <div id="language-popup" class="popup-window">
                     <div class="popup-content">
                         <p>The patient does not understand this language. Please use {{ patient_language }}.</p>
                         <button id="popup-ok-button">OK</button>
@@ -36,9 +36,9 @@
             const chatBox = document.querySelector(".chat-box");
             const messageInput = document.querySelector("#message-input");
             const sendBtn = document.querySelector("#btn");
-            const popup = document.querySelector("#language-popup");
+            const popup = document.querySelector("#language-popup");            
+            popup.style.display = "none";
             const popOkButton = document.querySelector("#popup-ok-button");
-            const patientLanguage = "{{ patient_language }}";
             var provocation = false;
             var quality = false;
             var region = false;
@@ -57,7 +57,7 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        if (!data.language.toLowerCase().includes(patientLanguage.toLowerCase())) {
+                        if (data.language) {
                             popup.style.display = "block";
                             messageInput.value = "";
                             return;

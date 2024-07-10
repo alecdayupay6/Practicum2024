@@ -167,12 +167,6 @@ def simulate(request, pk):
     if request.method == 'POST':
         message = json.loads(request.body).get('message')
         if message != None:
-            # Virtual Patient
-            initial_prompts.append({"role": json.loads(request.body).get('role'),"content": message})
-            completion = connection.chat.completions.create(model="ft:gpt-3.5-turbo-0125:personal:virtualpatient:9exepl3p", messages=initial_prompts)
-            response = completion.choices[0].message.content
-            print("Patient: " + response)
-            
             #Language Check
             language_check.append({"role": json.loads(request.body).get('role'),"content": message})
             completion = connection.chat.completions.create(
@@ -180,7 +174,16 @@ def simulate(request, pk):
                 messages=language_check
             )
             checkLanguage = completion.choices[0].message.content
-            print("Language: " + checkLanguage)
+            if (checkLanguage!=f"{patient.language}"):
+                print(f"Wrong Language: {checkLanguage} != {patient.language}")
+                return JsonResponse({"language": checkLanguage})
+
+            # Virtual Patient
+            initial_prompts.append({"role": json.loads(request.body).get('role'),"content": message})
+            completion = connection.chat.completions.create(model="ft:gpt-3.5-turbo-0125:personal:virtualpatient:9exepl3p", messages=initial_prompts)
+            response = completion.choices[0].message.content
+            print("Patient: " + response)
+            
 
             # Supervisor
             check_pqrst.append({"role": "user","content": response})
@@ -191,7 +194,7 @@ def simulate(request, pk):
             check_response = completion.choices[0].message.content
             print("Supervisor: " + check_response)
         
-            return JsonResponse({"content": response, "supervisor": check_response, "language": checkLanguage})
+            return JsonResponse({"content": response, "supervisor": check_response})
         
         if json.loads(request.body).get('diagnosis') != None:
             Diagnosed.objects.create(user=request.user, patient=patient, conversation=json.loads(request.body).get('conversation'))

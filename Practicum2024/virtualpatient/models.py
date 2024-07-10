@@ -17,7 +17,11 @@ class Patient(models.Model):
     severity = models.CharField(max_length=50, blank=True, null=True)
     timing = models.CharField(max_length=50, blank=True, null=True)
     chief_complaint = models.CharField(max_length=50, blank=True, null=True)
-    language = models.CharField(max_length=50, blank=True, null=True)
+    language = models.CharField(blank=True, max_length=7, choices=[
+        ('English', 'English'),
+        ('Tagalog', 'Tagalog'),
+        ('Taglish', 'Taglish'),
+    ], null=True)
     background = models.CharField(max_length=200, blank=True, null=True)
     family_history = models.CharField(max_length=200, blank=True, null=True)
     lifestyle = models.CharField(max_length=200, blank=True, null=True)
