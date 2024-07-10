@@ -2,11 +2,18 @@
     font-size: 18px;
     letter-spacing: 3px;
     text-align:center;
-    position: absolute;
-    top:200px;
-    left:495px;
+    position:relative;
+    top: 50px;
     color:#e69;
 
+}
+
+.layout{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
 }
 
 form{
@@ -18,11 +25,13 @@ form{
     flex-direction: column;
     justify-content: center;
     align-items: left;
-    position:absolute;
-    top: 175px;
-    left: 425px;
     margin: 4px;
     border-radius: 8px;
+    border:solid;
+    border-radius: 8px;
+    border-bottom: 30px;
+    border-right: 30px;
+    border-color: #036;
 }
 
 .link {
@@ -31,15 +40,4 @@ form{
 }
 
 
-.brdr{
-    background-color: #036;
-    width: 320px;
-    height:270px;
-    padding:10px;
-    display: flex;
-    position:absolute;
-    top:170px;
-    left:420px;
-    border-radius: 8px;
-}
 

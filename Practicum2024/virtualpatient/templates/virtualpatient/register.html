@@ -4,39 +4,38 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'register.css' %}">
-<div class="brdr"></div>
+    <div class = "layout">
+        <div class="h1">CREATE AN ACCOUNT</div>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <br>
+                <br>
+                {{form.username.label}}
+                {{form.username}}
 
+                {{form.email.label}}        
+                {{form.email}}
 
-        <form method="POST" action="">
-            {% csrf_token %}
-            <br>
-            <br>
-            {{form.username.label}}
-            {{form.username}}
-
-            {{form.email.label}}        
-            {{form.email}}
-
-            {{form.password1.label}}
-            {{form.password1}}
+                {{form.password1.label}}
+                {{form.password1}}
             
-            {{form.password2.label}}
-            {{form.password2}}  
-            <label>Group        
-            <select name="group">
-            <option value="teacher">teacher</option>
-            <option value="student">student</option>
-            </select>
-            </label>  
+                {{form.password2.label}}
+                {{form.password2}}  
+                <label>Group        
+                    <select name="group">
+                        <option value="teacher">teacher</option>
+                        <option value="student">student</option>
+                    </select>
+                </label>  
 
-            <input type="submit" name="Create User">
+                <input type="submit" name="Create User">
 
-            <div class="link">
-            <br><a href="{% url 'login' %}">Login</a>
-            </div>        
-        </form>
-    <div class="h1">CREATE AN ACCOUNT</div>
-
+                <div class="link">
+                    <br><a href="{% url 'login' %}">Login</a>
+                </div>        
+            </form>
+        
+    </div>
 
     
     {{form.errors}}

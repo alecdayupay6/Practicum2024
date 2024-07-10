@@ -3,7 +3,8 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'login.css' %}">
-    <div class="brdr"></div>
+<div class="cnt-1">
+<div class = "layout">
     <div class="LoginContent">
         <div class="h1">LOGIN</div>
             <form method="POST" action="">
@@ -18,4 +19,6 @@
         {% endfor %}
         <a href="{% url 'register' %}">Create account</a>
     </div>
+</div>
+</div>
 {% endblock %}
