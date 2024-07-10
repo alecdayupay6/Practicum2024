@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
+from django.contrib.auth.forms import PasswordChangeForm
 from .forms import CreateUserForm, CreatePatientForm
 from .models import Patient, Diagnosed
 from .decorators import unauthenticated_user, allowed_users
@@ -19,7 +20,7 @@ load_dotenv()
 connection = OpenAI()
 
 
-# @unauthenticated_user
+@unauthenticated_user
 def register(request):
     form = CreateUserForm()
     if request.method == 'POST':
@@ -36,7 +37,7 @@ def register(request):
     context = {'form': form, 'is_teacher': request.user.groups.filter(name='teacher').exists()}
     return render(request, 'virtualpatient/register.html', context)
 
-# @unauthenticated_user
+@unauthenticated_user
 def login_(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -55,7 +56,7 @@ def logout_(request):
     logout(request)
     return redirect('login')
 
-# @login_required(login_url='login')
+@login_required(login_url='login')
 def home(request):
     current_patient_id = request.session.get('current_patient_id')
     current_patient = None
@@ -69,7 +70,8 @@ def home(request):
     }
     return render(request, 'virtualpatient/home.html', context)
 
-# @login_required(login_url='login')
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['teacher'])
 def generate(request):
     form = CreatePatientForm()
     if request.method == 'POST':
@@ -81,7 +83,7 @@ def generate(request):
     context = {'form': form, 'is_teacher': request.user.groups.filter(name='teacher').exists()}
     return render(request, 'virtualpatient/generate.html', context)
 
-# @login_required(login_url='login')
+@login_required(login_url='login')
 def select(request):
     patients = Patient.objects.all()
     diagnosed = Patient.objects.filter(id__in=Diagnosed.objects.filter(user=request.user).values('patient'))
@@ -89,7 +91,7 @@ def select(request):
     return render(request, 'virtualpatient/select.html', context)
 
 @csrf_exempt
-#  @login_required(login_url='login')
+@login_required(login_url='login')
 def simulate(request, pk):
     patient = Patient.objects.get(pk=pk)
     initial_prompts = [
@@ -208,12 +210,28 @@ def simulate(request, pk):
     return render(request, 'virtualpatient/simulate.html', context)
     
 
-# @login_required(login_url='login')
+@login_required(login_url='login')
 def profile(request):
     context = {'is_teacher': request.user.groups.filter(name='teacher').exists()}
     return render(request, 'virtualpatient/profile.html', context)
 
-# @login_required(login_url='login')
+@login_required(login_url='login')
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('change_password')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    context = {'form': form, 'is_teacher': request.user.groups.filter(name='teacher').exists()}
+    return render(request, 'virtualpatient/change_password.html', context)
+
+@login_required(login_url='login')
 def faqs(request):
     context = {'is_teacher': request.user.groups.filter(name='teacher').exists()}
     return render(request, 'virtualpatient/faqs.html', context)

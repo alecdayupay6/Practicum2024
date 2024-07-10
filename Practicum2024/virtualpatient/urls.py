@@ -10,5 +10,6 @@ urlpatterns = [
     path('select/', views.select, name='select'),
     path('simulate/<int:pk>/', views.simulate, name='simulate'),
     path('profile/', views.profile, name='profile'),
+    path('change_password/', views.change_password, name='change_password'),
     path('faqs/', views.faqs, name='faqs')
 ]
