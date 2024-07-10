@@ -147,7 +147,23 @@ def simulate(request, pk):
         {"role": "user", "content": f"Hello. My name is {patient.first_name} {patient.last_name}"},
         {"role": "assistant", "content": "None"},
     ]
-    context = {'pk':pk, 'image': f"{patient.image}", 'diagnosed':False, 'is_teacher': request.user.groups.filter(name='teacher').exists()}
+    language_check = [
+        {"role": "system", "content": "Your task is to be able to identify if the user makes use of Tagalog, English, or Taglish. Respond with 'Tagalog','English', or 'Taglish'."},
+        {"role": "user", "content": "What makes the pain worse or better?"},
+        {"role": "assistant", "content": "English"},
+        {"role": "user", "content": "Ano ang nagpapalala o nagpapabuti sa sakit?"},
+        {"role": "assistant", "content": "Tagalog"},
+        {"role": "user", "content": "When did the pain start?"},
+        {"role": "assistant", "content": "English"},
+        {"role": "user", "content": "Kailan nagsimula ang sakit?"},
+        {"role": "assistant", "content": "Tagalog"},
+        {"role": "user", "content": "Ano ang nagpapalala o nagpapabuti sa pain?"},
+        {"role": "assistant", "content": "Taglish"},
+        {"role": "user", "content": "Kailan nagsimula ang pain?"},
+        {"role": "assistant", "content": "Taglish"},
+    ]
+
+    context = {'pk':pk, 'image': f"{patient.image}", 'diagnosed':False, 'is_teacher': request.user.groups.filter(name='teacher').exists(), 'patient_language': f"{patient.language}"}
     if request.method == 'POST':
         message = json.loads(request.body).get('message')
         if message != None:
@@ -157,6 +173,15 @@ def simulate(request, pk):
             response = completion.choices[0].message.content
             print("Patient: " + response)
             
+            #Language Check
+            language_check.append({"role": json.loads(request.body).get('role'),"content": message})
+            completion = connection.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=language_check
+            )
+            checkLanguage = completion.choices[0].message.content
+            print("Language: " + checkLanguage)
+
             # Supervisor
             check_pqrst.append({"role": "user","content": response})
             completion = connection.chat.completions.create(
@@ -165,7 +190,8 @@ def simulate(request, pk):
             )
             check_response = completion.choices[0].message.content
             print("Supervisor: " + check_response)
-            return JsonResponse({"content": response, "supervisor": check_response})
+        
+            return JsonResponse({"content": response, "supervisor": check_response, "language": checkLanguage})
         
         if json.loads(request.body).get('diagnosis') != None:
             Diagnosed.objects.create(user=request.user, patient=patient, conversation=json.loads(request.body).get('conversation'))
