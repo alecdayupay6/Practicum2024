@@ -17,136 +17,161 @@
                         <div class="bot-message"><p class="bot-text">{{ text.content }}</p></div>
                     {% endif %}
                 {% endfor %}
+                <!-- popup-->
+                <div id="language-popup" class="popup-window" style="display: none;">
+                    <div class="popup-content">
+                        <p>The patient does not understand this language. Please use {{ patient_language }}.</p>
+                        <button id="popup-ok-button">OK</button>
+                    </div>
+                </div>
             </div>
             <div class="entry-box">
                 <textarea class="form-control" id="message-input" placeholder="Type your message here"></textarea>
                 <button type="button" id="btn">Send</button>
             </div>
-        </div>     
+        </div>  
     </div>
     <script>
-        const chatBox = document.querySelector(".chat-box");
-        const messageInput = document.querySelector("#message-input");
-        const sendBtn = document.querySelector("#btn");
-        var provocation = false;
-        var quality = false;
-        var region = false;
-        var severity = false;
-        var timing = false;
-        var diagnosis = false;
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatBox = document.querySelector(".chat-box");
+            const messageInput = document.querySelector("#message-input");
+            const sendBtn = document.querySelector("#btn");
+            const popup = document.querySelector("#language-popup");
+            const popOkButton = document.querySelector("#popup-ok-button");
+            const patientLanguage = "{{ patient_language }}";
+            var provocation = false;
+            var quality = false;
+            var region = false;
+            var severity = false;
+            var timing = false;
+            var diagnosis = false;
 
-        function sendMessage() {
-            const message = messageInput.value.trim();
-            if (message !== "") {
-                const messageDiv = document.createElement("div");
-                messageDiv.classList.add("user-message");
-                messageDiv.innerHTML = `<p class="user-text">${message}</p>`;
-                chatBox.appendChild(messageDiv);
-                chatBox.scrollTop = chatBox.scrollHeight;                
-                messageInput.value = "";
-                fetch("/simulate/{{ pk }}/", {
-                    method: "POST",
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({ role: "user", message: message })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    const messageDiv = document.createElement("div");
-                    messageDiv.classList.add("bot-message");
-                    messageDiv.innerHTML = `<p class="bot-text">${data.content}</p>`;
-                    chatBox.appendChild(messageDiv);
-                    chatBox.scrollTop = chatBox.scrollHeight;
+            function sendMessage() {
+                const message = messageInput.value.trim();
+                if (message !== "") {
 
-                    try{
-                        if (data.supervisor.toLowerCase().includes("provocation")){
-                            console.log("provocation");
-                            provocation = true;
+                    fetch("/simulate/{{ pk }}/", {
+                        method: "POST",
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify({ role: "user", message: message })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!data.language.toLowerCase().includes(patientLanguage.toLowerCase())) {
+                            popup.style.display = "block";
+                            messageInput.value = "";
+                            return;
                         }
-                        if (data.supervisor.toLowerCase().includes("quality")){
-                            console.log("quality");
-                            quality = true;
-                        }
-                        if (data.supervisor.toLowerCase().includes("region")){
-                            console.log("region");
-                            region = true;
-                        }
-                        if (data.supervisor.toLowerCase().includes("severity")){
-                            console.log("severity");
-                            severity = true;
-                        }
-                        if (data.supervisor.toLowerCase().includes("timing")){
-                            console.log("timing");
-                            timing = true;
-                        }
-                        if(data.supervisor.toLowerCase().includes("diagnosis")){
-                            console.log("diagnosis");
-                            diagnosis = true;
-                        }
-                    } catch(err) {
-                        console.log("Supervisor Error");
-                    }
-                    console.log(`Provocation: ${provocation}\nQuality: ${quality}\nRegion: ${region}\nSeverity: ${severity}\nTiming: ${timing}`);
-                    if (diagnosis){
-                        messageInput.style.display = "none";
-                        sendBtn.style.display = "none";
-                        chatBox.style.height = "90dvh";
-                        window.onbeforeunload = null;
-                        var texts = document.querySelectorAll(".chat-box>*>*");
-                        conversation = [];
-                        for(i=0;i<texts.length;i++){
-                            if(texts[i].className=="user-text"){
-                                conversation.push({"role": "user", "content" : texts[i].textContent});
-                            }else{
-                                conversation.push({"role": "assistant", "content" : texts[i].textContent});
+
+                        const userMessageDiv = document.createElement("div");
+                        userMessageDiv.classList.add("user-message");
+                        userMessageDiv.innerHTML = `<p class="user-text">${message}</p>`;
+                        chatBox.appendChild(userMessageDiv);
+                        chatBox.scrollTop = chatBox.scrollHeight;                
+                        messageInput.value = "";
+
+                        const botMessageDiv = document.createElement("div");
+                        botMessageDiv.classList.add("bot-message");
+                        botMessageDiv.innerHTML = `<p class="bot-text">${data.content}</p>`;
+                        chatBox.appendChild(botMessageDiv);
+                        chatBox.scrollTop = chatBox.scrollHeight;
+
+                        try{
+                            if (data.supervisor.toLowerCase().includes("provocation")){
+                                console.log("provocation");
+                                provocation = true;
                             }
-                        };
-                        fetch("/simulate/{{ pk }}/", {
-                            method: "POST",
-                            headers: {"Content-Type": "application/json"},
-                            body: JSON.stringify({ diagnosis: diagnosis, conversation: JSON.stringify(conversation) })
-                        })
-                        .catch(error => console.error(error))
-                    } else if (provocation && quality && region && severity && timing){
-                        console.log("diagnose me")
-                        fetch("/simulate/{{ pk }}/", {
-                            method: "POST",
-                            headers: {"Content-Type": "application/json"},
-                            body: JSON.stringify({ role: 'system', message: "Ask for your diagnosis in a short sentence." })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            const messageDiv = document.createElement("div");
-                            messageDiv.classList.add("bot-message");
-                            messageDiv.innerHTML = `<p class="bot-text">${data.content}</p>`;
-                            chatBox.appendChild(messageDiv);
-                            chatBox.scrollTop = chatBox.scrollHeight;                        
-                        })
-                        .catch(error => console.error(error));
-                    }
-                })
-                .catch(error => console.error(error));
+                            if (data.supervisor.toLowerCase().includes("quality")){
+                                console.log("quality");
+                                quality = true;
+                            }
+                            if (data.supervisor.toLowerCase().includes("region")){
+                                console.log("region");
+                                region = true;
+                            }
+                            if (data.supervisor.toLowerCase().includes("severity")){
+                                console.log("severity");
+                                severity = true;
+                            }
+                            if (data.supervisor.toLowerCase().includes("timing")){
+                                console.log("timing");
+                                timing = true;
+                            }
+                            if(data.supervisor.toLowerCase().includes("diagnosis")){
+                                console.log("diagnosis");
+                                diagnosis = true;
+                            }
+                        } catch(err) {
+                            console.log("Supervisor Error");
+                        }
+                        console.log(`Provocation: ${provocation}\nQuality: ${quality}\nRegion: ${region}\nSeverity: ${severity}\nTiming: ${timing}`);
+                        if (diagnosis){
+                            messageInput.style.display = "none";
+                            sendBtn.style.display = "none";
+                            chatBox.style.height = "90dvh";
+                            window.onbeforeunload = null;
+                            var texts = document.querySelectorAll(".chat-box>*>*");
+                            conversation = [];
+                            for(i=0;i<texts.length;i++){
+                                if(texts[i].className=="user-text"){
+                                    conversation.push({"role": "user", "content" : texts[i].textContent});
+                                }else{
+                                    conversation.push({"role": "assistant", "content" : texts[i].textContent});
+                                }
+                            };
+                            fetch("/simulate/{{ pk }}/", {
+                                method: "POST",
+                                headers: {"Content-Type": "application/json"},
+                                body: JSON.stringify({ diagnosis: diagnosis, conversation: JSON.stringify(conversation) })
+                            })
+                            .catch(error => console.error(error))
+                        } else if (provocation && quality && region && severity && timing){
+                            console.log("diagnose me")
+                            fetch("/simulate/{{ pk }}/", {
+                                method: "POST",
+                                headers: {"Content-Type": "application/json"},
+                                body: JSON.stringify({ role: 'system', message: "Ask for your diagnosis in a short sentence." })
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                const messageDiv = document.createElement("div");
+                                messageDiv.classList.add("bot-message");
+                                messageDiv.innerHTML = `<p class="bot-text">${data.content}</p>`;
+                                chatBox.appendChild(messageDiv);
+                                chatBox.scrollTop = chatBox.scrollHeight;                        
+                            })
+                            .catch(error => console.error(error));
+                        }
+                    })
+                    .catch(error => console.error(error));
+                }
             }
-        }
 
-        window.onbeforeunload = function(event){
-            event.returnValue = "Since you haven't diagnosed the patient, your progress will be lost. Are you sure you want to leave the page?";
-        };
-        sendBtn.addEventListener("click", sendMessage);
-        messageInput.addEventListener("keydown", event => {
-            if (event.keyCode === 13 && !event.shiftKey) {
-                event.preventDefault();
-                sendMessage();
+            window.onbeforeunload = function(event){
+                event.returnValue = "Since you haven't diagnosed the patient, your progress will be lost. Are you sure you want to leave the page?";
+            };
+            sendBtn.addEventListener("click", sendMessage);
+            messageInput.addEventListener("keydown", event => {
+                if (event.keyCode === 13 && !event.shiftKey) {
+                    event.preventDefault();
+                    sendMessage();
+                }
+            });
+
+            popOkButton.addEventListener("click", () => {
+                popup.style.display = "none";
+                messageInput.value = "";
+            });
+
+            if ('{{diagnosed}}'=="True"){
+                console.log("Already diagnosed");
+                diagnosis = true;          
+                messageInput.style.display = "none";
+                sendBtn.style.display = "none";
+                chatBox.style.height = "90dvh";
+                window.onbeforeunload = null;
             }
         });
-
-        if ('{{diagnosed}}'=="True"){
-            console.log("Already diagnosed");
-            diagnosis = true;          
-            messageInput.style.display = "none";
-            sendBtn.style.display = "none";
-            chatBox.style.height = "90dvh";
-            window.onbeforeunload = null;
-        }
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
