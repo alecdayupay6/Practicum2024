@@ -1,61 +1,114 @@
 .cnt-1{
+    height: 50svh;
+    display: grid;
+    place-items: center;
+    container-type: inline-size;
+}
+
+form{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 100px;
-}
-.h1{
-    font-size: 20px;
-    letter-spacing: 3px;
-    text-align:center;
-    position: relative;
-    color:#e69;
-
-}
-
-.LoginContent{
+    justify-content: center;
+    margin-top: 3svh;
+    border-radius: 1svh;
+    padding: 3svh;
+    height: clamp(0px, 32svh, 400px);
+    aspect-ratio: 8/7;
     background-color: #fafafa;
-    width: 300px;
-    height:200px;
-    padding:10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: left;
-    border:solid;
-    border-radius: 8px;
-    border-bottom: 20px;
-    border-right: 20px;
-    border-color: #036;
+    container-type: inline-size;
+    overflow-y: hidden;
 }
 
-.layout {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.h1{
+    font-size: 8cqi;
+    letter-spacing: 1cqi;
+    text-align:center;
+    color:#e69;
+    margin-bottom: 6cqi;
 }
 
-
-form{    
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items:left;
+input:focus{
+    outline: none;
+    border: solid 0.125rem #036;
 }
 
 input{
-    margin:10px;
+    margin-bottom:3cqi;
+    border: solid 0.1rem #036;
     border-radius: 8px;
-    font-size: 15px;
-    padding: 3px;
+    padding: 2cqi;
+    font-size: 6cqi;
+    color: #036;
 }
 
-a:link { text-decoration: none; }
+
+.cnt-2{
+    font-size: 5cqi;
+    color: #036;
+    display: block;
+    position: relative;
+    cursor: pointer;
+}
+
+.checkbox {
+    display: none;
+}
+
+.checkmark {
+    position: absolute;
+    border-radius: 1.5cqi;
+    margin-left: 3cqi;
+    height: 6cqi;
+    width: 6cqi;
+    background-color: #eee;
+}
+
+.cnt-2 input:checked ~ .checkmark {
+    background-color: #036;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.cnt-2 input:checked ~ .checkmark:after{
+    display: block;
+}
+
+.cnt-2 .checkmark:after{
+    left: 2cqi;
+    top: 1.5cqi;
+    width: 1cqi;
+    height: 2cqi;
+    border: solid 1cqi #fafafa;
+    border-width: 0 1cqi 1cqi 0;
+    transform: rotate(45deg);
+}
+
+.submit{
+    border: 2px solid #e69;
+    border-radius: 100svw;
+    background:#e69;
+    color:#fafafa;
+    margin-top: 10px;
+}
+
+p {
+    font-size: 5cqi;
+    color: #036;
+}
+
+a:link { text-decoration: underline; }
 a:visited { text-decoration: none; }
 a:hover { text-decoration: underline; }
 a:active { text-decoration: underline; }
 
 a{
-    color:#e69;
-    text-align: left;
+    color:#036;
+    margin: 0px 0px 0px 5px;
+    padding: 1svh 0px 2svh 0px;
+    background: none;
+    font-size: 5cqi;
 }

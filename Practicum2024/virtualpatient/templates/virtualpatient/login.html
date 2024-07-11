@@ -1,24 +1,40 @@
-{% extends 'virtualpatient/base.html' %}
-{% load static %}
-
-{% block content %}
-<link rel="stylesheet" href="{% static 'login.css' %}">
-<div class="cnt-1">
-<div class = "layout">
-    <div class="LoginContent">
-        <div class="h1">LOGIN</div>
-            <form method="POST" action="">
-                {% csrf_token %}
-                <input name="username" placeholder="Username">
-                <input name="password" placeholder="Password">
-                <input type="submit" name="Login User">
-            </form>
-
-        {% for message in messages%}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Virtual Patient</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'base.css' %}">
+        <link rel="stylesheet" href="{% static 'login.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    </head>
+    <div class="cnt-1">
+        <form method="POST" action="">
+            <div class="h1">LOGIN</div>
+            {% csrf_token %}
+            <input name="username" placeholder="USERNAME">
+            <input name="password" type="password" id="password" placeholder="PASSWORD">
+            <label class="cnt-2">SHOW PASSWORD
+                <input class="checkbox" type="checkbox" onclick="showPassword()">
+                <span class="checkmark"></span>
+            </label>
+            <input class="submit" type="submit" name="Login User" value="SUBMIT">
+            {% for message in messages%}
             <p>{{message}}</p>
-        {% endfor %}
-        <a href="{% url 'register' %}">Create account</a>
+            {% endfor %}
+            <a href="{% url 'register' %}">Create account</a>
+        </form>
     </div>
-</div>
-</div>
-{% endblock %}
+
+    <script>
+        function showPassword() {
+            var password = document.getElementById("password");
+            if (password.type === "password") {
+                password.type = "text";
+            } else {
+                password.type = "password";
+            }
+        }
+    </script>
+</html>
