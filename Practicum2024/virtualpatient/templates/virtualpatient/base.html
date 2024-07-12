@@ -12,14 +12,14 @@
     <body>
         <div class="header">
             <div class="hdr-1">
-                <a href="{% url 'home' %}">Virtual Patient</a>
+                <a href="{% url 'home' %}">Home</a>
                 {% if is_teacher %}
-                <a href="{% url 'generate' %}">Patient Generation</a>
+                <a href="{% url 'generate' %}">Generation</a>
                 {% endif %}
-                <a href="{% url 'select' %}">Patient Selection</a>
+                <a href="{% url 'select' %}">Selection</a>
                 <a href="{% url 'faqs' %}" >FAQs</a>
             </div>
-            <div class="hdr-1">
+            <div class="hdr-2">
                 <a href="{% url 'profile' %}" >{{request.user}}</a>
                 
             </div>
