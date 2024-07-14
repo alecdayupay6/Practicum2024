@@ -7,25 +7,26 @@
         <form method="POST" action="">
             {% csrf_token %}
             <img alt="clip" src="/static/images/clip.png" class="clip">
-
+            <div class="h1">PATIENT GENERATION</div>
             <table>
                 {% for field in form %}
-                {% if field.name != 'image' %}
-                <tr>
-                    <td>{{ field.label }}:</td>
-                    <td class="field">{{ field }}</td>
-                </tr>
-                {% endif %}
+                    {% if field.name == 'created_by' %}
+                    <div class="created_by">{{ field }}</div>
+                    {% elif field.name != 'image' %}
+                    <tr>
+                        <td>{{ field.label }}:</td>
+                        <td class="field">{{ field }}</td>
+                    </tr>
+                    {% endif %}
                 {% endfor %}
-                <tr>
-                    <td></td>
-                    <td><input id="btn" type="submit" name="Create Patient"></td>
-                </tr>
             </table>
+            <input id="btn" type="submit" value="SUBMIT">
+            {% for message in messages %}
+                <p>{{message}}</p>
+            {% endfor %}
         </form>
     </div>
-
-    {% for message in messages %}
-        <p>{{message}}</p>
-    {% endfor %}
+    <script>
+        document.getElementById("id_created_by").value = "{{request.user.pk}}";
+    </script>
 {% endblock %}

@@ -3,27 +3,30 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'select.css' %}">
-    <div class="cnt-1">
-        {% for patient in patients %}
-            <div class="patient">
-                <div class="details">
-                    <div>
+<div class="cnt-1">
+    <div class="cnt-2">
+        <div class="h1">PATIENT SELECTION</div>
+        <div class="cnt-3">
+            {% for patient in patients %}
+                <div class="patient">
+                    <div class="details">
                         <img alt="user" src="/static/{{patient.image}}/" class="user">
+                        <div>
+                            <p>{{patient.last_name}}, {{patient.first_name}}</p>
+                            <p>Age: {{patient.age}}</p>
+                            <p>Gender: {{patient.sex}}</p>
+                            <p>Language: {{patient.language}}</p>
+                            <p>Teacher: {{patient.created_by}}</p>
+                        </div>
                     </div>
-                    <div>
-                        <p>{{patient.last_name}}, {{patient.first_name}}</p>
-                        <p>Age: {{patient.age}}</p>
-                        <p>Gender: {{patient.sex}}</p>
-                        <p>Language: {{patient.language}}</p>
-                        <p>Teacher: {{patient.created_by}}</p>
-                    </div>
+                    {% if patient in diagnosed %}
+                        <a class="btn" href="{% url 'simulate' pk=patient.pk %}">VIEW CONVERSATION</a>
+                    {% else %}                    
+                        <a class="btn" href="{% url 'simulate' pk=patient.pk %}">SIMULATE PATIENT</a>
+                    {% endif %}
                 </div>
-                {% if patient in diagnosed %}
-                    <a class="btn" href="{% url 'simulate' pk=patient.pk %}">VIEW CONVERSATION</a>
-                {% else %}                    
-                    <a class="btn" href="{% url 'simulate' pk=patient.pk %}">SIMULATE PATIENT</a>
-                {% endif %}
-            </div>
-        {% endfor %}
-    </div>
+            {% endfor %}
+        </div>
+    </div>  
+</div>
 {% endblock %}

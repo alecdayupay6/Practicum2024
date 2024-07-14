@@ -2,5 +2,92 @@
 {% load static %}
 
 {% block content %}
-    <h1>FAQs</h1>
+<link rel="stylesheet" href="{% static 'faqs.css' %}">
+<div class="cnt-1">
+    <div class="cnt-2">
+        <div class="h1">FREQUENTLY ASKED QUESTIONS</div>
+        <div class="cnt-3">
+            <div class="h2">Account Creation/Login</div>
+            <video src="/static/videos/demo.mp4" controls></video>
+            <ul class="cnt-4">
+                <li>
+                    <div class="q">
+                        <span class="arrow"></span>
+                        <span>What?</span>
+                    </div>
+                    <div class="a">
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Maiores earum ullam tempore aspernatur esse neque quae numquam accusamus inventore, ad, ipsam modi atque rerum explicabo, repellat reprehenderit dolorum doloribus voluptatibus!</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="q">
+                        <span class="arrow"></span>
+                        <span>What?</span>
+                    </div>
+                    <div class="a">
+                        <p>Yes!</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="cnt-3">
+            <div class="h2">Patient Generation/Selection</div>
+            <video src="/static/videos/demo.mp4" controls></video>
+            <ul class="cnt-4">
+                <li>
+                    <div class="q">
+                        <span class="arrow"></span>
+                        <span>What?</span>
+                    </div>
+                    <div class="a">
+                        <p>Yes!</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="cnt-3">
+            <div class="h2">Patient Simulation</div>
+            <video src="/static/videos/demo.mp4" controls></video>
+            <ul class="cnt-4">
+                <li>
+                    <div class="q">
+                        <span class="arrow"></span>
+                        <span>What?</span>
+                    </div>
+                    <div class="a">
+                        <p>Yes!</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="cnt-3">
+            <div class="h2">Miscellaneous</div>
+            <video src="/static/videos/demo.mp4" controls></video>
+            <ul class="cnt-4">
+                <li>
+                    <div class="q">
+                        <span class="arrow"></span>
+                        <span>What?</span>
+                    </div>
+                    <div class="a">
+                        <p>Yes!</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    const q = document.querySelectorAll('.q');
+    const a = document.querySelectorAll('.a');
+    const arr = document.querySelectorAll('.arrow');
+    for(let i=0; i<q.length; i++){
+        q[i].addEventListener('click', () => {
+            a[i].classList.toggle('a-opened');
+            arr[i].classList.toggle('arrow-rotated');
+        });
+    }
+
+</script>
+
 {% endblock %}

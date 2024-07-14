@@ -5,11 +5,11 @@
 <link rel="stylesheet" href="{% static 'profile.css' %}">
 <div class="cnt-1">
     <div class="cnt-2">
-        <div class="h1">Profile Settings</div>
-        <div class="h2">Name: {{request.user}}</div>
-        <div class="h2">Email: {{request.user.email}}</div>
-        <a class="btn" href="{% url 'change_password' %}">Change Password</a>
-        <a class="btn" href="{% url 'logout' %}">Logout</a>
+        <div class="h1">PROFILE SETTINGS</div>
+        <div class="h2">NAME : {{request.user}}</div>
+        <div class="h2">EMAIL : {{request.user.email}}</div>
+        <a class="btn" href="{% url 'change_password' %}">CHANGE PASSWORD</a>
+        <a class="btn" href="{% url 'logout' %}">LOGOUT</a>
     </div>
         
 </div>  

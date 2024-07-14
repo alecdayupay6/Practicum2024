@@ -11,23 +11,32 @@ form{
     flex-direction: column;
     align-items: center;
     border: solid;
-    border-width: 60px;
+    border-width: min(8svw, 4rem);
     border-radius: 20px;
     border-color: #036;
-    width: 600px;
+    width: min(80svw, 1000px);
     background: #fafafa;
     color: #036;
 }
 
 img{
     position: absolute;
-    top: -58px;
-    width: 500px;
+    top: max(-8svw, -4rem);
+    width: min(40rem, 80%);
+}
+
+.h1{
+    align-self: center;
+    margin: min(10rem, 10cqi) 0 1cqi 0;    
+    font-size: min(5svw, 3rem);    
+    letter-spacing: min(0.5svw, 0.5rem);
+    color:#e69;
 }
 
 table{
-    margin: 0px 20px;
-    margin-top: 100px;
+    margin: 0px min(3svw, 1.5rem);
+    width: 80%;
+    font-size: min(3svw, 1.5rem);
 }
 
 .field{
@@ -36,14 +45,21 @@ table{
     align-items: center;
 }
 
+input:focus, select:focus, textarea:focus, #btn:focus {
+    outline: none;
+    border: solid 0.125rem #036;
+}
+
 input, select, textarea{
-    padding: 12px;
-    border: 1px solid #fafafa;
+    padding: min(2svw, 1rem);
+    border: solid 0.1rem #036;
     border-radius: 20px;
     background-color: #eee;
-    margin: 8px 0;
+    margin: min(1svw, 0.5rem) 0;
     width: 90%;
-    box-sizing: border-box;
+    box-sizing: border-box;    
+    font-size: min(3svw, 1.5rem);
+    color: #036;
 }
 
 textarea{
@@ -52,11 +68,21 @@ textarea{
 }
 
 #btn{
-    margin: 10px;
-    border: 1px solid #fafafa;
+    margin: 1cqi;
+    border: solid 0.125rem #fafafa;
     border-radius: 30px;
-    padding: 10px;
-    width: 200px;
-    background: #036;
+    padding: 0.5rem min(6svw, 3rem);
+    font-size: min(3svw, 1.5rem);
+    width: fit-content;
+    background: #e69;
     color: #fafafa;
+}
+
+p{
+    font-size: 5cqi;
+    color: #036;
+}
+
+.created_by{
+    display: none;
 }

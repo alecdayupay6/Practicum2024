@@ -78,8 +78,32 @@ def generate(request):
         form = CreatePatientForm(request.POST)
         if form.is_valid():
             patient = form.save()
-            messages.success(request, 'Patient ' + patient.__str__() + ' has been successfully generated.')
-            return redirect('generate')
+            if patient.sex == "Male":
+                if patient.age < 10:   #M0-10
+                    patient.image = "images/gpt.jpg/"
+                elif patient.age < 20: #M10-20
+                    patient.image = "images/gpt.jpg/"
+                elif patient.age < 40: #M20-40              
+                    patient.image = "images/gpt.jpg/"
+                elif patient.age < 60: #M40-60
+                    patient.image = "images/simulation.png/"
+                else:                  #M60+
+                    patient.image = "images/gpt.jpg/"
+            else:
+                if patient.age < 10:   #F0-10
+                    patient.image = "images/gpt.jpg/"
+                elif patient.age < 20: #F10-20
+                    patient.image = "images/gpt.jpg/"
+                elif patient.age < 40: #F20-40              
+                    patient.image = "images/stand-in home.png/"
+                elif patient.age < 60: #F40-60
+                    patient.image = "images/gpt.jpg/"
+                else:                  #F60+
+                    patient.image = "images/gpt.jpg/"
+            patient.save()
+            return redirect('select')        
+        else:
+            messages.error(request, 'Invalid input.')
     context = {'form': form, 'is_teacher': request.user.groups.filter(name='teacher').exists()}
     return render(request, 'virtualpatient/generate.html', context)
 
@@ -222,10 +246,9 @@ def change_password(request):
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)
-            messages.success(request, 'Your password was successfully updated!')
-            return redirect('change_password')
+            return redirect('profile')
         else:
-            messages.error(request, 'Please correct the error below.')
+            messages.error(request, 'Invalid input.')
     else:
         form = PasswordChangeForm(request.user)
     context = {'form': form, 'is_teacher': request.user.groups.filter(name='teacher').exists()}

@@ -1,10 +1,36 @@
 .cnt-1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.cnt-2{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin: 4rem;
+    border: solid #036 min(0.5rem, 0.5svw);
+    border-radius: 1rem;
+    padding: 3svw;
+    width: 80svw;
+    background: #fafafa;
+}
+
+.h1{
+    align-self: center;
+    font-size: min(5svw, 3rem);    
+    letter-spacing: min(0.5svw, 0.5rem);
+    color:#e69;
+    margin-bottom: 2cqi;    
+}
+
+.cnt-3{
     display:grid;
     justify-content: space-around;
     grid-template-columns: repeat(auto-fill, 300px);
-    row-gap: 50px;
-    column-gap:25px;
-    margin:50px;
+    row-gap: min(4rem, 20svw);
+    column-gap: 25px;
 }
 
 .patient{
@@ -12,34 +38,42 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    height:220px;
+    width: min(330px, 80svw);
 }
 
 .details{
     display:flex;
     flex-direction:row;
     align-items: center;
-    border:2px solid #e69;
+    border: solid #036 min(0.20rem, 0.25svw);
     border-radius:10px;
-    padding:10px;
-    width:300px;
-    background: #fafafa;
+    padding: min(0.75rem, 3svw) min(0.5rem, 2svw);
+    background: #eeeeee;    
+    font-size: min(3svw, 1rem);
+    color: #036;
 }
 
 img{
-    margin: 10px;
-    border-radius: 100px;     
+    margin-right: min(0.75rem, 3svw);
+    border-radius: 100px;
+    background: rgba(1, 1, 1, 0.1);
+    height: min(20cqi, 100px);
     object-fit: cover;
-    height: 100px;
-    width:100px;
+    aspect-ratio: 1;
+}
+
+.btn:focus{
+    outline: none;
+    border: solid 0.125rem #036;
 }
 
 .btn{
-    padding: 10px;
-    border-radius:70px;
-    width: 170px;
-    background: #fafafa;
-    text-align: center;
-    color: #e69;
-    font-size: 1rem;
+    margin: 1cqi;    
+    border: solid 0.125rem #fafafa;
+    border-radius: 30px;
+    padding: 0.75rem;
+    width: fit-content;
+    background: #e69;    
+    font-size: min(1rem, 5svw);
+    color: #fafafa;
 }
