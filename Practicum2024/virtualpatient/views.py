@@ -200,13 +200,13 @@ def simulate(request, pk):
                 messages=language_check
             )
             checkLanguage = completion.choices[0].message.content
-            if (checkLanguage!=f"{patient.language}"):
-                print(f"Wrong Language: {checkLanguage} != {patient.language}")
+            if checkLanguage not in patient.language:
+                print(f"Wrong Language: {checkLanguage} not in {patient.language}")
                 return JsonResponse({"language": checkLanguage})
 
             # Virtual Patient
             initial_prompts.append({"role": json.loads(request.body).get('role'),"content": message})
-            completion = connection.chat.completions.create(model="ft:gpt-3.5-turbo-0125:personal:virtualpatient:9exepl3p", messages=initial_prompts)
+            completion = connection.chat.completions.create(model="ft:gpt-3.5-turbo-0125:personal:virtualpatientv2:9kCYhsfO", messages=initial_prompts)
             response = completion.choices[0].message.content
             print("Patient: " + response)
             
