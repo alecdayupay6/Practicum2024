@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-sizing: border-box;
 }
 
 .cnt-2{
@@ -18,17 +17,17 @@
 }
 
 .h1{
+    margin-bottom: 2cqi;
     align-self: center;
-    font-size: min(5svw, 3rem);    
+    font-size: min(5svw, 3rem);
     letter-spacing: min(0.5svw, 0.5rem);
     color:#e69;
-    margin-bottom: 2cqi;    
 }
 
 .cnt-3{
     display:grid;
-    justify-content: space-around;
     grid-template-columns: repeat(auto-fill, 300px);
+    justify-content: space-around;
     row-gap: min(4rem, 20svw);
     column-gap: 25px;
 }
@@ -36,8 +35,8 @@
 .patient{
     display:flex;
     flex-direction: column;
-    justify-content: space-around;
     align-items: center;
+    justify-content: space-around;
     width: min(330px, 80svw);
 }
 
@@ -48,7 +47,7 @@
     border: solid #036 min(0.20rem, 0.25svw);
     border-radius:10px;
     padding: min(0.75rem, 3svw) min(0.5rem, 2svw);
-    background: #eeeeee;    
+    background: #eee;
     font-size: min(3svw, 1rem);
     color: #036;
 }
@@ -56,24 +55,24 @@
 img{
     margin-right: min(0.75rem, 3svw);
     border-radius: 100px;
-    background: rgba(1, 1, 1, 0.1);
     height: min(20cqi, 100px);
-    object-fit: cover;
     aspect-ratio: 1;
+    background: rgba(1, 1, 1, 0.1);
+    object-fit: cover;
 }
 
-.btn:focus{
-    outline: none;
+.btn:focus, .btn:active, .btn:hover{
     border: solid 0.125rem #036;
 }
 
 .btn{
-    margin: 1cqi;    
+    margin: 1cqi;
     border: solid 0.125rem #fafafa;
     border-radius: 30px;
     padding: 0.75rem;
     width: fit-content;
-    background: #e69;    
+    background: #e69;
     font-size: min(1rem, 5svw);
     color: #fafafa;
+    text-decoration: none;
 }

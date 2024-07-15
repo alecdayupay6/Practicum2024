@@ -3,34 +3,32 @@
 
 {% block content %}
 <link rel="stylesheet" type="text/css" href="{% static 'simulate.css' %}">
-<body>
-    <div class="cnt-1">        
-        <div>
-            <img alt='bot-icon' src="/static/{{image}}/" class="bot-icon">
-        </div>
-        <div class="cnt-2">
-            <div class="chat-box">
-                {% for text in conversation %}
-                    {% if text.role == "user" %}
-                        <div class="user-message"><p class="user-text">{{ text.content }}</p></div>
-                    {% elif text.role == "assistant" %}
-                        <div class="bot-message"><p class="bot-text">{{ text.content }}</p></div>
-                    {% endif %}
-                {% endfor %}
-                <!-- popup-->
-                <div id="language-popup" class="popup-window">
-                    <div class="popup-content">
-                        <p>The patient does not understand this language. Please use {{ patient_language }}.</p>
-                        <button id="popup-ok-button">OK</button>
-                    </div>
+<div class="cnt-1">
+    <div>
+        <img alt='bot-icon' src="/static/{{image}}/" class="bot-icon">
+    </div>
+    <div class="cnt-2">
+        <div class="chat-box">
+            {% for text in conversation %}
+                {% if text.role == "user" %}
+                    <div class="user-message"><p class="user-text">{{ text.content }}</p></div>
+                {% elif text.role == "assistant" %}
+                    <div class="bot-message"><p class="bot-text">{{ text.content }}</p></div>
+                {% endif %}
+            {% endfor %}
+            <div id="language-popup" class="popup-window">
+                <div class="popup-content">
+                    <p>The patient does not understand this language. Please use {{ patient_language }}.</p>
+                    <button id="popup-ok-button">OK</button>
                 </div>
             </div>
-            <div class="entry-box">
-                <textarea class="form-control" id="message-input" placeholder="Type your message here"></textarea>
-                <button type="button" id="btn">Send</button>
-            </div>
-        </div>  
+        </div>
+        <div class="entry-box">
+            <textarea class="form-control" id="message-input" placeholder="Type your message here"></textarea>
+            <button type="button" id="btn">Send</button>
+        </div>
     </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const chatBox = document.querySelector(".chat-box");
@@ -45,11 +43,12 @@
             var severity = false;
             var timing = false;
             var diagnosis = false;
-
+    
             function sendMessage() {
                 const message = messageInput.value.trim();
-                if (message !== "") {
+                if (message !== "") {    
 
+                    // Send message to views.py
                     fetch("/simulate/{{ pk }}/", {
                         method: "POST",
                         headers: {"Content-Type": "application/json"},
@@ -57,12 +56,15 @@
                     })
                     .then(response => response.json())
                     .then(data => {
+
+                        // Popup Wrong Language
                         if (data.language) {
                             popup.style.display = "block";
                             messageInput.value = "";
                             return;
                         }
 
+                        // Display User Message
                         const userMessageDiv = document.createElement("div");
                         userMessageDiv.classList.add("user-message");
                         userMessageDiv.innerHTML = `<p class="user-text">${message}</p>`;
@@ -70,12 +72,14 @@
                         chatBox.scrollTop = chatBox.scrollHeight;                
                         messageInput.value = "";
 
+                        // Display Bot Message    
                         const botMessageDiv = document.createElement("div");
                         botMessageDiv.classList.add("bot-message");
                         botMessageDiv.innerHTML = `<p class="bot-text">${data.content}</p>`;
                         chatBox.appendChild(botMessageDiv);
                         chatBox.scrollTop = chatBox.scrollHeight;
 
+                        // Check PQRST and Diagnosis
                         try{
                             if (data.supervisor.toLowerCase().includes("provocation")){
                                 console.log("provocation");
@@ -105,7 +109,9 @@
                             console.log("Supervisor Error");
                         }
                         console.log(`Provocation: ${provocation}\nQuality: ${quality}\nRegion: ${region}\nSeverity: ${severity}\nTiming: ${timing}`);
+
                         if (diagnosis){
+                            // End and Save Conversation
                             messageInput.style.display = "none";
                             sendBtn.style.display = "none";
                             chatBox.style.height = "90dvh";
@@ -119,14 +125,16 @@
                                     conversation.push({"role": "assistant", "content" : texts[i].textContent});
                                 }
                             };
+                            // Send conversation to views.py
                             fetch("/simulate/{{ pk }}/", {
                                 method: "POST",
                                 headers: {"Content-Type": "application/json"},
                                 body: JSON.stringify({ diagnosis: diagnosis, conversation: JSON.stringify(conversation) })
                             })
                             .catch(error => console.error(error))
+
                         } else if (provocation && quality && region && severity && timing){
-                            console.log("diagnose me")
+                            // Send diagnose-me to views.py
                             fetch("/simulate/{{ pk }}/", {
                                 method: "POST",
                                 headers: {"Content-Type": "application/json"},
@@ -134,6 +142,7 @@
                             })
                             .then(response => response.json())
                             .then(data => {
+                                // Display Bot Message
                                 const messageDiv = document.createElement("div");
                                 messageDiv.classList.add("bot-message");
                                 messageDiv.innerHTML = `<p class="bot-text">${data.content}</p>`;
@@ -147,9 +156,12 @@
                 }
             }
 
+            // Leave Site Popup
             window.onbeforeunload = function(event){
-                event.returnValue = "Since you haven't diagnosed the patient, your progress will be lost. Are you sure you want to leave the page?";
+                event.returnValue = "?";
             };
+
+            // Send Button
             sendBtn.addEventListener("click", sendMessage);
             messageInput.addEventListener("keydown", event => {
                 if (event.keyCode === 13 && !event.shiftKey) {
@@ -158,11 +170,13 @@
                 }
             });
 
+            // Popup Button    
             popOkButton.addEventListener("click", () => {
                 popup.style.display = "none";
                 messageInput.value = "";
             });
 
+            // Check Diagnosed
             if ('{{diagnosed}}'=="True"){
                 console.log("Already diagnosed");
                 diagnosis = true;          
@@ -173,9 +187,5 @@
             }
         });
     </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-</body>
+</div>
 {% endblock %}

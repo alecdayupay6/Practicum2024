@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="{% static 'base.css' %}">
         <link rel="stylesheet" href="{% static 'register.css' %}">
     </head>
+    
     <div class="cnt-1">
         <form method="POST" action="">
             <div class="h1">CREATE ACCOUNT</div>
@@ -21,13 +22,15 @@
                     <option value="teacher">Teacher</option>
                     <option value="student">Student</option>
                 </select>
-            </label>              
+            </label>
             <input class="submit" type="submit" name="Create User" value="SUBMIT">
             {{form.errors}}
             <a href="{% url 'login' %}">Login</a>
-        </form>        
+        </form>
     </div>
+
     <script>
+        // Add Placeholders
         var form_fields = document.getElementsByTagName('input')
         form_fields[1].placeholder='USERNAME';
         form_fields[2].placeholder='EMAIL';

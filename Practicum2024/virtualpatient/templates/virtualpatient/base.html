@@ -8,19 +8,18 @@
         <link rel="stylesheet" href="{% static 'base.css' %}">
     </head>
 
-    
     <body>
         <div class="header">
             <div class="hdr-1">
-                <a href="{% url 'home' %}">Home</a>
+                <a class="nav" href="{% url 'home' %}">HOME</a>
                 {% if is_teacher %}
-                <a href="{% url 'generate' %}">Generation</a>
+                <a class="nav" href="{% url 'generate' %}">GENERATE</a>
                 {% endif %}
-                <a href="{% url 'select' %}">Selection</a>
-                <a href="{% url 'faqs' %}" >FAQs</a>
+                <a class="nav" href="{% url 'select' %}">SELECT</a>
+                <a class="nav" href="{% url 'faqs' %}" >FAQS</a>
             </div>
             <div class="hdr-2">
-                <a href="{% url 'profile' %}" >{{request.user}}</a>
+                <a class="nav" href="{% url 'profile' %}" >{{request.user}}</a>
                 
             </div>
         </div>

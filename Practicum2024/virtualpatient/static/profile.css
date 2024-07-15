@@ -8,8 +8,8 @@
 .cnt-2{
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     margin-top: 12svh;
     border: solid min(0.5rem, 0.5svw) #036;
     border-radius: 1svh;
@@ -17,15 +17,15 @@
     width: min(500px, 70svw);
     aspect-ratio: 3/2;
     background-color: #fafafa;
-    container-type: inline-size;
     overflow-y: hidden;
+    container-type: inline-size;
 }
 
 .h1{
-    letter-spacing: 1cqi;
+    margin-bottom: 6cqi;
     font-size: 8cqi;
+    letter-spacing: 1cqi;
     color:#e69;
-    margin-bottom: 6cqi;    
 }
 
 
@@ -37,13 +37,18 @@
     color: #036;
 }
 
+.btn:focus, .btn:active, .btn:hover{
+    border: solid 0.125rem #036;
+}
+
 .btn{
     margin: 1cqi;
-    border: 1px solid #fafafa;
+    border: solid 0.125rem #fafafa;
     border-radius: 30px;
     padding: 3cqi;
     width: fit-content;
-    background: #e69;    
+    background: #e69;
     font-size: 4cqi;
     color: #fafafa;
+    text-decoration: none;
 }

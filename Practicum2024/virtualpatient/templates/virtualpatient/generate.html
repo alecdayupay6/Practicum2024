@@ -3,30 +3,33 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'generate.css' %}">
-    <div class="cnt-1">
-        <form method="POST" action="">
-            {% csrf_token %}
-            <img alt="clip" src="/static/images/clip.png" class="clip">
-            <div class="h1">PATIENT GENERATION</div>
-            <table>
-                {% for field in form %}
-                    {% if field.name == 'created_by' %}
-                    <div class="created_by">{{ field }}</div>
-                    {% elif field.name != 'image' %}
-                    <tr>
-                        <td>{{ field.label }}:</td>
-                        <td class="field">{{ field }}</td>
-                    </tr>
-                    {% endif %}
-                {% endfor %}
-            </table>
-            <input id="btn" type="submit" value="SUBMIT">
-            {% for message in messages %}
-                <p>{{message}}</p>
+<div class="cnt-1">
+    <form method="POST" action="">
+        {% csrf_token %}
+        <img alt="clip" src="/static/images/clip.png">
+        <div class="h1">PATIENT GENERATION</div>
+        <table>
+            {% for field in form %}
+                {% if field.name == 'created_by' %}
+                <div class="created_by">{{ field }}</div>
+                {% elif field.name != 'image' %}
+                <tr>
+                    <td>{{ field.label }}:</td>
+                    <td class="field">{{ field }}</td>
+                </tr>
+                {% endif %}
             {% endfor %}
-        </form>
-    </div>
+        </table>
+        <input id="btn" type="submit" value="SUBMIT">
+        {% for message in messages %}
+            <p>{{message}}</p>
+        {% endfor %}
+    </form>
+
     <script>
+        // Created by Current User
         document.getElementById("id_created_by").value = "{{request.user.pk}}";
     </script>
+</div>
+    
 {% endblock %}

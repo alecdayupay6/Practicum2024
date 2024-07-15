@@ -7,8 +7,8 @@
         {% load static %}
         <link rel="stylesheet" href="{% static 'base.css' %}">
         <link rel="stylesheet" href="{% static 'login.css' %}">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     </head>
+    
     <div class="cnt-1">
         <form method="POST" action="">
             <div class="h1">LOGIN</div>
@@ -21,13 +21,14 @@
             </label>
             <input class="submit" type="submit" name="Login User" value="SUBMIT">
             {% for message in messages%}
-            <p>{{message}}</p>
+                <p>{{message}}</p>
             {% endfor %}
             <a href="{% url 'register' %}">Create account</a>
         </form>
     </div>
 
     <script>
+        // Add Show Password
         function showPassword() {
             var password = document.getElementById("password");
             if (password.type === "password") {

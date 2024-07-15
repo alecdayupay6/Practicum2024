@@ -1,35 +1,32 @@
-.cnt-1{
-    height: 50svh;
+.cnt-1{    
     display: grid;
     place-items: center;
-    container-type: inline-size;
+    margin-top: 10svh;
+    height: 60svh;
 }
 
 form{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-top: 3svh;
     border: solid min(0.5rem, 0.5svw) #036;
     border-radius: 1svh;
     padding: 3svh;
-    height: clamp(0px, 32svh, 400px);
+    width: min(400px, 66svw);
     aspect-ratio: 8/7;
     background-color: #fafafa;
     container-type: inline-size;
-    overflow-y: hidden;
 }
 
 .h1{
+    margin-bottom: 6cqi;
     font-size: 8cqi;
     letter-spacing: 1cqi;
-    text-align:center;
     color:#e69;
-    margin-bottom: 6cqi;
+    text-align:center;
 }
 
 input:focus{
-    outline: none;
     border: solid 0.125rem #036;
 }
 
@@ -42,12 +39,11 @@ input{
     color: #036;
 }
 
-
 .cnt-2{
-    font-size: 5cqi;
-    color: #036;
     display: block;
     position: relative;
+    font-size: 5cqi;
+    color: #036;
     cursor: pointer;
 }
 
@@ -57,8 +53,8 @@ input{
 
 .checkmark {
     position: absolute;
-    border-radius: 1.5cqi;
     margin-left: 3cqi;
+    border-radius: 1.5cqi;
     height: 6cqi;
     width: 6cqi;
     background-color: #eee;
@@ -69,9 +65,9 @@ input{
 }
 
 .checkmark:after {
-    content: "";
     position: absolute;
     display: none;
+    content: "";
 }
 
 .cnt-2 input:checked ~ .checkmark:after{
@@ -79,21 +75,25 @@ input{
 }
 
 .cnt-2 .checkmark:after{
+    border: solid 1cqi #fafafa;
+    border-width: 0 1cqi 1cqi 0;
     left: 2cqi;
     top: 1.5cqi;
     width: 1cqi;
     height: 2cqi;
-    border: solid 1cqi #fafafa;
-    border-width: 0 1cqi 1cqi 0;
     transform: rotate(45deg);
 }
 
+.submit:focus, .submit:active, .submit:hover{
+    border: solid 0.125rem #036;
+}
+
 .submit{
-    border: 2px solid #e69;
+    margin-top: 10px;
+    border: solid 0.125rem #fafafa;
     border-radius: 100svw;
     background:#e69;
     color:#fafafa;
-    margin-top: 10px;
 }
 
 p {
@@ -101,15 +101,12 @@ p {
     color: #036;
 }
 
-a:link { text-decoration: underline; }
-a:visited { text-decoration: none; }
-a:hover { text-decoration: underline; }
-a:active { text-decoration: underline; }
-
 a{
-    color:#036;
     margin: 0px 0px 0px 5px;
     padding: 1svh 0px 2svh 0px;
     background: none;
     font-size: 5cqi;
+    color:#036;
+    overflow-x: visible;
+    text-decoration: underline;
 }

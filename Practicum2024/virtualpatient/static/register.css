@@ -1,35 +1,32 @@
 .cnt-1{
-    height: 60svh;
     display: grid;
     place-items: center;
-    container-type: inline-size;
+    margin-top: 10svh;
+    height: 60svh;
 }
 
 form{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-top: 3svh;
     border: solid min(0.5rem, 0.5svw) #036;
     border-radius: 1svh;
     padding: 3svh;
-    height: clamp(0px, 60svh, 400px);
+    width: min(400px, 66svw);
     aspect-ratio: 13/16;
     background-color: #fafafa;
     container-type: inline-size;
-    overflow-y: hidden;
 }
 
 .h1{
+    margin-bottom: 6cqi;
     font-size: 8cqi;
     letter-spacing: 1cqi;
-    text-align:center;
     color:#e69;
-    margin-bottom: 6cqi;
+    text-align:center;
 }
 
 input:focus, select:focus {
-    outline: none;
     border: solid 0.125rem #036;
 }
 
@@ -52,12 +49,16 @@ select{
     width: 35cqi;
 }
 
+.submit:focus, .submit:active, .submit:hover{
+    border: solid 0.125rem #036;
+}
+
 .submit{
-    border: 2px solid #e69;
+    margin-top: 10px;
+    border: solid 0.125rem #fafafa;
     border-radius: 100svw;
     background:#e69;
     color:#fafafa;
-    margin-top: 10px;
 }
 
 ::marker, form>ul>li{
@@ -69,18 +70,13 @@ ul>li>ul>li{
     color: #036;
 }
 
-
-a:link { text-decoration: underline; }
-a:visited { text-decoration: none; }
-a:hover { text-decoration: underline; }
-a:active { text-decoration: underline; }
-
 a{
-    color:#036;
     margin: 0px 0px 0px 5px;
     padding: 1svh 0px 2svh 0px;
     background: none;
     font-size: 5cqi;
+    color:#036;
+    text-decoration: underline;
 }
 
 

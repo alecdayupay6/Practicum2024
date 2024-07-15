@@ -10,7 +10,7 @@
             {% for patient in patients %}
                 <div class="patient">
                     <div class="details">
-                        <img alt="user" src="/static/{{patient.image}}/" class="user">
+                        <img alt="patient" src="/static/{{patient.image}}/">
                         <div>
                             <p>{{patient.last_name}}, {{patient.first_name}}</p>
                             <p>Age: {{patient.age}}</p>
@@ -27,6 +27,6 @@
                 </div>
             {% endfor %}
         </div>
-    </div>  
+    </div>
 </div>
 {% endblock %}

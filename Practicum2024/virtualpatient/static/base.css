@@ -1,7 +1,6 @@
 *{
-    font-family: 'Franklin Gothic Medium';    
+    font-family: 'Franklin Gothic Medium';
     margin: 0px;
-    padding: 0px;
 }
 
 html{    
@@ -10,39 +9,35 @@ html{
 
 .header{
     display: flex;
-    align-items: center;
     justify-content: space-between;
     background: #036;
 }
 
 .hdr-1{
     display: flex;
-    align-items: center;
+    justify-content: flex-start;
 }
 
 .hdr-2{
     display: flex;
-    align-items: center;
     justify-content: flex-end;
 }
 
-a:link { text-decoration: none; }
-a:visited { text-decoration: none; }
-a:hover { text-decoration: none; }
-a:active { text-decoration: none; }
+.nav:focus, .nav:active, .nav:hover{
+    border-bottom: solid #e69 5px;
+}
 
-a{
-    margin: 0.75rem 0.5svw;
-    border-radius: 6px;
+.nav{
+    margin: 0.75rem 1svw;
+    border-bottom: solid #036 5px;
     padding: 0.5rem 0.5svw;
-    width: 13svw;
-    max-height: 1.5rem;
+    width: 16svw;
     max-width: fit-content;
-    background: #fafafa;
-    font-size: clamp(0.75rem, 1.5svw, 1.5rem);
-    color: #e69;
+    font-size: clamp(0.75rem, 3svw, 1.5rem);
+    color: #fafafa;
     overflow-x: clip;
     white-space: nowrap;
+    text-decoration: none;
 }
 
 .content{

@@ -9,7 +9,8 @@
         "ignore": [
           "max-width: fit-content",
           "overflow-x: clip",
-          "width: fit-content"
+          "width: fit-content",
+          "overflow: clip"
         ]
       }
     ]
