@@ -1,11 +1,14 @@
-.cnt-1{
-    display:flex;
-    align-items: center;
+html{    
     background-image: url('images/background.png');
     background-attachment: fixed;
     background-size: 100% 100%;
     object-fit: cover;
-    overflow: clip;
+    overflow: hidden;
+}
+
+.cnt-1{
+    display:flex;
+    align-items: center;
 }
 
 .cnt-2{
@@ -16,7 +19,7 @@
     margin: 10px;
 }
 
-.bot-icon {
+.icon {
     width: 40dvw;
     max-height: 92dvh;
     object-fit: cover;
@@ -131,4 +134,39 @@
 
 .popup-content button:hover {
     background-color: #0056b3;
+}
+
+@media (max-width: 1000px){
+    html{
+        overflow-y: visible;
+    }
+
+    .cnt-1{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .icon{
+        margin-right: min(0.75rem, 3svw);
+        border-radius: 500px;
+        height: min(20svh, 40svw);
+        width: min(20svh, 40svw);
+        background: rgba(1, 1, 1, 0.1);
+        object-fit: cover;
+        object-position: -10% 0;
+    }
+
+    .cnt-2{
+        display:flex;
+        flex-direction:column;
+        align-items: stretch;
+        margin: 0;
+        width: 90svw;
+        max-height: 70svh;
+    }
+
+    .user-text, .bot-text, .form-control, #btn, #save{
+        font-size: min(20px, 3svw, 3svh);
+    }
 }
