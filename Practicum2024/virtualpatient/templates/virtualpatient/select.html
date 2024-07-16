@@ -6,7 +6,61 @@
 <div class="cnt-1">
     <div class="cnt-2">
         <div class="h1">PATIENT SELECTION</div>
-        <div class="cnt-3">
+        <form method="POST" action="">
+            <div class="h2">FILTER</div>
+            <div class="cnt-3">
+                <div class="cnt-4">
+                    <div class="cnt-5">
+                        <div class="h3">User</div>
+                        <div class="remove"></div>
+                    </div>
+                </div>
+                <div class="cnt-6">
+                    <div class="cnt-7">
+                        <div class="h4">Name </div>
+                        <div class="cnt-8">
+                            <label>A-Z<input type="radio" class="radio" name="Name" value="A-Z"></label>
+                            <label>Z-A<input type="radio" class="radio" name="Name" value="Z-A"></label>
+                        </div>
+                    </div>
+                    <div class="cnt-7">
+                        <div class="h4">Age </div>
+                        <div class="cnt-8">
+                            <label>0-10<input type="radio" class="radio" name="Age" value="0-10"></label>
+                            <label>10-20<input type="radio" class="radio" name="Age" value="10-20"></label>
+                            <label>20-40<input type="radio" class="radio" name="Age" value="20-40"></label>
+                            <label>40-60<input type="radio" class="radio" name="Age" value="40-60"></label>
+                            <label>60+<input type="radio" class="radio" name="Age" value="60+"></label>
+                        </div>
+                    </div>
+                    <div class="cnt-7">    
+                        <div class="h4">Sex </div>
+                        <div class="cnt-8">
+                            <label>Male<input type="radio" class="radio" name="Sex" value="Male"></label>
+                            <label>Female<input type="radio" class="radio" name="Sex" value="Female"></label>
+                        </div>
+                    </div>
+                    <div class="cnt-7">
+                        <div class="h4">Language </div>
+                        <div class="cnt-8">
+                            <label>English<input type="radio" class="radio" name="Language" value="English"></label>
+                            <label>Taglish<input type="radio" class="radio" name="Language" value="Taglish"></label>
+                            <label>Tagalog<input type="radio" class="radio" name="Language" value="Tagalog"></label>
+                        </div>
+                    </div>
+                    <div class="cnt-7">
+                        <div class="h4">Teacher </div>
+                        <div class="cnt-8">
+                            <label>A-Z<input type="radio" class="radio" name="Teacher" value="A-Z"></label>
+                            <label>Z-A<input type="radio" class="radio" name="Teacher" value="Z-A"></label>
+                            <label>User<input type="radio" class="radio" name="Teacher" value="User"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="search">SEARCH</button>
+        </form>
+        <div class="cnt-9">
             {% for patient in patients %}
                 <div class="patient">
                     <div class="details">
@@ -28,5 +82,8 @@
             {% endfor %}
         </div>
     </div>
+
+    <script>
+    </script>
 </div>
 {% endblock %}
