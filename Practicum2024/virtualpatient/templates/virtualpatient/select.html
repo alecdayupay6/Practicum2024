@@ -7,116 +7,117 @@
     <div class="cnt-2">
         <div class="h1">PATIENT SELECTION</div>
         <form method="POST" action="">
+            {% csrf_token %}
             <div class="h2">FILTER</div>
-            <div class="cnt-3">
-                <div class="cnt-4">
+            <div class="filter">
+                <div class="selected">
                     <div class="selectName NameA-Z">
                         <div class="h3">Name: A-Z</div>
-                        <div class="remove" onclick="filterName(0, false)"></div>
+                        <div class="remove" onclick="filterName(0, false, false)"></div>
                     </div>
                     <div class="selectName">
                         <div class="h3">Name: Z-A</div>
-                        <div class="remove" onclick="filterName(1, false)"></div>
+                        <div class="remove" onclick="filterName(1, false, false)"></div>
                     </div>
                     <div class="selectAge">
                         <div class="h3">0-10</div>
-                        <div class="remove" onclick="filterAge(0, false)"></div>
+                        <div class="remove" onclick="filterAge(0, false, false)"></div>
                     </div>
                     <div class="selectAge">
                         <div class="h3">11-20</div>
-                        <div class="remove" onclick="filterAge(1, false)"></div>
+                        <div class="remove" onclick="filterAge(1, false, false)"></div>
                     </div>
                     <div class="selectAge">
                         <div class="h3">21-40</div>
-                        <div class="remove" onclick="filterAge(2, false)"></div>
+                        <div class="remove" onclick="filterAge(2, false, false)"></div>
                     </div>
                     <div class="selectAge">
                         <div class="h3">41-60</div>
-                        <div class="remove" onclick="filterAge(3, false)"></div>
+                        <div class="remove" onclick="filterAge(3, false, false)"></div>
                     </div>
                     <div class="selectAge">
                         <div class="h3">61+</div>
-                        <div class="remove" onclick="filterAge(4, false)"></div>
+                        <div class="remove" onclick="filterAge(4, false, false)"></div>
                     </div>
                     <div class="selectSex">
                         <div class="h3">Male</div>
-                        <div class="remove" onclick="filterSex(0, false)"></div>
+                        <div class="remove" onclick="filterSex(0, false, false)"></div>
                     </div>
                     <div class="selectSex">
                         <div class="h3">Female</div>
-                        <div class="remove" onclick="filterSex(1, false)"></div>
+                        <div class="remove" onclick="filterSex(1, false, false)"></div>
                     </div>
                     <div class="selectLanguage">
                         <div class="h3">English</div>
-                        <div class="remove" onclick="filterLanguage(0, false)"></div>
+                        <div class="remove" onclick="filterLanguage(0, false, false)"></div>
                     </div>
                     <div class="selectLanguage">
                         <div class="h3">Taglish</div>
-                        <div class="remove" onclick="filterLanguage(1, false)"></div>
+                        <div class="remove" onclick="filterLanguage(1, false, false)"></div>
                     </div>
                     <div class="selectLanguage">
                         <div class="h3">Tagalog</div>
-                        <div class="remove" onclick="filterLanguage(2, false)"></div>
+                        <div class="remove" onclick="filterLanguage(2, false, false)"></div>
                     </div>
                     <div class="selectTeacher">
                         <div class="h3">Teacher: A-Z</div>
-                        <div class="remove" onclick="filterTeacher(0, false)"></div>
+                        <div class="remove" onclick="filterTeacher(0, false, false)"></div>
                     </div>
                     <div class="selectTeacher">
                         <div class="h3">Teacher: Z-A</div>
-                        <div class="remove" onclick="filterTeacher(1, false)"></div>
+                        <div class="remove" onclick="filterTeacher(1, false, false)"></div>
                     </div>
                     <div class="selectTeacher">
                         <div class="h3">User</div>
-                        <div class="remove" onclick="filterTeacher(2, false)"></div>
+                        <div class="remove" onclick="filterTeacher(2, false, false)"></div>
                     </div>
                 </div>
-                <div class="cnt-6">
-                    <div class="cnt-7">
+                <div class="options">
+                    <div class="field">
                         <div class="h4">Name </div>
-                        <div class="cnt-8">
-                            <label>A-Z<input type="checkbox" class="checkName" onclick="filterName(0, true)" name="Name" value="A-Z"><div class=checkmark></div></label>
-                            <label>Z-A<input type="checkbox" class="checkName" onclick="filterName(1, true)" name="Name" value="Z-A"><div class=checkmark></div></label>
+                        <div class="tags">
+                            <label>A-Z<input type="checkbox" class="checkName" onclick="filterName(0, true, false)" name="Name" value="A-Z"><div class=checkmark></div></label>
+                            <label>Z-A<input type="checkbox" class="checkName" onclick="filterName(1, true, false)" name="Name" value="Z-A"><div class=checkmark></div></label>
                         </div>
                     </div>
-                    <div class="cnt-7">
+                    <div class="field">
                         <div class="h4">Age </div>
-                        <div class="cnt-8">
-                            <label>0-10<input type="checkbox" class="checkAge" onclick="filterAge(0, true)" name="Age" value="0-10"><div class=checkmark></div></label>
-                            <label>11-20<input type="checkbox" class="checkAge" onclick="filterAge(1, true)" name="Age" value="11-20"><div class=checkmark></div></label>
-                            <label>21-40<input type="checkbox" class="checkAge" onclick="filterAge(2, true)" name="Age" value="21-40"><div class=checkmark></div></label>
-                            <label>41-60<input type="checkbox" class="checkAge" onclick="filterAge(3, true)" name="Age" value="41-60"><div class=checkmark></div></label>
-                            <label>61+<input type="checkbox" class="checkAge" onclick="filterAge(4, true)" name="Age" value="61+"><div class=checkmark></div></label>
+                        <div class="tags">
+                            <label>0-10<input type="checkbox" class="checkAge" onclick="filterAge(0, true, false)" name="Age" value="0-10"><div class=checkmark></div></label>
+                            <label>11-20<input type="checkbox" class="checkAge" onclick="filterAge(1, true, false)" name="Age" value="11-20"><div class=checkmark></div></label>
+                            <label>21-40<input type="checkbox" class="checkAge" onclick="filterAge(2, true, false)" name="Age" value="21-40"><div class=checkmark></div></label>
+                            <label>41-60<input type="checkbox" class="checkAge" onclick="filterAge(3, true, false)" name="Age" value="41-60"><div class=checkmark></div></label>
+                            <label>61+<input type="checkbox" class="checkAge" onclick="filterAge(4, true, false)" name="Age" value="61+"><div class=checkmark></div></label>
                         </div>
                     </div>
-                    <div class="cnt-7">    
+                    <div class="field">    
                         <div class="h4">Sex </div>
-                        <div class="cnt-8">
-                            <label>Male<input type="checkbox" class="checkSex" onclick="filterSex(0, true)" name="Sex" value="Male"><div class=checkmark></div></label>
-                            <label>Female<input type="checkbox" class="checkSex" onclick="filterSex(1, true)" name="Sex" value="Female"><div class=checkmark></div></label>
+                        <div class="tags">
+                            <label>Male<input type="checkbox" class="checkSex" onclick="filterSex(0, true, false)" name="Sex" value="Male"><div class=checkmark></div></label>
+                            <label>Female<input type="checkbox" class="checkSex" onclick="filterSex(1, true, false)" name="Sex" value="Female"><div class=checkmark></div></label>
                         </div>
                     </div>
-                    <div class="cnt-7">
+                    <div class="field">
                         <div class="h4">Language </div>
-                        <div class="cnt-8">
-                            <label>English<input type="checkbox" class="checkLanguage" onclick="filterLanguage(0, true)" name="Language" value="English"><div class=checkmark></div></label>
-                            <label>Taglish<input type="checkbox" class="checkLanguage" onclick="filterLanguage(1, true)" name="Language" value="Taglish"><div class=checkmark></div></label>
-                            <label>Tagalog<input type="checkbox" class="checkLanguage" onclick="filterLanguage(2, true)" name="Language" value="Tagalog"><div class=checkmark></div></label>
+                        <div class="tags">
+                            <label>English<input type="checkbox" class="checkLanguage" onclick="filterLanguage(0, true, false)" name="Language" value="English"><div class=checkmark></div></label>
+                            <label>Taglish<input type="checkbox" class="checkLanguage" onclick="filterLanguage(1, true, false)" name="Language" value="Taglish"><div class=checkmark></div></label>
+                            <label>Tagalog<input type="checkbox" class="checkLanguage" onclick="filterLanguage(2, true, false)" name="Language" value="Tagalog"><div class=checkmark></div></label>
                         </div>
                     </div>
-                    <div class="cnt-7">
+                    <div class="field">
                         <div class="h4">Teacher </div>
-                        <div class="cnt-8">
-                            <label>A-Z<input type="checkbox" class="checkTeacher" onclick="filterTeacher(0, true)" name="Teacher" value="A-Z"><div class=checkmark></div></label>
-                            <label>Z-A<input type="checkbox" class="checkTeacher" onclick="filterTeacher(1, true)" name="Teacher" value="Z-A"><div class=checkmark></div></label>
-                            <label>User<input type="checkbox" class="checkTeacher" onclick="filterTeacher(2, true)" name="Teacher" value="User"><div class=checkmark></div></label>
+                        <div class="tags">
+                            <label>A-Z<input type="checkbox" class="checkTeacher" onclick="filterTeacher(0, true, false)" name="Teacher" value="A-Z"><div class=checkmark></div></label>
+                            <label>Z-A<input type="checkbox" class="checkTeacher" onclick="filterTeacher(1, true, false)" name="Teacher" value="Z-A"><div class=checkmark></div></label>
+                            <label>User<input type="checkbox" class="checkTeacher" onclick="filterTeacher(2, true, false)" name="Teacher" value="User"><div class=checkmark></div></label>
                         </div>
                     </div>
                 </div>
             </div>
             <button type="submit" class="search">SEARCH</button>
         </form>
-        <div class="cnt-9">
+        <div class="cnt-3">
             {% for patient in patients %}
                 <div class="patient">
                     <div class="details">
@@ -150,11 +151,17 @@
         const checkSex       = document.getElementsByClassName('checkSex');
         const checkLanguage  = document.getElementsByClassName('checkLanguage');
         const checkTeacher   = document.getElementsByClassName('checkTeacher');
+        const filterList     = "{{filters}}".slice(1, -1).split(",");
 
-        function filterName(id, bool){
+        function filterName(id, fromCheck, fromViews){
             for (let i=0; i<checkName.length; i++){
-                if ((i==id) && checkName[i].checked && bool){
+                if ((i==id) && checkName[i].checked && fromCheck){
                     selectName[i].style.display = "flex";
+                    checkName[i].parentElement.style.background = "#036";
+                    checkName[i].parentElement.style.color = "#eee";
+                } else if ((i==id) && fromViews){
+                    selectName[i].style.display = "flex";
+                    checkName[i].checked = true;
                     checkName[i].parentElement.style.background = "#036";
                     checkName[i].parentElement.style.color = "#eee";
                 }else{                    
@@ -165,10 +172,15 @@
                 };
             };
         };
-        function filterAge(id, bool){
+        function filterAge(id, fromCheck, fromViews){
             for (let i=0; i<checkAge.length; i++){
-                if ((i==id) && checkAge[i].checked && bool){
+                if ((i==id) && checkAge[i].checked && fromCheck){
                     selectAge[i].style.display = "flex";
+                    checkAge[i].parentElement.style.background = "#036";
+                    checkAge[i].parentElement.style.color = "#eee";
+                } else if ((i==id) && fromViews){
+                    selectAge[i].style.display = "flex";
+                    checkAge[i].checked = true;
                     checkAge[i].parentElement.style.background = "#036";
                     checkAge[i].parentElement.style.color = "#eee";
                 }else{                    
@@ -179,10 +191,15 @@
                 };
             };
         };
-        function filterSex(id, bool){
+        function filterSex(id, fromCheck, fromViews){
             for (let i=0; i<checkSex.length; i++){
-                if ((i==id) && checkSex[i].checked && bool){
+                if ((i==id) && checkSex[i].checked && fromCheck){
                     selectSex[i].style.display = "flex";
+                    checkSex[i].parentElement.style.background = "#036";
+                    checkSex[i].parentElement.style.color = "#eee";
+                } else if ((i==id) && fromViews){
+                    selectSex[i].style.display = "flex";
+                    checkSex[i].checked = true;
                     checkSex[i].parentElement.style.background = "#036";
                     checkSex[i].parentElement.style.color = "#eee";
                 }else{                    
@@ -193,10 +210,15 @@
                 };
             };
         };
-        function filterLanguage(id, bool){
+        function filterLanguage(id, fromCheck, fromViews){
             for (let i=0; i<checkLanguage.length; i++){
-                if ((i==id) && checkLanguage[i].checked && bool){
+                if ((i==id) && checkLanguage[i].checked && fromCheck){
                     selectLanguage[i].style.display = "flex";
+                    checkLanguage[i].parentElement.style.background = "#036";
+                    checkLanguage[i].parentElement.style.color = "#eee";
+                } else if ((i==id) && fromViews){
+                    selectLanguage[i].style.display = "flex";
+                    checkLanguage[i].checked = true;
                     checkLanguage[i].parentElement.style.background = "#036";
                     checkLanguage[i].parentElement.style.color = "#eee";
                 }else{                    
@@ -207,10 +229,15 @@
                 };
             };
         };
-        function filterTeacher(id, bool){
+        function filterTeacher(id, fromCheck, fromViews){
             for (let i=0; i<checkTeacher.length; i++){
-                if ((i==id) && checkTeacher[i].checked && bool){
+                if ((i==id) && checkTeacher[i].checked && fromCheck){
                     selectTeacher[i].style.display = "flex";
+                    checkTeacher[i].parentElement.style.background = "#036";
+                    checkTeacher[i].parentElement.style.color = "#eee";
+                } else if ((i==id) && fromViews){
+                    selectTeacher[i].style.display = "flex";
+                    checkTeacher[i].checked = true;
                     checkTeacher[i].parentElement.style.background = "#036";
                     checkTeacher[i].parentElement.style.color = "#eee";
                 }else{                    
@@ -221,6 +248,11 @@
                 };
             };
         }
+        filterName(filterList[0], false, true);
+        filterAge(filterList[1], false, true);
+        filterSex(filterList[2], false, true);
+        filterLanguage(filterList[3], false, true);
+        filterTeacher(filterList[4], false, true);
     </script>
 </div>
 {% endblock %}

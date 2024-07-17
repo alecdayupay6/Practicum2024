@@ -110,8 +110,71 @@ def generate(request):
 @login_required(login_url='login')
 def select(request):
     patients = Patient.objects.all()
+    filters = [-1, -1, -1, -1, -1]
+    if request.method == 'POST':
+        filterName = request.POST.get('Name')
+        filterAge = request.POST.get('Age')
+        filterSex = request.POST.get('Sex')
+        filterLanguage = request.POST.get('Language')
+        filterTeacher = request.POST.get('Teacher')
+
+        # Filter Name
+        if filterName=="A-Z":
+            patients = patients.order_by('last_name')
+            filters[0] = 0
+        elif filterName=="Z-A":
+            patients = patients.order_by('last_name').reverse()
+            filters[0] = 1
+
+        # Filter Age
+        if filterAge=="0-10":
+            patients = patients.filter(age__lt=11)
+            filters[1] = 0
+        elif filterAge=="11-20":
+            patients = patients.filter(age__lt=21).filter(age__gt=10)
+            filters[1] = 1
+        elif filterAge=="21-40":
+            patients = patients.filter(age__lt=41).filter(age__gt=20)
+            filters[1] = 2
+        elif filterAge=="41-60":
+            patients = patients.filter(age__lt=61).filter(age__gt=40)
+            filters[1] = 3
+        elif filterAge=="61+":
+            patients = patients.filter(age__gt=60)
+            filters[1] = 4
+
+        # Filter Sex
+        if filterSex=="Male":
+            patients = patients.filter(sex="Male")
+            filters[2] = 0
+        elif filterSex=="Female":
+            patients = patients.filter(sex="Female")
+            filters[2] = 1
+
+        # Filter Language
+        if filterLanguage=="English":
+            patients = patients.filter(language="English")
+            filters[3] = 0
+        elif filterLanguage=="Taglish":
+            patients = patients.filter(language="Taglish")
+            filters[3] = 1
+        elif filterLanguage=="Tagalog":
+            patients = patients.filter(language="Tagalog")
+            filters[3] = 2
+
+        # Filter Teacher
+        if filterTeacher=="A-Z":
+            patients = patients.order_by('created_by')
+            filters[4] = 0
+        elif filterTeacher=="Z-A":
+            patients = patients.order_by('created_by').reverse()
+            filters[4] = 1
+        elif filterTeacher=="User":
+            patients = patients.filter(created_by=request.user)
+            filters[4] = 2
+        
     diagnosed = Patient.objects.filter(id__in=Diagnosed.objects.filter(user=request.user).values('patient'))
-    context = {'patients': patients, 'diagnosed': diagnosed, 'is_teacher': request.user.groups.filter(name='teacher').exists()}
+    context = {'patients': patients, 'diagnosed': diagnosed, 'filters': filters, 'is_teacher': request.user.groups.filter(name='teacher').exists()}
     return render(request, 'virtualpatient/select.html', context)
 
 @csrf_exempt

@@ -40,13 +40,13 @@ form{
     font-size: min(4svw, 2rem);
 }
 
-.cnt-3{
+.filter{
     position: relative;
     flex-grow: 1;
     margin: 1.5cqi;
 }
 
-.cnt-4{
+.selected{
     display: flex;
     align-items: center;
     border: solid #036 min(0.25rem, 0.25svw);
@@ -97,7 +97,12 @@ form{
     right: min(0.15svw, 0.05rem);
 }
 
-.cnt-6{
+.selected:hover ~ .options, .selected:focus ~ .options, .options:hover, .options:focus{
+    display: block;
+}
+
+.options{
+    display: none;
     position: absolute;
     border: solid #ddd min(0.25rem, 0.25svw);
     border-radius: 0.5rem;
@@ -105,7 +110,7 @@ form{
     background: #eee;
 }
 
-.cnt-7{
+.field{
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -118,7 +123,7 @@ form{
     font-size: min(3.5svw, 1.5rem);
 }
 
-.cnt-8{
+.tags{
     display: grid;
     grid-template-columns: repeat(auto-fill, 70px);
     justify-content: space-around;
@@ -156,7 +161,7 @@ input{
     text-decoration: none;
 }
 
-.cnt-9{
+.cnt-3{
     display:grid;
     grid-template-columns: repeat(auto-fill, 300px);
     justify-content: space-around;
