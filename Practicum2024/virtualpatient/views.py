@@ -79,27 +79,27 @@ def generate(request):
         if form.is_valid():
             patient = form.save()
             if patient.sex == "Male":
-                if patient.age < 10:   #M0-10
-                    patient.image = "images/gpt.jpg/"
-                elif patient.age < 20: #M10-20
-                    patient.image = "images/gpt.jpg/"
-                elif patient.age < 40: #M20-40              
-                    patient.image = "images/gpt.jpg/"
-                elif patient.age < 60: #M40-60
-                    patient.image = "images/simulation.png/"
-                else:                  #M60+
-                    patient.image = "images/gpt.jpg/"
+                if patient.age <= 10:   #M0-10
+                    patient.image = "images/M0-10.png/"
+                elif patient.age <= 20: #M11-20
+                    patient.image = "images/M11-20.png/"
+                elif patient.age <= 40: #M21-40              
+                    patient.image = "images/M21-40.png/"
+                elif patient.age <= 60: #M41-60
+                    patient.image = "images/M41-60.png/"
+                else:                   #M61+
+                    patient.image = "images/M61+.png/"
             else:
-                if patient.age < 10:   #F0-10
-                    patient.image = "images/gpt.jpg/"
-                elif patient.age < 20: #F10-20
-                    patient.image = "images/gpt.jpg/"
-                elif patient.age < 40: #F20-40              
-                    patient.image = "images/stand-in home.png/"
-                elif patient.age < 60: #F40-60
-                    patient.image = "images/gpt.jpg/"
-                else:                  #F60+
-                    patient.image = "images/gpt.jpg/"
+                if patient.age <= 10:   #F0-10
+                    patient.image = "images/F0-10.png/"
+                elif patient.age <= 20: #F12-20
+                    patient.image = "images/F11-20.png/"
+                elif patient.age <= 40: #F21-40              
+                    patient.image = "images/F21-40.png/"
+                elif patient.age <= 60: #F41-60
+                    patient.image = "images/F41-60.png/"
+                else:                   #F61+
+                    patient.image = "images/F61+.png/"
             patient.save()
             return redirect('select')        
         else:
