@@ -194,19 +194,20 @@ def simulate(request, pk):
         message = json.loads(request.body).get('message')
         if message != None:
             #Language Check
-            language_check.append({"role": json.loads(request.body).get('role'),"content": message})
-            completion = connection.chat.completions.create(
-                model="gpt-3.5-turbo",
-                messages=language_check
-            )
-            checkLanguage = completion.choices[0].message.content
-            if checkLanguage not in patient.language:
-                print(f"Wrong Language: {checkLanguage} not in {patient.language}")
-                return JsonResponse({"language": checkLanguage})
+            # language_check.append({"role": json.loads(request.body).get('role'),"content": message})
+            # completion1 = connection.chat.completions.create(
+            #     model="gpt-3.5-turbo",
+            #     messages=language_check
+            # )
+            # checkLanguage = completion1.choices[0].message.content
+            # if checkLanguage not in patient.language:
+            #     if patient.language.lower() != "taglish":
+            #         print(f"Wrong Language: {checkLanguage} not in {patient.language}")
+            #         return JsonResponse({"language": checkLanguage})
 
             # Virtual Patient
             initial_prompts.append({"role": json.loads(request.body).get('role'),"content": message})
-            completion = connection.chat.completions.create(model="ft:gpt-3.5-turbo-0125:personal:virtualpatientv2:9kCYhsfO", messages=initial_prompts)
+            completion = connection.chat.completions.create(model="ft:gpt-3.5-turbo-0125:personal:virtualpatientv4:9loS9fih", messages=initial_prompts)
             response = completion.choices[0].message.content
             print("Patient: " + response)
             
@@ -214,7 +215,7 @@ def simulate(request, pk):
             # Supervisor
             check_pqrst.append({"role": "user","content": response})
             completion = connection.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model="ft:gpt-3.5-turbo-0125:personal:checkpqrstv2:9loYlu45",
                 messages=check_pqrst
             )
             check_response = completion.choices[0].message.content
