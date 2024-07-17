@@ -25,7 +25,7 @@
 }
 
 form{
-    display: none;
+    display: flex;
     align-self: center;
     align-items: flex-start;
     justify-content: space-between;
@@ -41,6 +41,7 @@ form{
 }
 
 .cnt-3{
+    position: relative;
     flex-grow: 1;
     margin: 1.5cqi;
 }
@@ -54,27 +55,29 @@ form{
     height: min(4svw, 2rem);
 }
 
-.cnt-5{
-    display: flex;
+.selectName, .selectAge, .selectSex, .selectLanguage, .selectTeacher{
+    display: none;
     align-items: center;
-    justify-content: center;
-    margin: 0 min(1rem, 3svw);
+    justify-content: space-between;
+    margin-right: min(0.2svw, 3rem);
     border-radius: 1rem;
-    padding: min(0.5rem, 0.5svw) min(1rem, 3svw);
+    padding: min(0.5rem, 0.5svw);
     background: #036;
-    width: fit-content;
+    width: 7svw;
     color: #fafafa;
-    font-size: min(3svw, 1rem);
+    font-size: min(0.8svw, 1rem);   
 }
 
 .h3{
-    margin-right: min(3svw, 1rem);
+    overflow-x: clip;
+    white-space: nowrap;
 }
 
 .remove{
     position: relative;
     height: min(3svw, 1rem);
-    width: min(3svw, 1rem);
+    min-width: min(3svw, 1rem);    
+    cursor: pointer;
 }
 .remove:before, .remove:after{
     position: absolute;
@@ -95,8 +98,10 @@ form{
 }
 
 .cnt-6{
+    position: absolute;
     border: solid #ddd min(0.25rem, 0.25svw);
     border-radius: 0.5rem;
+    width: 99.25%;
     background: #eee;
 }
 
@@ -115,7 +120,7 @@ form{
 
 .cnt-8{
     display: grid;
-    grid-template-columns: repeat(auto-fill, 80px);
+    grid-template-columns: repeat(auto-fill, 70px);
     justify-content: space-around;
     padding: 1svw;
     row-gap: 15px;
@@ -124,26 +129,20 @@ form{
 }
 
 label{
-    border-radius: 1px;
-    border-radius: 2px;
+    position: relative;
+    border-radius: 4px;
     padding: min(0.5rem, 0.5svw);
-    background: #ddd;
     max-width: fit-content;    
     font-size: min(3svw, 1rem);
+    background-color: #ddd;
     text-align: center;
     white-space: nowrap;
     overflow-x: clip;
 }
 
-.radio{
+input{
     display: none;
 }
-
-
-
-
-
-
 
 .search{
     margin: 1cqi;
