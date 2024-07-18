@@ -11,7 +11,7 @@
 
 .icon{
     object-fit: contain;
-    width: 40svw;
+    width: 35svw;
 }
 
 .cnt-3{
@@ -64,11 +64,11 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 10svh 5svw 0svh 5svw;
+        padding: 5svh 5svw 0svh 5svw;
     }
 
     .icon{
-        width: 60svw;
+        width: 50svw;
     }
 
     .cnt-3{

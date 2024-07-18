@@ -4,7 +4,9 @@
 {% block content %}
 <link rel="stylesheet" type="text/css" href="{% static 'simulate.css' %}">
 <div class="cnt-1">
-    <img alt='icon' src="/static/{{image}}/" class="icon">
+    <div class="icon">
+        <img alt='icon' src="/static/{{image}}/" class="img">
+    </div>
     <div class="cnt-2">
         <div class="chat-box">
             {% for text in conversation %}
