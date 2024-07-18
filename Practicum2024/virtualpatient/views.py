@@ -178,12 +178,38 @@ def select(request):
     context = {'patients': patients, 'by_user': by_user, 'diagnosed': diagnosed, 'filters': filters, 'is_teacher': request.user.groups.filter(name='teacher').exists()}
     return render(request, 'virtualpatient/select.html', context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['teacher'])
 def edit(request, pk):
     patient = Patient.objects.get(pk=pk)
+    if patient.created_by != request.user:
+        return redirect('select')
     form = CreatePatientForm(instance=patient)
     if request.method == 'POST':
         form = CreatePatientForm(request.POST, instance=patient)
         if form.is_valid():
+            if patient.sex == "Male":
+                if patient.age <= 10:   #M0-10
+                    patient.image = "images/M0-10.png/"
+                elif patient.age <= 20: #M11-20
+                    patient.image = "images/M11-20.png/"
+                elif patient.age <= 40: #M21-40              
+                    patient.image = "images/M21-40.png/"
+                elif patient.age <= 60: #M41-60
+                    patient.image = "images/M41-60.png/"
+                else:                   #M61+
+                    patient.image = "images/M61+.png/"
+            else:
+                if patient.age <= 10:   #F0-10
+                    patient.image = "images/F0-10.png/"
+                elif patient.age <= 20: #F12-20
+                    patient.image = "images/F11-20.png/"
+                elif patient.age <= 40: #F21-40              
+                    patient.image = "images/F21-40.png/"
+                elif patient.age <= 60: #F41-60
+                    patient.image = "images/F41-60.png/"
+                else:                   #F61+
+                    patient.image = "images/F61+.png/"
             form.save()
             return redirect('select')
         else:
@@ -191,8 +217,12 @@ def edit(request, pk):
     context = {'form': form, 'patient': patient, 'is_teacher': request.user.groups.filter(name='teacher').exists()}
     return render(request, 'virtualpatient/edit.html', context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['teacher'])
 def delete(request, pk):
     patient = Patient.objects.get(pk=pk)
+    if patient.created_by != request.user:
+        return redirect('select')
     if request.method == 'POST':
         patient.delete()
         return redirect('select')
