@@ -1,0 +1,26 @@
+{% extends 'virtualpatient/base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'delete.css' %}">
+<div class="cnt-1">
+    <form method="POST" action="">
+        <div class="h1">DELETE PATIENT</div>
+        {% csrf_token %}
+        <p>Are you sure you want to delete {{patient.first_name}} {{patient.last_name}}?</p>
+        <input class="submit" type="submit" value="DELETE">
+        {% for message in messages%}
+            <p>{{message}}</p>
+        {% endfor %}
+        <a class="btn" href="{% url 'edit' patient.pk %}">Cancel</a>
+    </form>
+
+    <script>
+        // Add Placeholders
+        var form_fields = document.getElementsByTagName('input')
+        form_fields[1].placeholder='OLD PASSWORD';
+        form_fields[2].placeholder='NEW PASSWORD';
+        form_fields[3].placeholder='CONFIRM PASSWORD';
+    </script>
+</div>
+{% endblock %}

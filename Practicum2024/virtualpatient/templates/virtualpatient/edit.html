@@ -1,0 +1,41 @@
+{% extends 'virtualpatient/base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'edit.css' %}">
+<div class="cnt-1">
+    <form method="POST" action="">
+        {% csrf_token %}
+        <img class="clip" alt="clip" src="/static/images/clip.png">
+        <div class="cnt-2">
+            <div class="h1">EDIT PATIENT</div>            
+            <img class="icon" alt="patient" src="/static/{{patient.image}}/">
+        </div>
+        <table>
+            {% for field in form %}
+                {% if field.name == 'created_by' %}
+                <div class="created_by">{{ field }}</div>
+                {% elif field.name != 'image' %}
+                <tr>
+                    <td>{{ field.label }}:</td>
+                    <td class="field">{{ field }}</td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+            <tr>
+                <td>
+                    <a href="{% url 'select' %}">Back</a>
+                </td>
+                <td class="cnt-3">
+                    <input id="btn" type="submit" name="Submit" value="SUBMIT">
+                    <a class="btn" href="{% url 'delete' patient.pk %}">DELETE</a>
+                </td>
+            </tr>
+        </table>
+        {% for message in messages %}
+            <p>{{message}}</p>
+        {% endfor %}
+    </form>
+</div>
+    
+{% endblock %}

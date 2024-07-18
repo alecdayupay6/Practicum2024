@@ -130,11 +130,16 @@
                             <p>Teacher: {{patient.created_by}}</p>
                         </div>
                     </div>
-                    {% if patient in diagnosed %}
-                        <a class="btn" href="{% url 'simulate' pk=patient.pk %}">VIEW CONVERSATION</a>
-                    {% else %}                    
-                        <a class="btn" href="{% url 'simulate' pk=patient.pk %}">SIMULATE PATIENT</a>
-                    {% endif %}
+                    <div class="cnt-4">
+                        {% if patient in by_user %}
+                            <a class="btn" href="{% url 'edit' pk=patient.pk %}">EDIT</a>
+                        {% endif %}
+                        {% if patient in diagnosed %}
+                            <a class="btn" href="{% url 'simulate' pk=patient.pk %}">VIEW CONVERSATION</a>
+                        {% else %}                    
+                            <a class="btn" href="{% url 'simulate' pk=patient.pk %}">SIMULATE PATIENT</a>
+                        {% endif %}
+                    </div>
                 </div>
             {% endfor %}
         </div>

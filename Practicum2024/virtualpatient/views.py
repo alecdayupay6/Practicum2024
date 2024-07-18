@@ -110,6 +110,7 @@ def generate(request):
 @login_required(login_url='login')
 def select(request):
     patients = Patient.objects.all()
+    by_user = Patient.objects.filter(created_by=request.user)
     filters = [-1, -1, -1, -1, -1]
     if request.method == 'POST':
         filterName = request.POST.get('Name')
@@ -174,8 +175,29 @@ def select(request):
             filters[4] = 2
         
     diagnosed = Patient.objects.filter(id__in=Diagnosed.objects.filter(user=request.user).values('patient'))
-    context = {'patients': patients, 'diagnosed': diagnosed, 'filters': filters, 'is_teacher': request.user.groups.filter(name='teacher').exists()}
+    context = {'patients': patients, 'by_user': by_user, 'diagnosed': diagnosed, 'filters': filters, 'is_teacher': request.user.groups.filter(name='teacher').exists()}
     return render(request, 'virtualpatient/select.html', context)
+
+def edit(request, pk):
+    patient = Patient.objects.get(pk=pk)
+    form = CreatePatientForm(instance=patient)
+    if request.method == 'POST':
+        form = CreatePatientForm(request.POST, instance=patient)
+        if form.is_valid():
+            form.save()
+            return redirect('select')
+        else:
+            messages.error(request, 'Invalid input.')
+    context = {'form': form, 'patient': patient, 'is_teacher': request.user.groups.filter(name='teacher').exists()}
+    return render(request, 'virtualpatient/edit.html', context)
+
+def delete(request, pk):
+    patient = Patient.objects.get(pk=pk)
+    if request.method == 'POST':
+        patient.delete()
+        return redirect('select')
+    context = {'patient': patient, 'is_teacher': request.user.groups.filter(name='teacher').exists()}
+    return render(request, 'virtualpatient/delete.html', context)
 
 @csrf_exempt
 @login_required(login_url='login')

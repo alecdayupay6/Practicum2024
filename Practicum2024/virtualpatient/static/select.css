@@ -198,6 +198,10 @@ img{
     object-fit: cover;
 }
 
+.cnt-4{
+    margin-top: 2rem;
+}
+
 .btn:focus, .btn:active, .btn:hover, .search:focus, .search:active, .search:hover{
     border: solid 0.125rem #036;
 }
