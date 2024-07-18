@@ -323,7 +323,7 @@ def simulate(request, pk):
 
             # Virtual Patient
             initial_prompts.append({"role": json.loads(request.body).get('role'),"content": message})
-            completion = connection.chat.completions.create(model="ft:gpt-3.5-turbo-0125:personal:virtualpatientv4:9loS9fih", messages=initial_prompts)
+            completion = connection.chat.completions.create(model="ft:gpt-3.5-turbo-0125:personal:virtualpatientv5:9mKTweFc", messages=initial_prompts)
             response = completion.choices[0].message.content
             print("Patient: " + response)
             
@@ -331,7 +331,7 @@ def simulate(request, pk):
             # Supervisor
             check_pqrst.append({"role": "user","content": response})
             completion = connection.chat.completions.create(
-                model="ft:gpt-3.5-turbo-0125:personal:checkpqrstv2:9loYlu45",
+                model="ft:gpt-3.5-turbo-0125:personal:virtualpatientv3:9lwH7vPA",
                 messages=check_pqrst
             )
             check_response = completion.choices[0].message.content
