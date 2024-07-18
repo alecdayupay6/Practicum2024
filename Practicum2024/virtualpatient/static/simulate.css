@@ -87,6 +87,7 @@ html{
 }
 
 #btn{
+    display: block;
     margin:10px;
     border: 3px solid #036;
     border-radius:30px;
@@ -97,12 +98,13 @@ html{
     color:#036;
 }
 
-#save{
+#restart{
+    display: none;
     margin:10px;
     border: 3px solid #e69;
     border-radius:30px;
     padding: 10px;
-    width:75px;
+    width:fit-content;
     background:#fafafa;
     font-size:20px;
     color:#e69;
@@ -182,7 +184,7 @@ html{
         max-height: 70svh;
     }
 
-    .user-text, .bot-text, .form-control, #btn, #save{
+    .user-text, .bot-text, .form-control, #btn, #save, #restart{
         font-size: min(20px, 3svw, 3svh);
     }
 }

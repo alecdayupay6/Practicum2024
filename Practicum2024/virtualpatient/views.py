@@ -233,6 +233,7 @@ def delete(request, pk):
 @login_required(login_url='login')
 def simulate(request, pk):
     patient = Patient.objects.get(pk=pk)
+    diagnosed = Diagnosed.objects.filter(user=request.user, patient=patient)
     initial_prompts = [
         {"role": "system", "content": f"You are a patient named {patient.first_name} {patient.last_name}, {patient.age} years old. You are visiting for a consultation."},
         {"role": "system", "content": f"You should only use these {patient.language} when communicating, use these languages when communicating. You should answer concisely, do not give out too much information in one response."},
@@ -339,14 +340,15 @@ def simulate(request, pk):
             return JsonResponse({"content": response, "supervisor": check_response})
         
         if json.loads(request.body).get('diagnosis') != None:
-            Diagnosed.objects.create(user=request.user, patient=patient, conversation=json.loads(request.body).get('conversation'))
+            conversation = json.loads(request.body).get('conversation')
+            if conversation != None:
+                Diagnosed.objects.create(user=request.user, patient=patient, conversation=json.loads(request.body).get('conversation'))
+            else:
+                diagnosed[0].delete()
             return JsonResponse({})
-    
-    diagnosed = Diagnosed.objects.filter(user=request.user, patient=patient)
     if diagnosed:
-        context['conversation'] = json.loads(diagnosed[0].conversation)
-        context['diagnosed'] = True
-
+            context['conversation'] = json.loads(diagnosed[0].conversation)
+            context['diagnosed'] = True
     return render(request, 'virtualpatient/simulate.html', context)
     
 

@@ -26,6 +26,7 @@
         <div class="entry-box">
             <textarea class="form-control" id="message-input" placeholder="Type your message here"></textarea>
             <button type="button" id="btn">Send</button>
+            <button type="button" id="restart">Restart Conversation</button>
         </div>
     </div>
 
@@ -34,6 +35,7 @@
             const chatBox = document.querySelector(".chat-box");
             const messageInput = document.querySelector("#message-input");
             const sendBtn = document.querySelector("#btn");
+            const restartBtn = document.querySelector('#restart');
             const popup = document.querySelector("#language-popup");            
             popup.style.display = "none";
             const popOkButton = document.querySelector("#popup-ok-button");
@@ -114,7 +116,7 @@
                             // End and Save Conversation
                             messageInput.style.display = "none";
                             sendBtn.style.display = "none";
-                            chatBox.style.height = "90dvh";
+                            restartBtn.style.display = "block";
                             window.onbeforeunload = null;
                             var texts = document.querySelectorAll(".chat-box>*>*");
                             conversation = [];
@@ -176,13 +178,37 @@
                 messageInput.value = "";
             });
 
+            // Restart Button
+            function restartConversation(){
+                provocation = false;
+                quality = false;
+                region = false;
+                severity = false;
+                timing = false;
+                messageInput.style.display = "flex";
+                sendBtn.style.display = "block";
+                restartBtn.style.display = "none";
+                // Send conversation to views.py
+                fetch("/simulate/{{ pk }}/", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({diagnosis: diagnosis})
+                })
+                .catch(error => console.error(error))
+                diagnosis = false;
+                while (chatBox.hasChildNodes()){
+                    chatBox.removeChild(chatBox.firstChild);
+                }
+            }
+            restartBtn.addEventListener("click", restartConversation);
+
             // Check Diagnosed
             if ('{{diagnosed}}'=="True"){
                 console.log("Already diagnosed");
                 diagnosis = true;          
                 messageInput.style.display = "none";
                 sendBtn.style.display = "none";
-                chatBox.style.height = "90dvh";
+                restartBtn.style.display = "block";
                 window.onbeforeunload = null;
             }
         });
