@@ -1,0 +1,85 @@
+.cnt-1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+}
+
+form{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: solid min(8svw, 4rem) #036;
+    border-radius: 20px;
+    width: min(80svw, 1000px);
+    background: #fafafa;
+    color: #036;
+}
+
+img{
+    position: absolute;
+    top: max(-8svw, -4rem);
+    width: min(40rem, 80%);
+}
+
+.h1{
+    align-self: center;
+    margin: min(10rem, 10cqi) 0 1cqi 0;
+    font-size: min(5svw, 3rem);
+    letter-spacing: min(0.5svw, 0.5rem);
+    color:#e69;
+}
+
+table{
+    margin: 0px min(3svw, 1.5rem);
+    width: 80%;
+    font-size: min(3svw, 1.5rem);
+}
+
+.field{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input:focus, select:focus, textarea:focus, #btn:focus, #btn:active, #btn:hover {
+    border: solid 0.125rem #036;
+}
+
+input, select, textarea{
+    padding: min(2svw, 1rem);
+    border: solid 0.1rem #036;
+    border-radius: 20px;
+    background-color: #eee;
+    margin: min(1svw, 0.5rem) 0;
+    width: 90%;
+    box-sizing: border-box;
+    font-size: min(3svw, 1.5rem);
+    color: #036;
+}
+
+textarea{
+    height: 100px;
+    resize: none;
+}
+
+#btn{
+    margin: 1cqi;
+    border: solid 0.125rem #fafafa;
+    border-radius: 30px;
+    padding: 0.5rem min(6svw, 3rem);
+    font-size: min(3svw, 1.5rem);
+    width: fit-content;
+    background: #e69;
+    color: #fafafa;
+}
+
+p{
+    font-size: 3rem;
+    color: #036;
+}
+
+.created_by{
+    display: none;
+}

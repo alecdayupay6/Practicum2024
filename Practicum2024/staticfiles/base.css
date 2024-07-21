@@ -1,0 +1,45 @@
+*{
+    font-family: 'Franklin Gothic Medium';
+    margin: 0px;
+}
+
+html{    
+    background: #6cf;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    background: #036;
+}
+
+.hdr-1{
+    display: flex;
+    justify-content: flex-start;
+}
+
+.hdr-2{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.nav:focus, .nav:active, .nav:hover{
+    border-bottom: solid #e69 5px;
+}
+
+.nav{
+    margin: 0.75rem 1svw;
+    border-bottom: solid #036 5px;
+    padding: 0.5rem 0.5svw;
+    width: 16svw;
+    max-width: fit-content;
+    font-size: clamp(0.75rem, 3svw, 1.5rem);
+    color: #fafafa;
+    overflow-x: clip;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.content{
+    height: 92svh;
+}

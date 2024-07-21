@@ -1,0 +1,83 @@
+.cnt-1{
+    display: grid;
+    place-items: center;
+    margin-top: 10svh;
+    height: 60svh;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: solid min(0.5rem, 0.5svw) #036;
+    border-radius: 1svh;
+    padding: 3svh;
+    width: min(400px, 66svw);
+    aspect-ratio: 13/16;
+    background-color: #fafafa;
+    container-type: inline-size;
+}
+
+.h1{
+    margin-bottom: 6cqi;
+    font-size: 8cqi;
+    letter-spacing: 1cqi;
+    color:#e69;
+    text-align:center;
+}
+
+input:focus, select:focus {
+    border: solid 0.125rem #036;
+}
+
+input, select{
+    margin-bottom:3cqi;
+    border: solid 0.1rem #036;
+    border-radius: 8px;
+    padding: 2cqi;
+    font-size: 6cqi;
+    color: #036;
+}
+
+label{
+    font-size: 6cqi;
+    color: #036;
+}
+
+select{
+    margin-left: 1svw;
+    width: 35cqi;
+}
+
+.submit:focus, .submit:active, .submit:hover{
+    border: solid 0.125rem #036;
+}
+
+.submit{
+    margin-top: 10px;
+    border: solid 0.125rem #fafafa;
+    border-radius: 100svw;
+    background:#e69;
+    color:#fafafa;
+}
+
+::marker, form>ul>li{
+    font-size:0px;
+}
+
+ul>li>ul>li{
+    font-size: 5cqi;
+    color: #036;
+}
+
+a{
+    margin: 0px 0px 0px 5px;
+    padding: 1svh 0px 2svh 0px;
+    background: none;
+    font-size: 5cqi;
+    color:#036;
+    text-decoration: underline;
+}
+
+
+

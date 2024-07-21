@@ -1,0 +1,219 @@
+.cnt-1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cnt-2{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin: 4rem;
+    border: solid #036 min(0.5rem, 0.5svw);
+    border-radius: 1rem;
+    padding: 3svw;
+    width: 80svw;
+    background: #fafafa;
+}
+
+.h1{
+    margin-bottom: 2cqi;
+    align-self: center;
+    font-size: min(5svw, 3rem);
+    letter-spacing: min(0.5svw, 0.5rem);
+    color:#e69;
+}
+
+form{
+    display: flex;
+    align-self: center;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 4cqi;
+    width: 90%;
+    color: #036;    
+}
+
+.h2{    
+    margin: 1cqi;    
+    padding: 1cqi;
+    font-size: min(4svw, 2rem);
+}
+
+.filter{
+    position: relative;
+    flex-grow: 1;
+    margin: 1.5cqi;
+}
+
+.selected{
+    display: flex;
+    align-items: center;
+    border: solid #036 min(0.25rem, 0.25svw);
+    border-radius: 0.5rem;
+    padding: min(0.5rem, 0.5svw);
+    height: min(4svw, 2rem);
+}
+
+.selectName, .selectAge, .selectSex, .selectLanguage, .selectTeacher{
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    margin-right: min(0.2svw, 3rem);
+    border-radius: 1rem;
+    padding: min(0.5rem, 0.5svw);
+    background: #036;
+    width: 7svw;
+    color: #fafafa;
+    font-size: min(0.8svw, 1rem);   
+}
+
+.h3{
+    overflow-x: clip;
+    white-space: nowrap;
+}
+
+.remove{
+    position: relative;
+    height: min(3svw, 1rem);
+    min-width: min(3svw, 1rem);    
+    cursor: pointer;
+}
+.remove:before, .remove:after{
+    position: absolute;
+    border-radius: 2px;
+    top: min(1.2svw, 0.4rem);
+    height: min(0.3svw, 0.1rem);
+    width: min(2.7svw, 0.9rem);
+    background: #fafafa;
+    content:'';
+}
+.remove:before{
+    transform: rotate(45deg);
+    left: min(0.15svw, 0.05rem);
+}
+.remove:after{
+    transform: rotate(-45deg);
+    right: min(0.15svw, 0.05rem);
+}
+
+.selected:hover ~ .options, .selected:focus ~ .options, .options:hover, .options:focus{
+    display: block;
+}
+
+.options{
+    display: none;
+    position: absolute;
+    border: solid #ddd min(0.25rem, 0.25svw);
+    border-radius: 0.5rem;
+    width: 99.25%;
+    background: #eee;
+}
+
+.field{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-top: 1cqi;
+    border-bottom: solid #ddd 0.25cqi;
+}
+
+.h4{
+    margin-left: min(3svw, 1rem);
+    font-size: min(3.5svw, 1.5rem);
+}
+
+.tags{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 70px);
+    justify-content: space-around;
+    padding: 1svw;
+    row-gap: 15px;
+    column-gap: 10px;
+    width: 100%
+}
+
+label{
+    position: relative;
+    border-radius: 4px;
+    padding: min(0.5rem, 0.5svw);
+    max-width: fit-content;    
+    font-size: min(3svw, 1rem);
+    background-color: #ddd;
+    text-align: center;
+    white-space: nowrap;
+    overflow-x: clip;
+}
+
+input{
+    display: none;
+}
+
+.search{
+    margin: 1cqi;
+    border: solid 0.125rem #fafafa;
+    border-radius: 30px;
+    padding: 1cqi;
+    width: fit-content;
+    background: #e69;
+    font-size: min(1.5rem, 3.5svw);
+    color: #fafafa;
+    text-decoration: none;
+}
+
+.cnt-3{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, 300px);
+    justify-content: space-around;
+    row-gap: min(4rem, 20svw);
+    column-gap: 25px;
+}
+
+.patient{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: min(330px, 80svw);
+}
+
+.details{
+    display:flex;
+    flex-direction:row;
+    align-items: center;
+    border: solid #036 min(0.20rem, 0.25svw);
+    border-radius:10px;
+    padding: min(0.75rem, 3svw) min(0.5rem, 2svw);
+    background: #eee;
+    font-size: min(3svw, 1rem);
+    color: #036;
+}
+
+img{
+    margin-right: min(0.75rem, 3svw);
+    border-radius: 100px;
+    height: min(20cqi, 100px);
+    aspect-ratio: 1;
+    background: rgba(1, 1, 1, 0.1);
+    object-fit: cover;
+}
+
+.cnt-4{
+    margin-top: 2rem;
+}
+
+.btn:focus, .btn:active, .btn:hover, .search:focus, .search:active, .search:hover{
+    border: solid 0.125rem #036;
+}
+
+.btn{
+    margin: 1cqi;
+    border: solid 0.125rem #fafafa;
+    border-radius: 30px;
+    padding: 0.75rem;
+    width: fit-content;
+    background: #e69;
+    font-size: min(1rem, 5svw);
+    color: #fafafa;
+    text-decoration: none;
+}
