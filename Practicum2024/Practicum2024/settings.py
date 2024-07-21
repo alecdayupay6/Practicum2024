@@ -34,7 +34,7 @@ if ENVIRONMENT == 'development':
 else:
     DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'https://alls-virtual-patient.onrender.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
