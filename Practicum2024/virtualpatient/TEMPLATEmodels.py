@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from multiselectfield import MultiSelectField
+# MultiSelectField: https://pypi.org/project/django-multiselectfield/
+
 
 class Patient(models.Model):
     # Page 2 of the template
@@ -342,8 +345,7 @@ class Patient(models.Model):
     personal_and_social = models.TextField(blank=True, null=True)
 
     # Review of Systems
-    # has been commented out bc fields are wrong, new branch created for correct fields
-    """ general = models.CharField(blank=True, null=True, max_length=7, choices=[
+    general = models.MultiSelectField(blank=True, null=True, max_length=7, choices=[
         ('Fever', 'Fever'),
         ('Weight Gain', 'Weight Gain'),
         ('Weight Loss', 'Weight Loss'),
@@ -351,7 +353,7 @@ class Patient(models.Model):
         ('Fatigue', 'Fatigue'),
     ])
     other_general_symptoms = models.CharField(max_length=50, blank=True, null=True)
-    musculoskeletal_or_dermatologic = models.CharField(blank=True, null=True, max_length=7, choices=[
+    musculoskeletal_or_dermatologic = models.MultiSelectField(blank=True, null=True, choices=[
         ('Rashes', 'Rashes'),
         ('Lumps', 'Lumps'),
         ('Sores', 'Sores'),
@@ -363,7 +365,7 @@ class Patient(models.Model):
         ('Changes in hair/nails', 'Changes in hair/nails'),
         ('Gout', 'Gout'),
     ])
-    heent = models.CharField(blank=True, null=True, max_length=7, choices=[
+    heent = models.MultiSelectField(blank=True, null=True, choices=[
         ('Headache', 'Headache'),
         ('Dizziness', 'Dizziness'),
         ('Blurring of Vision', 'Blurring of Vision'),
@@ -376,20 +378,20 @@ class Patient(models.Model):
         ('Gum Bleeding', 'Gum Bleeding'),
         ('Enlarged LN', 'Enlarged LN'),
     ])
-    respiratory = models.CharField(blank=True, null=True, max_length=7, choices=[
+    respiratory = models.MultiSelectField(blank=True, null=True, max_length=7, choices=[
         ('Dyspnea', 'Dyspnea'),
         ('Hemoptysis', 'Hemoptysis'),
         ('Cough', 'Cough'),
         ('Wheezing', 'Wheezing'),
     ])
-    cardiovascular = models.CharField(blank=True, null=True, max_length=7, choices=[
+    cardiovascular = models.MultiSelectField(blank=True, null=True, max_length=7, choices=[
         ('Palpitations', 'Palpitations'),
         ('Chest Pains', 'Chest Pains'),
         ('Syncope', 'Syncope'),
         ('Orthopnea', 'Orthopnea'),
     ])
     other_cardiovascular_symptoms = models.CharField(max_length=50, blank=True, null=True)
-    gastrointestinal = models.CharField(blank=True, null=True, max_length=7, choices=[
+    gastrointestinal = models.MultiSelectField(blank=True, null=True, max_length=7, choices=[
         ('Nausea', 'Nausea'),
         ('Vomiting', 'Vomiting'),
         ('Dysphagia', 'Dysphagia'),
@@ -398,13 +400,13 @@ class Patient(models.Model):
         ('Rectal Bleeding', 'Rectal Bleeding'),
         ('Jaundice', 'Jaundice'),
     ])
-    genitourinary = models.CharField(blank=True, null=True, max_length=7, choices=[
+    genitourinary = models.MultiSelectField(blank=True, null=True, max_length=7, choices=[
         ('Nocturia', 'Nocturia'),
         ('Dysuria', 'Dysuria'),
         ('Frequency', 'Frequency'),
         ('Hematuria', 'Hematuria'),
     ])
-    other_genitourinary_symptoms = models.CharField(max_length=50, blank=True, null=True) """
+    other_genitourinary_symptoms = models.CharField(max_length=50, blank=True, null=True)
 
     height = models.FloatField(help_text="Height in cm", null=True)
     weight = models.FloatField(help_text="Weight in kg", null=True)

@@ -32,3 +32,4 @@ typing_extensions==4.12.2
 tzdata==2024.1
 Werkzeug==3.0.3
 whitenoise==6.7.0
+django-multiselectfield==0.1.13
