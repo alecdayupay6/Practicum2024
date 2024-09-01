@@ -1,11 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
 from multiselectfield import MultiSelectField
+from django.core.validators import MaxValueValidator, MinValueValidator
 # MultiSelectField: https://pypi.org/project/django-multiselectfield/
 
-
 class Patient(models.Model):
-    # Page 2 of the template
+    '''
+    
+    Page 2 of the Template
+
+    '''
 
     # Demographic Data
     first_name = models.CharField(max_length=50, null=True)
@@ -30,12 +34,12 @@ class Patient(models.Model):
         ('Poor', 'Poor'),
     ])
 
-    dwelling_type = models.CharField(blank=True, null=True, max_length=5, choices=[ 
+    dwelling_type = models.CharField(blank=True, null=True, max_length=9, choices=[ 
         ('House', 'House'),
         ('Apartment', 'Apartment'),
     ])
     number_of_rooms = models.PositiveIntegerField(blank=True, null=True) 
-    appliances = models.CharField(blank=True, null=True, max_length=5, choices=[ 
+    appliances = models.MultiSelectField(blank=True, null=True, choices=[ 
         ('Radio', 'Radio'),
         ('TV', 'TV'),
         ('Refrigerator', 'Refrigerator'),
@@ -281,7 +285,7 @@ class Patient(models.Model):
         ('Zambian', 'Zambian'),
         ('Zimbabwean', 'Zimbabwean'),
     ])
-    religion = models.CharField(blank=True, null=True, max_length=14, choices=[
+    religion = models.CharField(blank=True, null=True, max_length=17, choices=[
         ('Roman Catholic', 'Roman Catholic'),
         ('Protestant', 'Protestant'),
         ('Muslim', 'Muslim'),
@@ -290,7 +294,7 @@ class Patient(models.Model):
         ('Other', 'Other'),
     ])
 
-    annual_family_income = models.CharField(blank=True, null=True, max_length=8, choices=[
+    annual_family_income = models.CharField(blank=True, null=True, max_length=11, choices=[
         ('< 50k', '< 50k'),
         ('50k - 100k', '50k - 100k'),
         ('100k - 200k', '100k - 200k'),
@@ -345,7 +349,7 @@ class Patient(models.Model):
     personal_and_social = models.TextField(blank=True, null=True)
 
     # Review of Systems
-    general = models.MultiSelectField(blank=True, null=True, max_length=7, choices=[
+    general = models.MultiSelectField(blank=True, null=True, choices=[
         ('Fever', 'Fever'),
         ('Weight Gain', 'Weight Gain'),
         ('Weight Loss', 'Weight Loss'),
@@ -378,20 +382,20 @@ class Patient(models.Model):
         ('Gum Bleeding', 'Gum Bleeding'),
         ('Enlarged LN', 'Enlarged LN'),
     ])
-    respiratory = models.MultiSelectField(blank=True, null=True, max_length=7, choices=[
+    respiratory = models.MultiSelectField(blank=True, null=True, choices=[
         ('Dyspnea', 'Dyspnea'),
         ('Hemoptysis', 'Hemoptysis'),
         ('Cough', 'Cough'),
         ('Wheezing', 'Wheezing'),
     ])
-    cardiovascular = models.MultiSelectField(blank=True, null=True, max_length=7, choices=[
+    cardiovascular = models.MultiSelectField(blank=True, null=True, choices=[
         ('Palpitations', 'Palpitations'),
         ('Chest Pains', 'Chest Pains'),
         ('Syncope', 'Syncope'),
         ('Orthopnea', 'Orthopnea'),
     ])
     other_cardiovascular_symptoms = models.CharField(max_length=50, blank=True, null=True)
-    gastrointestinal = models.MultiSelectField(blank=True, null=True, max_length=7, choices=[
+    gastrointestinal = models.MultiSelectField(blank=True, null=True, choices=[
         ('Nausea', 'Nausea'),
         ('Vomiting', 'Vomiting'),
         ('Dysphagia', 'Dysphagia'),
@@ -400,22 +404,408 @@ class Patient(models.Model):
         ('Rectal Bleeding', 'Rectal Bleeding'),
         ('Jaundice', 'Jaundice'),
     ])
-    genitourinary = models.MultiSelectField(blank=True, null=True, max_length=7, choices=[
+    genitourinary = models.MultiSelectField(blank=True, null=True, choices=[
         ('Nocturia', 'Nocturia'),
         ('Dysuria', 'Dysuria'),
         ('Frequency', 'Frequency'),
         ('Hematuria', 'Hematuria'),
     ])
     other_genitourinary_symptoms = models.CharField(max_length=50, blank=True, null=True)
+    endocrine = models.MultiSelectField(blank=True, null=True, choices=[
+        ('Excessive Sweating', 'Excessive Sweating'),
+        ('Heat Intolerance', 'Heat Intolerance'),
+        ('Polyuria', 'Polyuria'),
+        ('Excessive Thirst', 'Excessive Thirst'),
+        ('Cold Intolerance', 'Cold Intolerance'),
+    ])
+    other_endocrine_symptoms = models.CharField(max_length=50, blank=True, null=True)
 
+    '''
+    
+    Page 3 of the Template
+
+    '''
+
+    # Past Medical History
+    past_medical_history = models.MultiSelectField(blank=True, null=True, choices=[
+        ('Primary Koch\'s', 'Primary Koch\'s'),
+        ('Asthma', 'Asthma'),
+        ('Diabetes', 'Diabetes'),
+        ('Hypertension', 'Hypertension'),
+        ('Psychiatric Consult', 'Psychiatric Consult'),
+        ('Cancer', 'Cancer'),
+        ('Prior Surgeries/Hospitalizations', 'Prior Surgeries/Hospitalizations'),
+        ('Allergies', 'Allergies'),
+    ])
+    cancer_site_if_any = models.CharField(max_length=50, blank=True, null=True)
+    prior_surgeries_or_hospitalization_dates = models.CharField(max_length=50, blank=True, null=True)
+    prior_surgeries_or_hospitalization_reason = models.CharField(max_length=50, blank=True, null=True)
+    allergies = models.CharField(max_length=50, blank=True, null=True)
+    other_past_medical_history = models.CharField(max_length=50, blank=True, null=True)
+
+    # Family History
+    family_medical_history = models.MultiSelectField(blank=True, null=True, choices=[
+        ('Tuberculosis', 'Tuberculosis'),
+        ('Asthma', 'Asthma'),
+        ('Psychiatric Consult', 'Psychiatric Consult'),
+        ('Diabetes', 'Diabetes'),
+        ('Cardiovascular Disease', 'Cardiovascular Disease'),
+        ('Cancer', 'Cancer'),
+        ('Allergies', 'Allergies'),
+    ])
+    family_history_cardiovascular_disease = models.CharField(max_length=50, blank=True, null=True)
+    family_history_cancer_site = models.CharField(max_length=50, blank=True, null=True)
+    family_history_relationship_to_cancer_patient = models.CharField(max_length=50, blank=True, null=True)
+    family_history_allergies = models.CharField(max_length=50, blank=True, null=True)
+    other_family_history = models.CharField(max_length=50, blank=True, null=True)
+
+    genogram = models.TextField(blank=True, null=True)
+
+    social_and_environmental_history = models.TextField(blank=True, null=True)
+
+    # Gynecologic History
+    lmp = models.CharField(max_length=50, blank=True, null=True)
+    pmp = models.CharField(max_length=50, blank=True, null=True)
+    duration = models.CharField(max_length=50, blank=True, null=True)
+    interval = models.CharField(max_length=50, blank=True, null=True)
+    amount = models.CharField(max_length=50, blank=True, null=True)
+    menarche = models.CharField(max_length=50, blank=True, null=True)
+    coitarche = models.CharField(max_length=50, blank=True, null=True)
+
+    # Immunization
+    complete_immunizations = models.MultiSelectField(blank=True, null=True, choices=[
+        ('DPT/Polio', 'DPT/Polio'),
+        ('HIB', 'HIB'),
+        ('Hepatitis B', 'Hepatitis B'),
+        ('MMR', 'MMR'),
+        ('Measles', 'Measles'),
+        ('Varicella', 'Varicella'),
+        ('Pneumococcal', 'Pneumococcal'),
+        ('Influenza', 'Influenza'),
+        ('Hepatitis A', 'Hepatitis A'),
+    ])
+    no_immunization = models.MultiSelectField(blank=True, null=True, choices=[
+        ('DPT/Polio', 'DPT/Polio'),
+        ('HIB', 'HIB'),
+        ('Hepatitis B', 'Hepatitis B'),
+        ('MMR', 'MMR'),
+        ('Measles', 'Measles'),
+        ('Varicella', 'Varicella'),
+        ('Pneumococcal', 'Pneumococcal'),
+        ('Influenza', 'Influenza'),
+        ('Hepatitis A', 'Hepatitis A'),
+    ])
+    dpt_or_polio_doses = models.PositiveIntegerField(blank=True, null=True)
+    hib_doses = models.PositiveIntegerField(blank=True, null=True)
+    hepatitis_b_doses = models.PositiveIntegerField(blank=True, null=True)
+    mmr_doses = models.PositiveIntegerField(blank=True, null=True)
+    measles_doses = models.PositiveIntegerField(blank=True, null=True)
+    varicella_doses = models.PositiveIntegerField(blank=True, null=True)
+    pneumococcal_doses = models.PositiveIntegerField(blank=True, null=True)
+    influenza_doses = models.PositiveIntegerField(blank=True, null=True)
+    hepatitis_a_doses = models.PositiveIntegerField(blank=True, null=True)
+
+    # Adoloscent Interview
+    home = models.TextField(blank=True, null=True)
+    education = models.TextField(blank=True, null=True)
+    activities = models.TextField(blank=True, null=True)
+    drugs = models.TextField(blank=True, null=True)
+    sexual_activity = models.TextField(blank=True, null=True)
+    substance_abuse = models.TextField(blank=True, null=True)
+    family = models.TextField(blank=True, null=True)
+    source_of_income_and_dynamics = models.TextField(blank=True, null=True)
+
+    # Medications table has been turned into another model
+
+    additional_details_regarding_history = models.TextField(blank=True, null=True)
+
+    additional_details_regarding_context_including_ethical_considerations = models.TextField(blank=True, null=True)
+
+    '''
+    
+    Page 4 of the Template
+
+    '''
+
+    # Physical Examination
     height = models.FloatField(help_text="Height in cm", null=True)
     weight = models.FloatField(help_text="Weight in kg", null=True)
+    bmi = models.FloatField(blank=True, null=True)
+    bp_systolic = models.PositiveIntegerField(blank=True, null=True)
+    bp_diastolic = models.PositiveIntegerField(blank=True, null=True)
+    temperature = models.FloatField(help_text="Temperature in celsius")
+
+    general_state = models.CharField(blank=True, null=True, max_length=9, choices=[
+        ('Alert', 'Alert'),
+        ('Lethargic', 'Lethargic'),
+        ('Obtunded', 'Obtunded'),
+        ('Stuporous', 'Stuporous'),
+        ('Comatose', 'Comatose'),
+    ])
+
+    general_coherence = models.CharField(blank=True, null=True, max_length=9, choices=[
+        ('Coherent', 'Coherent'),
+        ('Incoherent', 'Incoherent'),
+    ])
+
+    pain_scale = models.PositiveIntegerField(blank=True, null=True, validators=[
+        MaxValueValidator(5),
+        MinValueValidator(0)
+    ])
+
+    '''
+    
+    Page 5 of the Template
+
+    '''
+
+    # Neuropsychiatric Exam
+    # Mental Status
+    general_appearance = models.CharField(blank=True, null=True, max_length=14, choices=[
+        ('Well Groomed', 'Well Groomed'),
+        ('Fairly Groomed', 'Fairly Groomed'),
+        ('Poorly Groomed', 'Poorly Groomed'),
+    ])
+    general_behavior = models.CharField(blank=True, null=True, max_length=23, choices=[
+        ('Normal', 'Normal'),
+        ('Psychomotor Retardation', 'Psychomotor Retardation'),
+        ('Psychomotor Agitation', 'Poorly Agitation'),
+    ])
+    attitude_towards_examiner = models.CharField(blank=True, null=True, max_length=13, choices=[
+        ('Cooperative', 'Cooperative'),
+        ('Uncooperative', 'Uncooperative'),
+    ])
+    mood = models.CharField(blank=True, null=True, max_length=9, choices=[
+        ('Euthymic', 'Euthymic'),
+        ('Dysphoric', 'Dysphoric'),
+        ('Euphoric', 'Euphoric'),
+    ])
+    affect = models.CharField(blank=True, null=True, max_length=13, choices=[
+        ('Broad', 'Broad'),
+        ('Flat', 'Flat'),
+        ('Blunted', 'Blunted'),
+        ('Restricted', 'Restricted'),
+        ('Appropriate', 'Appropriate'),
+        ('Inappropriate', 'Inappropriate'),
+    ])
+    speech = models.CharField(blank=True, null=True, max_length=15, choices=[
+        ('Spontaneous', 'Spontaneous'),
+        ('Non-spontaneous', 'Non-spontaneous'),
+        ('Normoproductive', 'Normoproductive'),
+        ('Hypoproductive', 'Hypoproductive'),
+        ('Hyperproductive', 'Hyperproductive'),
+    ])
+    perceptual_disturbance = models.CharField(blank=True, null=True, max_length=17, choices=[
+        ('None', 'None'),
+        ('Hallucinations', 'Hallucinations'),
+        ('Depersonalization', 'Depersonalization'),
+        ('Derealization', 'Derealization'),
+    ])
+    stream_of_thought = models.CharField(blank=True, null=True, max_length=25, choices=[
+        ('Goal Oriented', 'Goal Oriented'),
+        ('Looseness of Association', 'Looseness of Association'),
+        ('Flight of Ideas', 'Flight of Ideas'),
+        ('Paucity of Thought', 'Paucity of Thought'),
+        ('Tangentiality', 'Tangentiality'),
+    ])
+    thought_content = models.CharField(blank=True, null=True, max_length=20, choices=[
+        ('Normal', 'Normal'),
+        ('Paranoia', 'Paranoia'),
+        ('Grandiosity', 'Grandiosity'),
+        ('Homicidal/Aggression', 'Homicidal/Aggression'),
+        ('Bizarre', 'Bizarre'),
+        ('Suicidal', 'Suicidal'),
+    ])
+    impulse_control = models.CharField(blank=True, null=True, max_length=19, choices=[
+        ('Able to Control', 'Able to Control'),
+        ('Not Able to Control', 'Not Able to Control'),
+    ])
+    intellectual_capacity_global_estimate = models.CharField(blank=True, null=True, max_length=13, choices=[
+        ('Above Average', 'Above Average'),
+        ('Average', 'Average'),
+        ('Below Average', 'Below Average'),
+    ])
+
+    # Sensorium
+    consciousness = models.CharField(blank=True, null=True, max_length=6, choices=[
+        ('Awake', 'Awake'),
+        ('Drowsy', 'Drowsy'),
+        ('Stupor', 'Stupor'),
+        ('Coma', 'Coma'),
+    ])
+    other_consciousness = models.CharField(max_length=50, blank=True, null=True)
+    attention_span = models.CharField(blank=True, null=True, max_length=9, choices=[
+        ('Intact', 'Intact'),
+        ('Deficient', 'Deficient'),
+    ])
+    attention_span_notes = models.CharField(max_length=50, blank=True, null=True)
+    orientation_time = models.BooleanField(blank=True, null=True)
+    orientation_place = models.BooleanField(blank=True, null=True)
+    orientation_person = models.BooleanField(blank=True, null=True)
+    memory = models.CharField(blank=True, null=True, max_length=9, choices=[
+        ('Intact', 'Intact'),
+        ('Deficient', 'Deficient'),
+    ])
+    memory_notes = models.CharField(max_length=50, blank=True, null=True)
+    calculation = models.CharField(blank=True, null=True, max_length=9, choices=[
+        ('Intact', 'Intact'),
+        ('Deficient', 'Deficient'),
+    ])
+    calculation_notes = models.CharField(max_length=50, blank=True, null=True)
+    fund_of_information = models.CharField(blank=True, null=True, max_length=9, choices=[
+        ('Intact', 'Intact'),
+        ('Deficient', 'Deficient'),
+    ])
+    fund_of_information_notes = models.CharField(max_length=50, blank=True, null=True)
+    insight = models.CharField(blank=True, null=True, max_length=9, choices=[
+        ('Intact', 'Intact'),
+        ('Deficient', 'Deficient'),
+    ])
+    insight_notes = models.CharField(max_length=50, blank=True, null=True)
+    judgment = models.CharField(blank=True, null=True, max_length=4, choices=[
+        ('Good', 'Good'),
+        ('Fair', 'Fair'),
+        ('Poor', 'Poor'),
+    ])
+    planning = models.CharField(blank=True, null=True, max_length=9, choices=[
+        ('Intact', 'Intact'),
+        ('Deficient', 'Deficient'),
+    ])
+    planning_notes = models.CharField(max_length=50, blank=True, null=True)
+
+    '''
+    
+    Page 6 of the Template
+
+    '''
+
+    speech = models.CharField(blank=True, null=True, max_length=10, choices=[
+        ('Normal', 'Normal'),
+        ('Not Normal', 'Not Normal'),
+        ('Dysphonia', 'Dysphonia'),
+        ('Dysarthria', 'Dysarthria'),
+        ('Dysprosody', 'Dysprosody'),
+        ('Dysphasia', 'Dysphasia'),
+    ])
+    speech_others = models.CharField(max_length=50, blank=True, null=True)
+    other_high_cortical_functions = models.CharField(blank=True, null=True, max_length=7, choices=[
+        ('Agnosia', 'Agnosia'),
+        ('Apraxia', 'Apraxia'),
+    ])
+    glasgow_coma_scale_gcs = models.CharField(max_length=50, blank=True, null=True)
+    glasgow_coma_scale_e = models.CharField(max_length=50, blank=True, null=True)
+    glasgow_coma_scale_v = models.CharField(max_length=50, blank=True, null=True)
+    glasgow_coma_scale_m = models.CharField(max_length=50, blank=True, null=True)
+
+    # Cranial Nerves
+    # Optic Group
+    ptosis = models.CharField(blank=True, null=True, max_length=7, choices=[
+        ('Absent', 'Absent'),
+        ('Present', 'Present'),
+    ])
+    ptosis_notes = models.CharField(max_length=50, blank=True, null=True)
+    gaze = models.CharField(blank=True, null=True, max_length=12, choices=[
+        ('Conjugate', 'Conjugate'),
+        ('Dysconjugate', 'Dysconjugate'),
+    ])
+    gaze_notes = models.CharField(max_length=50, blank=True, null=True)
+    
+    # Brachiomotor Group and Tongue
+    masseter_and_temporalis_muscle_bulk_and_strength_v = models.CharField(max_length=50, blank=True, null=True)
+    facial_muscles_bulk_and_strength_vii = models.CharField(max_length=50, blank=True, null=True)
+    swallowing_ix_x = models.CharField(blank=True, null=True, max_length=10, choices=[
+        ('Normal', 'Normal'),
+        ('Not Normal', 'Not Normal'),
+    ])
+    swallowing_notes_ix_x = models.CharField(max_length=50, blank=True, null=True)
+    gag_reflex_ix_x = models.CharField(blank=True, null=True, max_length=10, choices=[
+        ('Normal', 'Normal'),
+        ('Not Normal', 'Not Normal'),
+    ])
+    gag_reflex_notes_ix_x = models.CharField(max_length=50, blank=True, null=True)
+    palatal_elevation_ix_x = models.CharField(blank=True, null=True, max_length=10, choices=[
+        ('Normal', 'Normal'),
+        ('Not Normal', 'Not Normal'),
+    ])
+    palatal_elevation_notes_ix_x = models.CharField(max_length=50, blank=True, null=True)
+    tongue_protrusion_atrophy_fasciculations_xii = models.CharField(blank=True, null=True, max_length=7, choices=[
+        ('Absent', 'Absent'),
+        ('Present', 'Present'),
+    ])
+    tongue_protrusion_atrophy_fasciculations_notes_xii = models.CharField(max_length=50, blank=True, null=True)
+    scm_and_trapezius_contour_and_strength_xi = models.CharField(blank=True, null=True, max_length=10, choices=[
+        ('Normal', 'Normal'),
+        ('Not Normal', 'Not Normal'),
+    ])
+    scm_and_trapezius_contour_and_strength_notes_xi = models.CharField(max_length=50, blank=True, null=True)
+
+    # Special Sensory Organ Group
+    olfaction_i = models.CharField(max_length=100, blank=True, null=True)
+    taste_vii = models.CharField(max_length=100, blank=True, null=True)
+    schwabach_viii = models.CharField(max_length=100, blank=True, null=True)
+    rinnes_viii = models.CharField(max_length=100, blank=True, null=True)
+    webers_viii = models.CharField(max_length=100, blank=True, null=True)
+    nystagmus = models.CharField(max_length=100, blank=True, null=True)
+    
+    # Somatic Sensations of the Face
+    corneals = models.CharField(max_length=100, blank=True, null=True)
+    v1 = models.CharField(max_length=100, blank=True, null=True)
+    v2 = models.CharField(max_length=100, blank=True, null=True)
+    v3 = models.CharField(max_length=100, blank=True, null=True)
+
+    # Somatic Motor Systems
+    gait_and_posture = models.CharField(max_length=100, blank=True, null=True)
+    muscle_hypertrophy_or_atrophy = models.CharField(max_length=100, blank=True, null=True)
+    involuntary_movements = models.CharField(max_length=100, blank=True, null=True)
+    muscle_tone = models.CharField(max_length=100, blank=True, null=True)
+    cerebellars = models.CharField(help_text="Indicate FTNT, rebound, rapid alternating hand movements, heel-to-knee",
+        max_length=100, blank=True, null=True)
+    # Nerve Root Stretching Test
+    laseagues = models.CharField(blank=True, null=True, max_length=8, choices=[
+        ('Positive', 'Positive'),
+        ('Negative', 'Negative'),
+    ])
+    kernigs = models.CharField(blank=True, null=True, max_length=8, choices=[
+        ('Positive', 'Positive'),
+        ('Negative', 'Negative'),
+    ])
+    meningeals = models.CharField(blank=True, null=True, max_length=8, choices=[
+        ('Supple', 'Supple'),
+        ('Rigid', 'Rigid'),
+    ])
+    meningeals_notes = models.CharField(max_length=50, blank=True, null=True)
+    
+    # Deep Sensory Modalities
+    vibratory_sense = models.TextField(blank=True, null=True)
+    position_sense = models.TextField(blank=True, null=True)
+    rombergs = models.TextField(blank=True, null=True)
+    stereognosis = models.TextField(blank=True, null=True)
+
+    '''
+    
+    Page 7 of the Template
+
+    '''
+
+    patient_education = models.TextField(blank=True, null=True)
+    preventive_measures = models.TextField(blank=True, null=True)
+    therapeutic_plan = models.TextField(blank=True, null=True)
+    diagnostic_plan = models.TextField(blank=True, null=True)
+    basis = models.TextField(blank=True, null=True)
+    problem_or_impression = models.TextField(blank=True, null=True)
+    
+    '''
+    
+    Original Fields
+
+    '''
+
     language = models.CharField(null=True, max_length=7, choices=[
         ('English', 'English'),
         ('Tagalog', 'Tagalog'),
         ('Taglish', 'Taglish'),
     ])
-    
+
     provocation = models.CharField(max_length=50, null=True)
     quality = models.CharField(max_length=50, null=True)
     region = models.CharField(max_length=50, null=True)
@@ -434,6 +824,13 @@ class Patient(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+class Patient_Medications(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    medication = models.CharField(max_length=50, null=True)
+    generic_name = models.CharField(max_length=50, null=True)
+    dosage = models.PositiveIntegerField(blank=True, null=True)
+    route = models.CharField(max_length=50, null=True)
 
 class Diagnosed(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
