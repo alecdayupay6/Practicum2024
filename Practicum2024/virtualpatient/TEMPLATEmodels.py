@@ -334,22 +334,22 @@ class Patient(models.Model):
     # Birth Maternal
     term = models.CharField(max_length=50, blank=True, null=True)
     delivered_via = models.CharField(max_length=50, blank=True, null=True)
-    to_a_x_year_old = models.PositiveIntegerField(blank=True, null=True)
-    g_mother = models.CharField(max_length=50, blank=True, null=True)
-    p_mother = models.CharField(max_length=50, blank=True, null=True)
-    bw = models.CharField(max_length=50, blank=True, null=True)
+    to_a = models.PositiveIntegerField(help_text="year old",blank=True, null=True)
+    g_mother = models.PositiveIntegerField(blank=True, null=True)
+    p_mother = models.PositiveIntegerField(blank=True, null=True)
+    bw = models.FloatField(blank=True, null=True)
     attended_by_first_name = models.CharField(max_length=50, blank=True, null=True) 
     attended_by_last_name = models.CharField(max_length=50, blank=True, null=True)
     perinatal_cx = models.CharField(max_length=50, blank=True, null=True) 
 
     # Developmental Milestones
-    gross_motor = models.TextField(blank=True, null=True)
-    adaptive_fine_motor = models.TextField(blank=True, null=True)
-    language = models.TextField(blank=True, null=True)
-    personal_and_social = models.TextField(blank=True, null=True)
+    gross_motor_developmental_milestones = models.TextField(blank=True, null=True)
+    adaptive_fine_motor_developmental_milestones = models.TextField(blank=True, null=True)
+    language_developmental_milestones = models.TextField(blank=True, null=True)
+    personal_and_social_developmental_milestones = models.TextField(blank=True, null=True)
 
     # Review of Systems
-    general = models.MultiSelectField(blank=True, null=True, choices=[
+    general_symptoms = models.MultiSelectField(blank=True, null=True, choices=[
         ('Fever', 'Fever'),
         ('Weight Gain', 'Weight Gain'),
         ('Weight Loss', 'Weight Loss'),
@@ -439,7 +439,7 @@ class Patient(models.Model):
     ])
     cancer_site_if_any = models.CharField(max_length=50, blank=True, null=True)
     prior_surgeries_or_hospitalization_dates = models.CharField(max_length=50, blank=True, null=True)
-    prior_surgeries_or_hospitalization_reason = models.CharField(max_length=50, blank=True, null=True)
+    prior_surgeries_or_hospitalization_reasons = models.CharField(max_length=50, blank=True, null=True)
     allergies = models.CharField(max_length=50, blank=True, null=True)
     other_past_medical_history = models.CharField(max_length=50, blank=True, null=True)
 
