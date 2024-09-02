@@ -464,8 +464,8 @@ class Patient(models.Model):
     social_and_environmental_history = models.TextField(blank=True, null=True)
 
     # Gynecologic History
-    lmp = models.CharField(max_length=50, blank=True, null=True)
-    pmp = models.CharField(max_length=50, blank=True, null=True)
+    lmp = models.DateField(blank=True, null=True)
+    pmp = models.DateField(blank=True, null=True)
     duration = models.CharField(max_length=50, blank=True, null=True)
     interval = models.CharField(max_length=50, blank=True, null=True)
     amount = models.CharField(max_length=50, blank=True, null=True)
