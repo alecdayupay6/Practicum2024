@@ -533,7 +533,12 @@ class Patient(models.Model):
     bmi = models.FloatField(blank=True, null=True)
     bp_systolic = models.PositiveIntegerField(blank=True, null=True)
     bp_diastolic = models.PositiveIntegerField(blank=True, null=True)
+    hr = models.PositiveIntegerField(blank=True, null=True)
+    hr = models.PositiveIntegerField(blank=True, null=True)
     temperature = models.FloatField(help_text="Temperature in celsius")
+    hc = models.FloatField(help_text="in cm", blank=True, null=True)
+    cc = models.FloatField(help_text="in cm", blank=True, null=True)
+    ac = models.FloatField(help_text="in cm", blank=True, null=True)
 
     general_state = models.CharField(blank=True, null=True, max_length=9, choices=[
         ('Alert', 'Alert'),
@@ -692,10 +697,22 @@ class Patient(models.Model):
         ('Agnosia', 'Agnosia'),
         ('Apraxia', 'Apraxia'),
     ])
-    glasgow_coma_scale_gcs = models.CharField(max_length=50, blank=True, null=True)
-    glasgow_coma_scale_e = models.CharField(max_length=50, blank=True, null=True)
-    glasgow_coma_scale_v = models.CharField(max_length=50, blank=True, null=True)
-    glasgow_coma_scale_m = models.CharField(max_length=50, blank=True, null=True)
+    glasgow_coma_scale_gcs = models.PositiveIntegerField(blank=True, null=True, validators=[
+        MaxValueValidator(15),
+        MinValueValidator(3)
+    ])
+    glasgow_coma_scale_e = models.PositiveIntegerField(blank=True, null=True, validators=[
+        MaxValueValidator(4),
+        MinValueValidator(1)
+    ])
+    glasgow_coma_scale_v = models.PositiveIntegerField(blank=True, null=True, validators=[
+        MaxValueValidator(5),
+        MinValueValidator(1)
+    ])
+    glasgow_coma_scale_m = models.PositiveIntegerField(blank=True, null=True, validators=[
+        MaxValueValidator(6),
+        MinValueValidator(1)
+    ])
 
     # Cranial Nerves
     # Optic Group
