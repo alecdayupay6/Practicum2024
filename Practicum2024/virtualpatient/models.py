@@ -504,6 +504,8 @@ class Patient(models.Model):
     pneumococcal_doses = models.PositiveIntegerField(blank=True, null=True)
     influenza_doses = models.PositiveIntegerField(blank=True, null=True)
     hepatitis_a_doses = models.PositiveIntegerField(blank=True, null=True)
+    other_immunizations = models.TextField(help_text="Format: {/Immunization}, {# of Doses}; {Immunization}, {# of Doses}",
+        blank=True, null=True)
 
     # Adoloscent Interview
     home = models.TextField(blank=True, null=True)
@@ -535,7 +537,7 @@ class Patient(models.Model):
     bp_systolic = models.PositiveIntegerField(blank=True, null=True)
     bp_diastolic = models.PositiveIntegerField(blank=True, null=True)
     hr = models.PositiveIntegerField(blank=True, null=True)
-    hr = models.PositiveIntegerField(blank=True, null=True)
+    rr = models.PositiveIntegerField(blank=True, null=True)
     temperature = models.FloatField(blank=True, null=True, help_text="Temperature in celsius")
     hc = models.FloatField(help_text="in cm", blank=True, null=True)
     cc = models.FloatField(help_text="in cm", blank=True, null=True)
