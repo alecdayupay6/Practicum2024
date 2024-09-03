@@ -515,7 +515,8 @@ class Patient(models.Model):
     family = models.TextField(blank=True, null=True)
     source_of_income_and_dynamics = models.TextField(blank=True, null=True)
 
-    # Medications table has been turned into another model
+    # Medications
+    medications = models.TextField(blank=True, null=True)
 
     additional_details_regarding_history = models.TextField(blank=True, null=True)
 
@@ -851,13 +852,6 @@ class Patient(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
-
-class Patient_Medications(models.Model):
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    medication = models.CharField(max_length=50, null=True)
-    generic_name = models.CharField(max_length=50, null=True)
-    dosage = models.PositiveIntegerField(blank=True, null=True)
-    route = models.CharField(max_length=50, null=True)
 
 class Diagnosed(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
