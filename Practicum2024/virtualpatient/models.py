@@ -285,6 +285,11 @@ class Patient(models.Model):
         ('Zambian', 'Zambian'),
         ('Zimbabwean', 'Zimbabwean'),
     ])
+    language = models.CharField(null=True, max_length=7, choices=[
+        ('English', 'English'),
+        ('Tagalog', 'Tagalog'),
+        ('Taglish', 'Taglish'),
+    ])
     religion = models.CharField(blank=True, null=True, max_length=17, choices=[
         ('Roman Catholic', 'Roman Catholic'),
         ('Protestant', 'Protestant'),
@@ -531,35 +536,35 @@ class Patient(models.Model):
     '''
 
     # Physical Examination
-    height = models.FloatField(help_text="Height in cm", null=True)
-    weight = models.FloatField(help_text="Weight in kg", null=True)
-    bmi = models.FloatField(blank=True, null=True)
-    bp_systolic = models.PositiveIntegerField(blank=True, null=True)
-    bp_diastolic = models.PositiveIntegerField(blank=True, null=True)
-    hr = models.PositiveIntegerField(blank=True, null=True)
-    rr = models.PositiveIntegerField(blank=True, null=True)
-    temperature = models.FloatField(blank=True, null=True, help_text="Temperature in celsius")
-    hc = models.FloatField(help_text="in cm", blank=True, null=True)
-    cc = models.FloatField(help_text="in cm", blank=True, null=True)
-    ac = models.FloatField(help_text="in cm", blank=True, null=True)
+    # height = models.FloatField(help_text="Height in cm", blank=True, null=True)
+    # weight = models.FloatField(help_text="Weight in kg", blank=True, null=True)
+    # bmi = models.FloatField(blank=True, null=True)
+    # bp_systolic = models.PositiveIntegerField(blank=True, null=True)
+    # bp_diastolic = models.PositiveIntegerField(blank=True, null=True)
+    # hr = models.PositiveIntegerField(blank=True, null=True)
+    # rr = models.PositiveIntegerField(blank=True, null=True)
+    # temperature = models.FloatField(blank=True, null=True, help_text="Temperature in celsius")
+    # hc = models.FloatField(help_text="in cm", blank=True, null=True)
+    # cc = models.FloatField(help_text="in cm", blank=True, null=True)
+    # ac = models.FloatField(help_text="in cm", blank=True, null=True)
 
-    general_state = models.CharField(blank=True, null=True, max_length=9, choices=[
-        ('Alert', 'Alert'),
-        ('Lethargic', 'Lethargic'),
-        ('Obtunded', 'Obtunded'),
-        ('Stuporous', 'Stuporous'),
-        ('Comatose', 'Comatose'),
-    ])
+    # general_state = models.CharField(blank=True, null=True, max_length=9, choices=[
+    #     ('Alert', 'Alert'),
+    #     ('Lethargic', 'Lethargic'),
+    #     ('Obtunded', 'Obtunded'),
+    #     ('Stuporous', 'Stuporous'),
+    #     ('Comatose', 'Comatose'),
+    # ])
 
-    general_coherence = models.CharField(blank=True, null=True, max_length=10, choices=[
-        ('Coherent', 'Coherent'),
-        ('Incoherent', 'Incoherent'),
-    ])
+    # general_coherence = models.CharField(blank=True, null=True, max_length=10, choices=[
+    #     ('Coherent', 'Coherent'),
+    #     ('Incoherent', 'Incoherent'),
+    # ])
 
-    pain_scale = models.PositiveIntegerField(blank=True, null=True, validators=[
-        MaxValueValidator(5),
-        MinValueValidator(0)
-    ])
+    # pain_scale = models.PositiveIntegerField(blank=True, null=True, validators=[
+    #     MaxValueValidator(5),
+    #     MinValueValidator(0)
+    # ])
 
     '''
     
@@ -569,117 +574,117 @@ class Patient(models.Model):
 
     # Neuropsychiatric Exam
     # Mental Status
-    general_appearance = models.CharField(blank=True, null=True, max_length=14, choices=[
-        ('Well Groomed', 'Well Groomed'),
-        ('Fairly Groomed', 'Fairly Groomed'),
-        ('Poorly Groomed', 'Poorly Groomed'),
-    ])
-    general_behavior = models.CharField(blank=True, null=True, max_length=23, choices=[
-        ('Normal', 'Normal'),
-        ('Psychomotor Retardation', 'Psychomotor Retardation'),
-        ('Psychomotor Agitation', 'Poorly Agitation'),
-    ])
-    attitude_towards_examiner = models.CharField(blank=True, null=True, max_length=13, choices=[
-        ('Cooperative', 'Cooperative'),
-        ('Uncooperative', 'Uncooperative'),
-    ])
-    mood = models.CharField(blank=True, null=True, max_length=9, choices=[
-        ('Euthymic', 'Euthymic'),
-        ('Dysphoric', 'Dysphoric'),
-        ('Euphoric', 'Euphoric'),
-    ])
-    affect = models.CharField(blank=True, null=True, max_length=13, choices=[
-        ('Broad', 'Broad'),
-        ('Flat', 'Flat'),
-        ('Blunted', 'Blunted'),
-        ('Restricted', 'Restricted'),
-        ('Appropriate', 'Appropriate'),
-        ('Inappropriate', 'Inappropriate'),
-    ])
-    speech = models.CharField(blank=True, null=True, max_length=15, choices=[
-        ('Spontaneous', 'Spontaneous'),
-        ('Non-spontaneous', 'Non-spontaneous'),
-        ('Normoproductive', 'Normoproductive'),
-        ('Hypoproductive', 'Hypoproductive'),
-        ('Hyperproductive', 'Hyperproductive'),
-    ])
-    perceptual_disturbance = models.CharField(blank=True, null=True, max_length=17, choices=[
-        ('None', 'None'),
-        ('Hallucinations', 'Hallucinations'),
-        ('Depersonalization', 'Depersonalization'),
-        ('Derealization', 'Derealization'),
-    ])
-    stream_of_thought = models.CharField(blank=True, null=True, max_length=25, choices=[
-        ('Goal Oriented', 'Goal Oriented'),
-        ('Looseness of Association', 'Looseness of Association'),
-        ('Flight of Ideas', 'Flight of Ideas'),
-        ('Paucity of Thought', 'Paucity of Thought'),
-        ('Tangentiality', 'Tangentiality'),
-    ])
-    thought_content = models.CharField(blank=True, null=True, max_length=20, choices=[
-        ('Normal', 'Normal'),
-        ('Paranoia', 'Paranoia'),
-        ('Grandiosity', 'Grandiosity'),
-        ('Homicidal/Aggression', 'Homicidal/Aggression'),
-        ('Bizarre', 'Bizarre'),
-        ('Suicidal', 'Suicidal'),
-    ])
-    impulse_control = models.CharField(blank=True, null=True, max_length=19, choices=[
-        ('Able to Control', 'Able to Control'),
-        ('Not Able to Control', 'Not Able to Control'),
-    ])
-    intellectual_capacity_global_estimate = models.CharField(blank=True, null=True, max_length=13, choices=[
-        ('Above Average', 'Above Average'),
-        ('Average', 'Average'),
-        ('Below Average', 'Below Average'),
-    ])
+    # general_appearance = models.CharField(blank=True, null=True, max_length=14, choices=[
+    #     ('Well Groomed', 'Well Groomed'),
+    #     ('Fairly Groomed', 'Fairly Groomed'),
+    #     ('Poorly Groomed', 'Poorly Groomed'),
+    # ])
+    # general_behavior = models.CharField(blank=True, null=True, max_length=23, choices=[
+    #     ('Normal', 'Normal'),
+    #     ('Psychomotor Retardation', 'Psychomotor Retardation'),
+    #     ('Psychomotor Agitation', 'Poorly Agitation'),
+    # ])
+    # attitude_towards_examiner = models.CharField(blank=True, null=True, max_length=13, choices=[
+    #     ('Cooperative', 'Cooperative'),
+    #     ('Uncooperative', 'Uncooperative'),
+    # ])
+    # mood = models.CharField(blank=True, null=True, max_length=9, choices=[
+    #     ('Euthymic', 'Euthymic'),
+    #     ('Dysphoric', 'Dysphoric'),
+    #     ('Euphoric', 'Euphoric'),
+    # ])
+    # affect = models.CharField(blank=True, null=True, max_length=13, choices=[
+    #     ('Broad', 'Broad'),
+    #     ('Flat', 'Flat'),
+    #     ('Blunted', 'Blunted'),
+    #     ('Restricted', 'Restricted'),
+    #     ('Appropriate', 'Appropriate'),
+    #     ('Inappropriate', 'Inappropriate'),
+    # ])
+    # speech = models.CharField(blank=True, null=True, max_length=15, choices=[
+    #     ('Spontaneous', 'Spontaneous'),
+    #     ('Non-spontaneous', 'Non-spontaneous'),
+    #     ('Normoproductive', 'Normoproductive'),
+    #     ('Hypoproductive', 'Hypoproductive'),
+    #     ('Hyperproductive', 'Hyperproductive'),
+    # ])
+    # perceptual_disturbance = models.CharField(blank=True, null=True, max_length=17, choices=[
+    #     ('None', 'None'),
+    #     ('Hallucinations', 'Hallucinations'),
+    #     ('Depersonalization', 'Depersonalization'),
+    #     ('Derealization', 'Derealization'),
+    # ])
+    # stream_of_thought = models.CharField(blank=True, null=True, max_length=25, choices=[
+    #     ('Goal Oriented', 'Goal Oriented'),
+    #     ('Looseness of Association', 'Looseness of Association'),
+    #     ('Flight of Ideas', 'Flight of Ideas'),
+    #     ('Paucity of Thought', 'Paucity of Thought'),
+    #     ('Tangentiality', 'Tangentiality'),
+    # ])
+    # thought_content = models.CharField(blank=True, null=True, max_length=20, choices=[
+    #     ('Normal', 'Normal'),
+    #     ('Paranoia', 'Paranoia'),
+    #     ('Grandiosity', 'Grandiosity'),
+    #     ('Homicidal/Aggression', 'Homicidal/Aggression'),
+    #     ('Bizarre', 'Bizarre'),
+    #     ('Suicidal', 'Suicidal'),
+    # ])
+    # impulse_control = models.CharField(blank=True, null=True, max_length=19, choices=[
+    #     ('Able to Control', 'Able to Control'),
+    #     ('Not Able to Control', 'Not Able to Control'),
+    # ])
+    # intellectual_capacity_global_estimate = models.CharField(blank=True, null=True, max_length=13, choices=[
+    #     ('Above Average', 'Above Average'),
+    #     ('Average', 'Average'),
+    #     ('Below Average', 'Below Average'),
+    # ])
 
     # Sensorium
-    consciousness = models.CharField(blank=True, null=True, max_length=6, choices=[
-        ('Awake', 'Awake'),
-        ('Drowsy', 'Drowsy'),
-        ('Stupor', 'Stupor'),
-        ('Coma', 'Coma'),
-    ])
-    other_consciousness = models.CharField(max_length=50, blank=True, null=True)
-    attention_span = models.CharField(blank=True, null=True, max_length=9, choices=[
-        ('Intact', 'Intact'),
-        ('Deficient', 'Deficient'),
-    ])
-    attention_span_notes = models.CharField(max_length=50, blank=True, null=True)
-    orientation_time = models.BooleanField(blank=True, null=True)
-    orientation_place = models.BooleanField(blank=True, null=True)
-    orientation_person = models.BooleanField(blank=True, null=True)
-    memory = models.CharField(blank=True, null=True, max_length=9, choices=[
-        ('Intact', 'Intact'),
-        ('Deficient', 'Deficient'),
-    ])
-    memory_notes = models.CharField(max_length=50, blank=True, null=True)
-    calculation = models.CharField(blank=True, null=True, max_length=9, choices=[
-        ('Intact', 'Intact'),
-        ('Deficient', 'Deficient'),
-    ])
-    calculation_notes = models.CharField(max_length=50, blank=True, null=True)
-    fund_of_information = models.CharField(blank=True, null=True, max_length=9, choices=[
-        ('Intact', 'Intact'),
-        ('Deficient', 'Deficient'),
-    ])
-    fund_of_information_notes = models.CharField(max_length=50, blank=True, null=True)
-    insight = models.CharField(blank=True, null=True, max_length=9, choices=[
-        ('Intact', 'Intact'),
-        ('Deficient', 'Deficient'),
-    ])
-    insight_notes = models.CharField(max_length=50, blank=True, null=True)
-    judgment = models.CharField(blank=True, null=True, max_length=4, choices=[
-        ('Good', 'Good'),
-        ('Fair', 'Fair'),
-        ('Poor', 'Poor'),
-    ])
-    planning = models.CharField(blank=True, null=True, max_length=9, choices=[
-        ('Intact', 'Intact'),
-        ('Deficient', 'Deficient'),
-    ])
-    planning_notes = models.CharField(max_length=50, blank=True, null=True)
+    # consciousness = models.CharField(blank=True, null=True, max_length=6, choices=[
+    #     ('Awake', 'Awake'),
+    #     ('Drowsy', 'Drowsy'),
+    #     ('Stupor', 'Stupor'),
+    #     ('Coma', 'Coma'),
+    # ])
+    # other_consciousness = models.CharField(max_length=50, blank=True, null=True)
+    # attention_span = models.CharField(blank=True, null=True, max_length=9, choices=[
+    #     ('Intact', 'Intact'),
+    #     ('Deficient', 'Deficient'),
+    # ])
+    # attention_span_notes = models.CharField(max_length=50, blank=True, null=True)
+    # orientation_time = models.BooleanField(blank=True, null=True)
+    # orientation_place = models.BooleanField(blank=True, null=True)
+    # orientation_person = models.BooleanField(blank=True, null=True)
+    # memory = models.CharField(blank=True, null=True, max_length=9, choices=[
+    #     ('Intact', 'Intact'),
+    #     ('Deficient', 'Deficient'),
+    # ])
+    # memory_notes = models.CharField(max_length=50, blank=True, null=True)
+    # calculation = models.CharField(blank=True, null=True, max_length=9, choices=[
+    #     ('Intact', 'Intact'),
+    #     ('Deficient', 'Deficient'),
+    # ])
+    # calculation_notes = models.CharField(max_length=50, blank=True, null=True)
+    # fund_of_information = models.CharField(blank=True, null=True, max_length=9, choices=[
+    #     ('Intact', 'Intact'),
+    #     ('Deficient', 'Deficient'),
+    # ])
+    # fund_of_information_notes = models.CharField(max_length=50, blank=True, null=True)
+    # insight = models.CharField(blank=True, null=True, max_length=9, choices=[
+    #     ('Intact', 'Intact'),
+    #     ('Deficient', 'Deficient'),
+    # ])
+    # insight_notes = models.CharField(max_length=50, blank=True, null=True)
+    # judgment = models.CharField(blank=True, null=True, max_length=4, choices=[
+    #     ('Good', 'Good'),
+    #     ('Fair', 'Fair'),
+    #     ('Poor', 'Poor'),
+    # ])
+    # planning = models.CharField(blank=True, null=True, max_length=9, choices=[
+    #     ('Intact', 'Intact'),
+    #     ('Deficient', 'Deficient'),
+    # ])
+    # planning_notes = models.CharField(max_length=50, blank=True, null=True)
 
     '''
     
@@ -687,119 +692,120 @@ class Patient(models.Model):
 
     '''
 
-    speech = models.CharField(blank=True, null=True, max_length=10, choices=[
-        ('Normal', 'Normal'),
-        ('Not Normal', 'Not Normal'),
-        ('Dysphonia', 'Dysphonia'),
-        ('Dysarthria', 'Dysarthria'),
-        ('Dysprosody', 'Dysprosody'),
-        ('Dysphasia', 'Dysphasia'),
-    ])
-    speech_others = models.CharField(max_length=50, blank=True, null=True)
-    other_high_cortical_functions = models.CharField(blank=True, null=True, max_length=7, choices=[
-        ('Agnosia', 'Agnosia'),
-        ('Apraxia', 'Apraxia'),
-    ])
-    glasgow_coma_scale_gcs = models.PositiveIntegerField(blank=True, null=True, validators=[
-        MaxValueValidator(15),
-        MinValueValidator(3)
-    ])
-    glasgow_coma_scale_e = models.PositiveIntegerField(blank=True, null=True, validators=[
-        MaxValueValidator(4),
-        MinValueValidator(1)
-    ])
-    glasgow_coma_scale_v = models.PositiveIntegerField(blank=True, null=True, validators=[
-        MaxValueValidator(5),
-        MinValueValidator(1)
-    ])
-    glasgow_coma_scale_m = models.PositiveIntegerField(blank=True, null=True, validators=[
-        MaxValueValidator(6),
-        MinValueValidator(1)
-    ])
+    # speech = models.CharField(blank=True, null=True, max_length=10, choices=[
+    #     ('Normal', 'Normal'),
+    #     ('Not Normal', 'Not Normal'),
+    #     ('Dysphonia', 'Dysphonia'),
+    #     ('Dysarthria', 'Dysarthria'),
+    #     ('Dysprosody', 'Dysprosody'),
+    #     ('Dysphasia', 'Dysphasia'),
+    # ])
+    # speech_others = models.CharField(max_length=50, blank=True, null=True)
+    # other_high_cortical_functions = models.CharField(blank=True, null=True, max_length=7, choices=[
+    #     ('Agnosia', 'Agnosia'),
+    #     ('Apraxia', 'Apraxia'),
+    # ])
+    # glasgow_coma_scale_gcs = models.PositiveIntegerField(blank=True, null=True, validators=[
+    #     MaxValueValidator(15),
+    #     MinValueValidator(3)
+    # ])
+    # glasgow_coma_scale_e = models.PositiveIntegerField(blank=True, null=True, validators=[
+    #     MaxValueValidator(4),
+    #     MinValueValidator(1)
+    # ])
+    # glasgow_coma_scale_v = models.PositiveIntegerField(blank=True, null=True, validators=[
+    #     MaxValueValidator(5),
+    #     MinValueValidator(1)
+    # ])
+    # glasgow_coma_scale_m = models.PositiveIntegerField(blank=True, null=True, validators=[
+    #     MaxValueValidator(6),
+    #     MinValueValidator(1)
+    # ])
 
     # Cranial Nerves
     # Optic Group
-    ptosis = models.CharField(blank=True, null=True, max_length=7, choices=[
-        ('Absent', 'Absent'),
-        ('Present', 'Present'),
-    ])
-    ptosis_notes = models.CharField(max_length=50, blank=True, null=True)
-    gaze = models.CharField(blank=True, null=True, max_length=12, choices=[
-        ('Conjugate', 'Conjugate'),
-        ('Dysconjugate', 'Dysconjugate'),
-    ])
-    gaze_notes = models.CharField(max_length=50, blank=True, null=True)
+    # ptosis = models.CharField(blank=True, null=True, max_length=7, choices=[
+    #     ('Absent', 'Absent'),
+    #     ('Present', 'Present'),
+    # ])
+    # ptosis_notes = models.CharField(max_length=50, blank=True, null=True)
+    # gaze = models.CharField(blank=True, null=True, max_length=12, choices=[
+    #     ('Conjugate', 'Conjugate'),
+    #     ('Dysconjugate', 'Dysconjugate'),
+    # ])
+    # gaze_notes = models.CharField(max_length=50, blank=True, null=True)
     
-    # Brachiomotor Group and Tongue
-    masseter_and_temporalis_muscle_bulk_and_strength_v = models.CharField(max_length=50, blank=True, null=True)
-    facial_muscles_bulk_and_strength_vii = models.CharField(max_length=50, blank=True, null=True)
-    swallowing_ix_x = models.CharField(blank=True, null=True, max_length=10, choices=[
-        ('Normal', 'Normal'),
-        ('Not Normal', 'Not Normal'),
-    ])
-    swallowing_notes_ix_x = models.CharField(max_length=50, blank=True, null=True)
-    gag_reflex_ix_x = models.CharField(blank=True, null=True, max_length=10, choices=[
-        ('Normal', 'Normal'),
-        ('Not Normal', 'Not Normal'),
-    ])
-    gag_reflex_notes_ix_x = models.CharField(max_length=50, blank=True, null=True)
-    palatal_elevation_ix_x = models.CharField(blank=True, null=True, max_length=10, choices=[
-        ('Normal', 'Normal'),
-        ('Not Normal', 'Not Normal'),
-    ])
-    palatal_elevation_notes_ix_x = models.CharField(max_length=50, blank=True, null=True)
-    tongue_protrusion_atrophy_fasciculations_xii = models.CharField(blank=True, null=True, max_length=7, choices=[
-        ('Absent', 'Absent'),
-        ('Present', 'Present'),
-    ])
-    tongue_protrusion_atrophy_fasciculations_notes_xii = models.CharField(max_length=50, blank=True, null=True)
-    scm_and_trapezius_contour_and_strength_xi = models.CharField(blank=True, null=True, max_length=10, choices=[
-        ('Normal', 'Normal'),
-        ('Not Normal', 'Not Normal'),
-    ])
-    scm_and_trapezius_contour_and_strength_notes_xi = models.CharField(max_length=50, blank=True, null=True)
+    # # Brachiomotor Group and Tongue
+    # masseter_and_temporalis_muscle_bulk_and_strength_v = models.CharField(max_length=50, blank=True, null=True)
+    # facial_muscles_bulk_and_strength_vii = models.CharField(max_length=50, blank=True, null=True)
+    # swallowing_ix_x = models.CharField(blank=True, null=True, max_length=10, choices=[
+    #     ('Normal', 'Normal'),
+    #     ('Not Normal', 'Not Normal'),
+    # ])
+    # swallowing_notes_ix_x = models.CharField(max_length=50, blank=True, null=True)
+    # gag_reflex_ix_x = models.CharField(blank=True, null=True, max_length=10, choices=[
+    #     ('Normal', 'Normal'),
+    #     ('Not Normal', 'Not Normal'),
+    # ])
+    # gag_reflex_notes_ix_x = models.CharField(max_length=50, blank=True, null=True)
+    # palatal_elevation_ix_x = models.CharField(blank=True, null=True, max_length=10, choices=[
+    #     ('Normal', 'Normal'),
+    #     ('Not Normal', 'Not Normal'),
+    # ])
+    # palatal_elevation_notes_ix_x = models.CharField(max_length=50, blank=True, null=True)
+    # tongue_protrusion_atrophy_fasciculations_xii = models.CharField(blank=True, null=True, max_length=7, choices=[
+    #     ('Absent', 'Absent'),
+    #     ('Present', 'Present'),
+    # ])
+    # tongue_protrusion_atrophy_fasciculations_notes_xii = models.CharField(max_length=50, blank=True, null=True)
+    # scm_and_trapezius_contour_and_strength_xi = models.CharField(blank=True, null=True, max_length=10, choices=[
+    #     ('Normal', 'Normal'),
+    #     ('Not Normal', 'Not Normal'),
+    # ])
+    # scm_and_trapezius_contour_and_strength_notes_xi = models.CharField(max_length=50, blank=True, null=True)
 
     # Special Sensory Organ Group
-    olfaction_i = models.CharField(max_length=100, blank=True, null=True)
-    taste_vii = models.CharField(max_length=100, blank=True, null=True)
-    schwabach_viii = models.CharField(max_length=100, blank=True, null=True)
-    rinnes_viii = models.CharField(max_length=100, blank=True, null=True)
-    webers_viii = models.CharField(max_length=100, blank=True, null=True)
-    nystagmus = models.CharField(max_length=100, blank=True, null=True)
+    # olfaction_i = models.CharField(max_length=100, blank=True, null=True)
+    # taste_vii = models.CharField(max_length=100, blank=True, null=True)
+    # schwabach_viii = models.CharField(max_length=100, blank=True, null=True)
+    # rinnes_viii = models.CharField(max_length=100, blank=True, null=True)
+    # webers_viii = models.CharField(max_length=100, blank=True, null=True)
+    # nystagmus = models.CharField(max_length=100, blank=True, null=True)
     
     # Somatic Sensations of the Face
-    corneals = models.CharField(max_length=100, blank=True, null=True)
-    v1 = models.CharField(max_length=100, blank=True, null=True)
-    v2 = models.CharField(max_length=100, blank=True, null=True)
-    v3 = models.CharField(max_length=100, blank=True, null=True)
+    # corneals = models.CharField(max_length=100, blank=True, null=True)
+    # v1 = models.CharField(max_length=100, blank=True, null=True)
+    # v2 = models.CharField(max_length=100, blank=True, null=True)
+    # v3 = models.CharField(max_length=100, blank=True, null=True)
 
     # Somatic Motor Systems
-    gait_and_posture = models.CharField(max_length=100, blank=True, null=True)
-    muscle_hypertrophy_or_atrophy = models.CharField(max_length=100, blank=True, null=True)
-    involuntary_movements = models.CharField(max_length=100, blank=True, null=True)
-    muscle_tone = models.CharField(max_length=100, blank=True, null=True)
-    cerebellars = models.CharField(help_text="Indicate FTNT, rebound, rapid alternating hand movements, heel-to-knee",
-        max_length=100, blank=True, null=True)
+    # gait_and_posture = models.CharField(max_length=100, blank=True, null=True)
+    # muscle_hypertrophy_or_atrophy = models.CharField(max_length=100, blank=True, null=True)
+    # involuntary_movements = models.CharField(max_length=100, blank=True, null=True)
+    # muscle_tone = models.CharField(max_length=100, blank=True, null=True)
+    # cerebellars = models.CharField(help_text="Indicate FTNT, rebound, rapid alternating hand movements, heel-to-knee",
+    #     max_length=100, blank=True, null=True)
+
     # Nerve Root Stretching Test
-    laseagues = models.CharField(blank=True, null=True, max_length=8, choices=[
-        ('Positive', 'Positive'),
-        ('Negative', 'Negative'),
-    ])
-    kernigs = models.CharField(blank=True, null=True, max_length=8, choices=[
-        ('Positive', 'Positive'),
-        ('Negative', 'Negative'),
-    ])
-    meningeals = models.CharField(blank=True, null=True, max_length=8, choices=[
-        ('Supple', 'Supple'),
-        ('Rigid', 'Rigid'),
-    ])
-    meningeals_notes = models.CharField(max_length=50, blank=True, null=True)
+    # laseagues = models.CharField(blank=True, null=True, max_length=8, choices=[
+    #     ('Positive', 'Positive'),
+    #     ('Negative', 'Negative'),
+    # ])
+    # kernigs = models.CharField(blank=True, null=True, max_length=8, choices=[
+    #     ('Positive', 'Positive'),
+    #     ('Negative', 'Negative'),
+    # ])
+    # meningeals = models.CharField(blank=True, null=True, max_length=8, choices=[
+    #     ('Supple', 'Supple'),
+    #     ('Rigid', 'Rigid'),
+    # ])
+    # meningeals_notes = models.CharField(max_length=50, blank=True, null=True)
     
     # Deep Sensory Modalities
-    vibratory_sense = models.TextField(blank=True, null=True)
-    position_sense = models.TextField(blank=True, null=True)
-    rombergs = models.TextField(blank=True, null=True)
-    stereognosis = models.TextField(blank=True, null=True)
+    # vibratory_sense = models.TextField(blank=True, null=True)
+    # position_sense = models.TextField(blank=True, null=True)
+    # rombergs = models.TextField(blank=True, null=True)
+    # stereognosis = models.TextField(blank=True, null=True)
 
     '''
     
@@ -807,12 +813,12 @@ class Patient(models.Model):
 
     '''
 
-    patient_education = models.TextField(blank=True, null=True)
-    preventive_measures = models.TextField(blank=True, null=True)
-    therapeutic_plan = models.TextField(blank=True, null=True)
-    diagnostic_plan = models.TextField(blank=True, null=True)
-    basis = models.TextField(blank=True, null=True)
-    problem_or_impression = models.TextField(blank=True, null=True)
+    # patient_education = models.TextField(blank=True, null=True)
+    # preventive_measures = models.TextField(blank=True, null=True)
+    # therapeutic_plan = models.TextField(blank=True, null=True)
+    # diagnostic_plan = models.TextField(blank=True, null=True)
+    # basis = models.TextField(blank=True, null=True)
+    # problem_or_impression = models.TextField(blank=True, null=True)
     
     '''
     
@@ -820,17 +826,11 @@ class Patient(models.Model):
 
     '''
 
-    language = models.CharField(null=True, max_length=7, choices=[
-        ('English', 'English'),
-        ('Tagalog', 'Tagalog'),
-        ('Taglish', 'Taglish'),
-    ])
-
-    provocation = models.CharField(max_length=50, null=True)
-    quality = models.CharField(max_length=50, null=True)
-    region = models.CharField(max_length=50, null=True)
-    severity = models.CharField(max_length=50, null=True)
-    timing = models.CharField(max_length=50, null=True)
+    provocation = models.CharField(max_length=50, blank=True, null=True)
+    quality = models.CharField(max_length=50, blank=True, null=True)
+    region = models.CharField(max_length=50, blank=True, null=True)
+    severity = models.CharField(max_length=50, blank=True, null=True)
+    timing = models.CharField(max_length=50, blank=True, null=True)
     background = models.CharField(max_length=200, blank=True, null=True)
     family_history = models.CharField(max_length=200, blank=True, null=True)
     lifestyle = models.CharField(max_length=200, blank=True, null=True)
@@ -838,7 +838,7 @@ class Patient(models.Model):
     medical_history = models.CharField(max_length=200, blank=True, null=True)
     symptoms = models.TextField(blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
-    illness_to_be_diagnosed = models.CharField(max_length=255, null=True)
+    illness_to_be_diagnosed = models.CharField(max_length=255, blank=True, null=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.CharField(default='images/gpt.jpg/', max_length=50, blank=True, null=True)
 
